@@ -88,9 +88,40 @@
                     <view key="view" contentMode="scaleToFill" id="7xf-pu-4rY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" placeholder="Enter location description" translatesAutoresizingMaskIntoConstraints="NO" id="G5x-0w-HWR">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="UBG-Wt-B5p"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="cfC-Ht-gzC" id="k2R-vO-cl4"/>
+                                </connections>
+                            </searchBar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="IrP-Bp-Z6D">
+                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
+                                <connections>
+                                    <outlet property="delegate" destination="cfC-Ht-gzC" id="2Od-bu-6O3"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="G5x-0w-HWR" firstAttribute="leading" secondItem="7xf-pu-4rY" secondAttribute="leadingMargin" constant="-16" id="6oE-lN-F64"/>
+                            <constraint firstItem="IrP-Bp-Z6D" firstAttribute="leading" secondItem="7xf-pu-4rY" secondAttribute="leadingMargin" constant="-16" id="Af8-u0-4GF"/>
+                            <constraint firstItem="G5x-0w-HWR" firstAttribute="top" secondItem="N4r-Cq-yLK" secondAttribute="bottom" id="IUp-cL-Ljn"/>
+                            <constraint firstItem="D9v-r4-vAB" firstAttribute="top" secondItem="IrP-Bp-Z6D" secondAttribute="bottom" id="McJ-0t-Oqe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="IrP-Bp-Z6D" secondAttribute="trailing" constant="-16" id="i89-xj-gL6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="G5x-0w-HWR" secondAttribute="trailing" constant="-16" id="jZ7-YU-2N9"/>
+                            <constraint firstItem="IrP-Bp-Z6D" firstAttribute="top" secondItem="G5x-0w-HWR" secondAttribute="bottom" id="sSD-Et-CEt"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Omk-2F-aIQ"/>
+                    <connections>
+                        <outlet property="mapView" destination="IrP-Bp-Z6D" id="ipz-5n-ODn"/>
+                        <outlet property="searchBar" destination="G5x-0w-HWR" id="RKC-kq-G4B"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LrA-hY-zEM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -174,7 +205,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dr2-7F-Vzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-662" y="2117"/>
+            <point key="canvasLocation" x="-649" y="2129"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="dD8-KI-L9E">
@@ -387,7 +418,7 @@
         <!--Location-->
         <scene sceneID="wSh-bK-krP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xlk-0c-2vc" customClass="BuildStopNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xlk-0c-2vc" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Location" id="2eB-GP-dv9"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="XGG-gR-3Es">
@@ -406,7 +437,7 @@
         <!--General-->
         <scene sceneID="4fq-9j-n98">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wC4-c2-rFs" customClass="BuildStopNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wC4-c2-rFs" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="General" id="AfQ-DZ-Zdf"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ija-LE-mJ9">
@@ -425,7 +456,7 @@
         <!--Photos-->
         <scene sceneID="Dui-Ux-xQ3">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6TL-O2-bZ8" customClass="BuildStopNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6TL-O2-bZ8" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Photos" id="inH-fu-oTo"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tzt-Hh-mcV">
@@ -444,7 +475,7 @@
         <!--Preview-->
         <scene sceneID="0LO-hX-8ic">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gDT-pr-BHG" customClass="BuildStopNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gDT-pr-BHG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Preview" id="QvG-Dx-1tT"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="u3i-FL-zxD">
