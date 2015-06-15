@@ -7,6 +7,7 @@
 //
 
 #import <Parse/Parse.h>
+#import <Parse/PFObject+Subclass.h>
 @class Tour;
 
 @interface Stop : PFObject
