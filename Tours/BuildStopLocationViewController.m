@@ -13,7 +13,7 @@
 @interface BuildStopLocationViewController ()
 
 @property CLLocation *locationUser;
-@property CLLocationManager *clLocationManager;
+@property CLLocationManager *locationManager;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
