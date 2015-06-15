@@ -7,8 +7,9 @@
 //
 
 #import "BuildStopPhotosViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface BuildStopPhotosViewController ()
+@interface BuildStopPhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end
 
@@ -17,8 +18,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+
+
+        
+    } else {
+
+
+    }
 }
+
+
+//- (void) showPhotoLibraryPikcerController {
+//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//    picker.delegate = self;
+//    picker.allowsEditing = YES;
+//    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    [self presentViewController:picker animated:YES completion:nil];
+//
+//}
+//
+//- (void) showCameraPickerController {
+//    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+//    picker.delegate = self;
+//    picker.allowsEditing = YES;
+//    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+//    [self presentViewController:picker animated:YES completion:nil];
+//}
 
 
 @end
