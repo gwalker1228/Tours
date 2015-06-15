@@ -9,11 +9,19 @@
 /* Begin PBXBuildFile section */
 		BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C191B2E26CA000A8E2C /* main.m */; };
 		BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C1C1B2E26CA000A8E2C /* AppDelegate.m */; };
-		BC0E9C201B2E26CA000A8E2C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C1F1B2E26CA000A8E2C /* ViewController.m */; };
 		BC0E9C231B2E26CA000A8E2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC0E9C211B2E26CA000A8E2C /* Main.storyboard */; };
 		BC0E9C251B2E26CA000A8E2C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC0E9C241B2E26CA000A8E2C /* Images.xcassets */; };
 		BC0E9C281B2E26CA000A8E2C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC0E9C261B2E26CA000A8E2C /* LaunchScreen.xib */; };
 		BC0E9C341B2E26CA000A8E2C /* ToursTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C331B2E26CA000A8E2C /* ToursTests.m */; };
+		BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C3E1B2E2B31000A8E2C /* MyToursViewController.m */; };
+		BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C431B2E308F000A8E2C /* BuildTourGeneralViewController.m */; };
+		BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C471B2E312D000A8E2C /* BuildTourStopsViewController.m */; };
+		BC0E9C4B1B2E3157000A8E2C /* BuildTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C4A1B2E3157000A8E2C /* BuildTourPreviewViewController.m */; };
+		BC0E9C501B2E3E6A000A8E2C /* BuildStopGeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C4F1B2E3E6A000A8E2C /* BuildStopGeneralViewController.m */; };
+		BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C521B2E3E7E000A8E2C /* BuildStopLocationViewController.m */; };
+		BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */; };
+		BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C581B2E3EE2000A8E2C /* BuildStopPreviewViewController.m */; };
+		BC0E9C621B2E4F1E000A8E2C /* BuildParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +40,30 @@
 		BC0E9C191B2E26CA000A8E2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BC0E9C1B1B2E26CA000A8E2C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BC0E9C1C1B2E26CA000A8E2C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BC0E9C1E1B2E26CA000A8E2C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		BC0E9C1F1B2E26CA000A8E2C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		BC0E9C221B2E26CA000A8E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BC0E9C241B2E26CA000A8E2C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BC0E9C271B2E26CA000A8E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BC0E9C2D1B2E26CA000A8E2C /* ToursTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToursTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0E9C321B2E26CA000A8E2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC0E9C331B2E26CA000A8E2C /* ToursTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ToursTests.m; sourceTree = "<group>"; };
+		BC0E9C3D1B2E2B31000A8E2C /* MyToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyToursViewController.h; sourceTree = "<group>"; };
+		BC0E9C3E1B2E2B31000A8E2C /* MyToursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyToursViewController.m; sourceTree = "<group>"; };
+		BC0E9C421B2E308F000A8E2C /* BuildTourGeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourGeneralViewController.h; sourceTree = "<group>"; };
+		BC0E9C431B2E308F000A8E2C /* BuildTourGeneralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourGeneralViewController.m; sourceTree = "<group>"; };
+		BC0E9C461B2E312D000A8E2C /* BuildTourStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourStopsViewController.h; sourceTree = "<group>"; };
+		BC0E9C471B2E312D000A8E2C /* BuildTourStopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourStopsViewController.m; sourceTree = "<group>"; };
+		BC0E9C491B2E3157000A8E2C /* BuildTourPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourPreviewViewController.h; sourceTree = "<group>"; };
+		BC0E9C4A1B2E3157000A8E2C /* BuildTourPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourPreviewViewController.m; sourceTree = "<group>"; };
+		BC0E9C4E1B2E3E6A000A8E2C /* BuildStopGeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopGeneralViewController.h; sourceTree = "<group>"; };
+		BC0E9C4F1B2E3E6A000A8E2C /* BuildStopGeneralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopGeneralViewController.m; sourceTree = "<group>"; };
+		BC0E9C511B2E3E7E000A8E2C /* BuildStopLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopLocationViewController.h; sourceTree = "<group>"; };
+		BC0E9C521B2E3E7E000A8E2C /* BuildStopLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopLocationViewController.m; sourceTree = "<group>"; };
+		BC0E9C541B2E3E9C000A8E2C /* BuildStopPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopPhotosViewController.h; sourceTree = "<group>"; };
+		BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPhotosViewController.m; sourceTree = "<group>"; };
+		BC0E9C571B2E3EE2000A8E2C /* BuildStopPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopPreviewViewController.h; sourceTree = "<group>"; };
+		BC0E9C581B2E3EE2000A8E2C /* BuildStopPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPreviewViewController.m; sourceTree = "<group>"; };
+		BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildParentViewController.h; sourceTree = "<group>"; };
+		BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildParentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +105,14 @@
 		BC0E9C161B2E26CA000A8E2C /* Tours */ = {
 			isa = PBXGroup;
 			children = (
-				BC0E9C1B1B2E26CA000A8E2C /* AppDelegate.h */,
+				BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */,
+				BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */,
+				BC0E9C451B2E30BD000A8E2C /* BuildTour */,
+				BC0E9C4D1B2E3DFD000A8E2C /* BuildStop */,
 				BC0E9C1C1B2E26CA000A8E2C /* AppDelegate.m */,
-				BC0E9C1E1B2E26CA000A8E2C /* ViewController.h */,
-				BC0E9C1F1B2E26CA000A8E2C /* ViewController.m */,
+				BC0E9C1B1B2E26CA000A8E2C /* AppDelegate.h */,
+				BC0E9C3D1B2E2B31000A8E2C /* MyToursViewController.h */,
+				BC0E9C3E1B2E2B31000A8E2C /* MyToursViewController.m */,
 				BC0E9C211B2E26CA000A8E2C /* Main.storyboard */,
 				BC0E9C241B2E26CA000A8E2C /* Images.xcassets */,
 				BC0E9C261B2E26CA000A8E2C /* LaunchScreen.xib */,
@@ -117,6 +145,50 @@
 				BC0E9C321B2E26CA000A8E2C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC0E9C451B2E30BD000A8E2C /* BuildTour */ = {
+			isa = PBXGroup;
+			children = (
+				BC0E9C4C1B2E3161000A8E2C /* Headers */,
+				BC0E9C431B2E308F000A8E2C /* BuildTourGeneralViewController.m */,
+				BC0E9C471B2E312D000A8E2C /* BuildTourStopsViewController.m */,
+				BC0E9C4A1B2E3157000A8E2C /* BuildTourPreviewViewController.m */,
+			);
+			name = BuildTour;
+			sourceTree = "<group>";
+		};
+		BC0E9C4C1B2E3161000A8E2C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				BC0E9C421B2E308F000A8E2C /* BuildTourGeneralViewController.h */,
+				BC0E9C461B2E312D000A8E2C /* BuildTourStopsViewController.h */,
+				BC0E9C491B2E3157000A8E2C /* BuildTourPreviewViewController.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		BC0E9C4D1B2E3DFD000A8E2C /* BuildStop */ = {
+			isa = PBXGroup;
+			children = (
+				BC0E9C5A1B2E3EFC000A8E2C /* Headers */,
+				BC0E9C4F1B2E3E6A000A8E2C /* BuildStopGeneralViewController.m */,
+				BC0E9C521B2E3E7E000A8E2C /* BuildStopLocationViewController.m */,
+				BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */,
+				BC0E9C581B2E3EE2000A8E2C /* BuildStopPreviewViewController.m */,
+			);
+			name = BuildStop;
+			sourceTree = "<group>";
+		};
+		BC0E9C5A1B2E3EFC000A8E2C /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				BC0E9C4E1B2E3E6A000A8E2C /* BuildStopGeneralViewController.h */,
+				BC0E9C511B2E3E7E000A8E2C /* BuildStopLocationViewController.h */,
+				BC0E9C541B2E3E9C000A8E2C /* BuildStopPhotosViewController.h */,
+				BC0E9C571B2E3EE2000A8E2C /* BuildStopPreviewViewController.h */,
+			);
+			name = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,9 +291,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC0E9C201B2E26CA000A8E2C /* ViewController.m in Sources */,
+				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
+				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
+				BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */,
 				BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */,
+				BC0E9C4B1B2E3157000A8E2C /* BuildTourPreviewViewController.m in Sources */,
+				BC0E9C621B2E4F1E000A8E2C /* BuildParentViewController.m in Sources */,
+				BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */,
+				BC0E9C501B2E3E6A000A8E2C /* BuildStopGeneralViewController.m in Sources */,
+				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
+				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

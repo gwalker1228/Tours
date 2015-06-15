@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  BuildStopLocationViewController.h
 //  Tours
 //
 //  Created by Mark Porcella on 6/14/15.
@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BuildParentViewController.h"
 
-@interface ViewController : UIViewController
-
+@interface BuildStopLocationViewController : BuildParentViewController
 
 @end
-
