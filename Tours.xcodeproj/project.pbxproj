@@ -43,6 +43,7 @@
 		BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C8C1B2F46C9000A8E2C /* Stop.m */; };
 		BC0E9C901B2F46D7000A8E2C /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C8F1B2F46D7000A8E2C /* Photo.m */; };
 		BC0E9C931B2F5892000A8E2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C921B2F5892000A8E2C /* MapKit.framework */; };
+		FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,8 @@
 		BC0E9C8E1B2F46D7000A8E2C /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		BC0E9C8F1B2F46D7000A8E2C /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		BC0E9C921B2F5892000A8E2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPointAnnotation.h; sourceTree = "<group>"; };
+		FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPointAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,6 +300,7 @@
 				BC0E9C891B2F46B7000A8E2C /* Tour.m */,
 				BC0E9C8C1B2F46C9000A8E2C /* Stop.m */,
 				BC0E9C8F1B2F46D7000A8E2C /* Photo.m */,
+				FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -307,6 +311,7 @@
 				BC0E9C881B2F46B7000A8E2C /* Tour.h */,
 				BC0E9C8B1B2F46C9000A8E2C /* Stop.h */,
 				BC0E9C8E1B2F46D7000A8E2C /* Photo.h */,
+				FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -423,6 +428,7 @@
 				BC0E9C621B2E4F1E000A8E2C /* BuildParentViewController.m in Sources */,
 				BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */,
 				BC0E9C501B2E3E6A000A8E2C /* BuildStopGeneralViewController.m in Sources */,
+				FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */,
 				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
 				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,
 			);
