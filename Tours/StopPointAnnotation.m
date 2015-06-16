@@ -12,5 +12,14 @@
 
 @implementation StopPointAnnotation
 
+-(instancetype)initWithLocation:(CLLocation *)location forStop:(Stop *)stop {
+
+    self = [super init];
+
+    self.coordinate = location.coordinate;
+    self.stop = stop;
+
+    return self;
+}
 
 @end

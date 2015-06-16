@@ -8,10 +8,14 @@
 
 #import <MapKit/MapKit.h>
 
+
 @class Stop;
 
 @interface StopPointAnnotation : MKPointAnnotation
 
 @property Stop *stop;
+
+
+-(instancetype)initWithLocation:(CLLocation *)location forStop:(Stop *)stop;
 
 @end

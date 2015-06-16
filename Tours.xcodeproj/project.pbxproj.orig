@@ -37,16 +37,18 @@
 		BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C8C1B2F46C9000A8E2C /* Stop.m */; };
 		BC0E9C901B2F46D7000A8E2C /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C8F1B2F46D7000A8E2C /* Photo.m */; };
 		BC0E9C931B2F5892000A8E2C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C921B2F5892000A8E2C /* MapKit.framework */; };
-<<<<<<< HEAD
-		FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */; };
-=======
 		BC0E9C9A1B2F7D0A000A8E2C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C941B2F7D0A000A8E2C /* Bolts.framework */; };
 		BC0E9C9B1B2F7D0A000A8E2C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C951B2F7D0A000A8E2C /* Parse.framework */; };
 		BC0E9C9C1B2F7D0A000A8E2C /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C961B2F7D0A000A8E2C /* ParseCrashReporting.framework */; };
 		BC0E9C9D1B2F7D0A000A8E2C /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C971B2F7D0A000A8E2C /* ParseFacebookUtils.framework */; };
 		BC0E9C9E1B2F7D0A000A8E2C /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C981B2F7D0A000A8E2C /* ParseFacebookUtilsV4.framework */; };
 		BC0E9C9F1B2F7D0A000A8E2C /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C991B2F7D0A000A8E2C /* ParseUI.framework */; };
->>>>>>> master
+<<<<<<< HEAD
+		BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */; };
+		BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */; };
+=======
+>>>>>>> e55af8e77700ade588e3ba9dea16145638c721eb
+		FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,17 +109,21 @@
 		BC0E9C8E1B2F46D7000A8E2C /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		BC0E9C8F1B2F46D7000A8E2C /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		BC0E9C921B2F5892000A8E2C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-<<<<<<< HEAD
-		FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPointAnnotation.h; sourceTree = "<group>"; };
-		FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPointAnnotation.m; sourceTree = "<group>"; };
-=======
 		BC0E9C941B2F7D0A000A8E2C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		BC0E9C951B2F7D0A000A8E2C /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		BC0E9C961B2F7D0A000A8E2C /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		BC0E9C971B2F7D0A000A8E2C /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		BC0E9C981B2F7D0A000A8E2C /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		BC0E9C991B2F7D0A000A8E2C /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
->>>>>>> master
+<<<<<<< HEAD
+		BC0E9CA01B2F83CD000A8E2C /* BuildStopImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopImagePickerViewController.h; sourceTree = "<group>"; };
+		BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopImagePickerViewController.m; sourceTree = "<group>"; };
+		BC0E9CA31B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopPhotoTableViewCell.h; sourceTree = "<group>"; };
+		BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPhotoTableViewCell.m; sourceTree = "<group>"; };
+=======
+>>>>>>> e55af8e77700ade588e3ba9dea16145638c721eb
+		FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPointAnnotation.h; sourceTree = "<group>"; };
+		FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPointAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,12 +185,12 @@
 			isa = PBXGroup;
 			children = (
 				BC0E9C871B2F4691000A8E2C /* Models */,
-				BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */,
-				BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */,
 				BC0E9C451B2E30BD000A8E2C /* BuildTour */,
 				BC0E9C4D1B2E3DFD000A8E2C /* BuildStop */,
 				BC0E9C1C1B2E26CA000A8E2C /* AppDelegate.m */,
 				BC0E9C1B1B2E26CA000A8E2C /* AppDelegate.h */,
+				BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */,
+				BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */,
 				BC0E9C3D1B2E2B31000A8E2C /* MyToursViewController.h */,
 				BC0E9C3E1B2E2B31000A8E2C /* MyToursViewController.m */,
 				BC0E9C211B2E26CA000A8E2C /* Main.storyboard */,
@@ -250,6 +256,8 @@
 				BC0E9C521B2E3E7E000A8E2C /* BuildStopLocationViewController.m */,
 				BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */,
 				BC0E9C581B2E3EE2000A8E2C /* BuildStopPreviewViewController.m */,
+				BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */,
+				BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */,
 			);
 			name = BuildStop;
 			sourceTree = "<group>";
@@ -257,6 +265,8 @@
 		BC0E9C5A1B2E3EFC000A8E2C /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				BC0E9CA31B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.h */,
+				BC0E9CA01B2F83CD000A8E2C /* BuildStopImagePickerViewController.h */,
 				BC0E9C4E1B2E3E6A000A8E2C /* BuildStopGeneralViewController.h */,
 				BC0E9C511B2E3E7E000A8E2C /* BuildStopLocationViewController.h */,
 				BC0E9C541B2E3E9C000A8E2C /* BuildStopPhotosViewController.h */,
@@ -414,11 +424,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC0E9C901B2F46D7000A8E2C /* Photo.m in Sources */,
+				BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */,
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
 				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
 				BC0E9C8A1B2F46B7000A8E2C /* Tour.m in Sources */,
+				BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */,
 				BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */,
 				BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */,
 				BC0E9C4B1B2E3157000A8E2C /* BuildTourPreviewViewController.m in Sources */,

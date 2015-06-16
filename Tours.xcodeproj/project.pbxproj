@@ -179,12 +179,12 @@
 			isa = PBXGroup;
 			children = (
 				BC0E9C871B2F4691000A8E2C /* Models */,
-				BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */,
-				BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */,
 				BC0E9C451B2E30BD000A8E2C /* BuildTour */,
 				BC0E9C4D1B2E3DFD000A8E2C /* BuildStop */,
 				BC0E9C1C1B2E26CA000A8E2C /* AppDelegate.m */,
 				BC0E9C1B1B2E26CA000A8E2C /* AppDelegate.h */,
+				BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */,
+				BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */,
 				BC0E9C3D1B2E2B31000A8E2C /* MyToursViewController.h */,
 				BC0E9C3E1B2E2B31000A8E2C /* MyToursViewController.m */,
 				BC0E9C211B2E26CA000A8E2C /* Main.storyboard */,
