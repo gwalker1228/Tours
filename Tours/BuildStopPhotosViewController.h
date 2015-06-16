@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "BuildParentViewController.h"
+@class Stop;
 
 @interface BuildStopPhotosViewController : BuildParentViewController
+
+@property Stop *stop;
 
 @end

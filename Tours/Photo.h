@@ -11,10 +11,10 @@
 
 @class Stop;
 
-@interface Photo : PFObject
+@interface Photo : PFObject <PFSubclassing>
 
 @property NSString *title;
-@property NSString *description;
+@property NSString *summary;
 @property PFFile *image;
 @property Stop *stop;
 

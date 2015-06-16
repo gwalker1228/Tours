@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Stop;
+@class Photo;
 
-@interface ImagePickerViewController : UIViewController
+@interface BuildStopImagePickerViewController : UIViewController
+
+@property NSString *initialView;
+@property Stop *stop;
+@property Photo *photo;
 
 @end

@@ -43,7 +43,8 @@
 		BC0E9C9D1B2F7D0A000A8E2C /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C971B2F7D0A000A8E2C /* ParseFacebookUtils.framework */; };
 		BC0E9C9E1B2F7D0A000A8E2C /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C981B2F7D0A000A8E2C /* ParseFacebookUtilsV4.framework */; };
 		BC0E9C9F1B2F7D0A000A8E2C /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C991B2F7D0A000A8E2C /* ParseUI.framework */; };
-		BC0E9CA21B2F83CD000A8E2C /* ImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA11B2F83CD000A8E2C /* ImagePickerViewController.m */; };
+		BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */; };
+		BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */; };
 		FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */; };
 /* End PBXBuildFile section */
 
@@ -111,8 +112,10 @@
 		BC0E9C971B2F7D0A000A8E2C /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		BC0E9C981B2F7D0A000A8E2C /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		BC0E9C991B2F7D0A000A8E2C /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
-		BC0E9CA01B2F83CD000A8E2C /* ImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerViewController.h; sourceTree = "<group>"; };
-		BC0E9CA11B2F83CD000A8E2C /* ImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerViewController.m; sourceTree = "<group>"; };
+		BC0E9CA01B2F83CD000A8E2C /* BuildStopImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopImagePickerViewController.h; sourceTree = "<group>"; };
+		BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopImagePickerViewController.m; sourceTree = "<group>"; };
+		BC0E9CA31B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopPhotoTableViewCell.h; sourceTree = "<group>"; };
+		BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPhotoTableViewCell.m; sourceTree = "<group>"; };
 		FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPointAnnotation.h; sourceTree = "<group>"; };
 		FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPointAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -247,7 +250,8 @@
 				BC0E9C521B2E3E7E000A8E2C /* BuildStopLocationViewController.m */,
 				BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */,
 				BC0E9C581B2E3EE2000A8E2C /* BuildStopPreviewViewController.m */,
-				BC0E9CA11B2F83CD000A8E2C /* ImagePickerViewController.m */,
+				BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */,
+				BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */,
 			);
 			name = BuildStop;
 			sourceTree = "<group>";
@@ -255,7 +259,8 @@
 		BC0E9C5A1B2E3EFC000A8E2C /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				BC0E9CA01B2F83CD000A8E2C /* ImagePickerViewController.h */,
+				BC0E9CA31B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.h */,
+				BC0E9CA01B2F83CD000A8E2C /* BuildStopImagePickerViewController.h */,
 				BC0E9C4E1B2E3E6A000A8E2C /* BuildStopGeneralViewController.h */,
 				BC0E9C511B2E3E7E000A8E2C /* BuildStopLocationViewController.h */,
 				BC0E9C541B2E3E9C000A8E2C /* BuildStopPhotosViewController.h */,
@@ -413,12 +418,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC0E9C901B2F46D7000A8E2C /* Photo.m in Sources */,
+				BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */,
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
 				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
 				BC0E9C8A1B2F46B7000A8E2C /* Tour.m in Sources */,
-				BC0E9CA21B2F83CD000A8E2C /* ImagePickerViewController.m in Sources */,
+				BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */,
 				BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */,
 				BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */,
 				BC0E9C4B1B2E3157000A8E2C /* BuildTourPreviewViewController.m in Sources */,

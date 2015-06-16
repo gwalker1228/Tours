@@ -11,9 +11,9 @@
 @implementation Tour
 
 @dynamic title;
-@dynamic description;
+@dynamic summary;
 
-- (NSString * __nonnull)parseClassName {
++ (NSString * __nonnull)parseClassName {
     return @"Tour";
 }
 

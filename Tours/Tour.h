@@ -9,10 +9,10 @@
 #import <Parse/Parse.h>
 #import <Parse/PFObject+Subclass.h>
 
-@interface Tour : PFObject
+@interface Tour : PFObject <PFSubclassing>
 
 @property NSString *title;
-@property NSString *description;
+@property NSString *summary;
 //@property User *currentUser;
 
 @end

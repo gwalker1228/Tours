@@ -12,15 +12,16 @@
 @implementation Photo
 
 @dynamic title;
-@dynamic description;
+@dynamic summary;
 @dynamic image;
 @dynamic stop;
 
-- (NSString * __nonnull)parseClassName {
+
++ (NSString * __nonnull)parseClassName {
     return @"Photo";
 }
 
-+ (instancetype) ojbectWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)description {
++ (instancetype) ojbectWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title summary:(NSString *)summary {
 
     Photo *photo = [super object];
 
@@ -34,14 +35,14 @@
     photo.image = [PFFile fileWithData:imageData];
     photo.stop = stop;
     photo.title = title;
-    photo.description = description;
+    photo.summary = summary;
 
     return photo;
 }
 
-+ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)description withCompletion:(void(^)(Photo *photo, NSError *error))complete {
++ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)summary withCompletion:(void(^)(Photo *photo, NSError *error))complete {
 
-    Photo *photo = [Photo ojbectWithImage:image stop:stop title:title description:description];
+    Photo *photo = [Photo ojbectWithImage:image stop:stop title:title summary:summary];
 
     [photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         complete(photo, error);

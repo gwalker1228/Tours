@@ -8,6 +8,10 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "Tour.h"
+#import "Stop.h"
+#import "Photo.h"
+
 
 @interface AppDelegate ()
 
@@ -21,6 +25,10 @@
     // [Optional] Power your app with Local Datastore. For more info, go to
 
     [Parse enableLocalDatastore];
+
+    [Tour registerSubclass];
+    [Stop registerSubclass];
+    [Photo registerSubclass];
 
     // Initialize Parse.
     [Parse setApplicationId:@"utT2GUSlYKCwDjiPcGHetnMW7MlDSEj3vpljW3ZI"

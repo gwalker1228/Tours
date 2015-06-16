@@ -12,11 +12,11 @@
 @implementation Stop
 
 @dynamic title;
-@dynamic description;
+@dynamic summary;
 @dynamic location;
 @dynamic tour;
 
-- (NSString * __nonnull)parseClassName {
++ (NSString * __nonnull)parseClassName {
     return @"Stop";
 }
 

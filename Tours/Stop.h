@@ -10,10 +10,10 @@
 #import <Parse/PFObject+Subclass.h>
 @class Tour;
 
-@interface Stop : PFObject
+@interface Stop : PFObject <PFSubclassing>
 
 @property NSString *title;
-@property NSString *description;
+@property NSString *summary;
 @property PFGeoPoint *location;
 @property Tour *tour;
 
