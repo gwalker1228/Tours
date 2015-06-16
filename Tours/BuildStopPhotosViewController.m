@@ -31,6 +31,7 @@
 
     BuildManager *buildManager = [BuildManager sharedBuildManager];
     self.stop = buildManager.stop;
+    NSLog(@"Stop title:%@", self.stop.title);
 
 }
 

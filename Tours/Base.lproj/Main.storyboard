@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0rt-gg-cnz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0rt-gg-cnz">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -138,9 +138,40 @@
                     <view key="view" contentMode="scaleToFill" id="pct-60-GO2">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fx3-0L-Syc">
+                                <rect key="frame" x="102" y="103" width="397" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Kvv-WE-3cr"/>
+                                    <constraint firstAttribute="width" constant="397" id="rbX-pO-nTM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Point Description" translatesAutoresizingMaskIntoConstraints="NO" id="3EJ-ea-p6t">
+                                <rect key="frame" x="102" y="164" width="397" height="217"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="217" id="Wvv-gC-j9y"/>
+                                    <constraint firstAttribute="width" constant="397" id="Xdn-rX-PIk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3EJ-ea-p6t" firstAttribute="top" secondItem="fx3-0L-Syc" secondAttribute="bottom" constant="31" id="5ZH-RA-6hO"/>
+                            <constraint firstItem="fx3-0L-Syc" firstAttribute="top" secondItem="Mbk-YP-ATZ" secondAttribute="bottom" constant="39" id="AK4-M4-rcD"/>
+                            <constraint firstAttribute="centerX" secondItem="fx3-0L-Syc" secondAttribute="centerX" id="Q8w-i4-WeI"/>
+                            <constraint firstAttribute="centerX" secondItem="3EJ-ea-p6t" secondAttribute="centerX" id="mL5-x6-auR"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qcO-Yd-1TB"/>
+                    <connections>
+                        <outlet property="buildStopGeneralTextField" destination="3EJ-ea-p6t" id="raU-Gr-h5L"/>
+                        <outlet property="buildStopGeneralTitle" destination="fx3-0L-Syc" id="wkA-7g-kWO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2o4-xF-TLv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

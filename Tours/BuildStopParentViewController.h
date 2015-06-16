@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BuildManager.h"
-@class Stop;
+#import "Stop.h"
 
 @interface BuildStopParentViewController : UIViewController
 
