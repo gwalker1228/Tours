@@ -10,6 +10,8 @@
 
 @interface BuildTourPreviewViewController ()
 
+@property Tour *tour;
+
 @end
 
 @implementation BuildTourPreviewViewController
@@ -17,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    self.tour = buildManager.tour;
     
 }
 

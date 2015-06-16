@@ -16,9 +16,11 @@
 
 
 @interface BuildStopPhotosViewController () <UITableViewDataSource, UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property NSMutableArray *photos;
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property Stop *stop;
+@property NSMutableArray *photos;
 
 @end
 
@@ -27,6 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    self.stop = buildManager.stop;
 
 }
 
@@ -109,14 +113,16 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     BuildStopImagePickerViewController *vc = segue.destinationViewController;
+
     vc.initialView = segue.identifier;
+    vc.stop = self.stop;
 
     if ([segue.identifier isEqualToString:@"editPhoto"]) {
-        BuildStopPhotoTableViewCell *cell = sender;
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+
+//        BuildStopPhotoTableViewCell *cell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Photo *photoForEdit = [self.photos objectAtIndex:indexPath.row];
-//        long i = indexPath.row;
-//        NSLog(@"index %ld", i);
+
         vc.photo = photoForEdit;
     }
 

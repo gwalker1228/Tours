@@ -10,13 +10,17 @@
 
 @interface BuildStopGeneralViewController ()
 
+@property Stop *stop;
+
 @end
 
 @implementation BuildStopGeneralViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
+
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    self.stop = buildManager.stop;
 }
 
 

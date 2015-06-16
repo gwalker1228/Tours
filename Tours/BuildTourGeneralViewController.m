@@ -10,13 +10,17 @@
 
 @interface BuildTourGeneralViewController ()
 
+@property Tour *tour;
+
 @end
 
 @implementation BuildTourGeneralViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    self.tour = buildManager.tour;
 }
 
 

@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BuildManager.h"
 @class Tour;
 
 @interface BuildTourParentViewController : UIViewController
-
-@property Tour *tour;
 
 @end

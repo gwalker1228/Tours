@@ -12,11 +12,11 @@
 #import "BuildStopPhotoTableViewCell.h"
 
 @interface BuildStopImagePickerViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
 @property (weak, nonatomic) IBOutlet UITextField *imageTitleTextField;
-
 @property (weak, nonatomic) IBOutlet UITextField *imageSummaryTextField;
-
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
 @property BOOL firstViewDisplay;
 
 @end

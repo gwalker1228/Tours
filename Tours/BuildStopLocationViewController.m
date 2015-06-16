@@ -19,11 +19,15 @@
 
 @interface BuildStopLocationViewController () <MKMapViewDelegate, UISearchBarDelegate>
 
-@property CLLocation *locationUser;
-@property CLLocationManager *locationManager;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property Stop *stop;
+
+@property CLLocation *locationUser;
+@property CLLocationManager *locationManager;
 @property CLGeocoder *geocoder;
+
 @property StopPointAnnotation *stopPointAnnotation;
 @property BOOL pinDropped;
 
@@ -39,6 +43,9 @@
     self.mapView.mapType = MKMapTypeHybrid;
     self.mapView.pitchEnabled = YES;
     self.mapView.showsBuildings = YES;
+
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    self.stop = buildManager.stop;
 
 //    MKMapCamera *camera = [MKMapCamera new];
 //    camera.centerCoordinate = self.mapView.centerCoordinate;
