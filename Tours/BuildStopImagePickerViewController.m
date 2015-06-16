@@ -40,11 +40,11 @@
         self.firstViewDisplay = NO;
     }
 }
-- (IBAction)onCancelButtonPressed:(UIBarButtonItem *)sender {
+- (IBAction)onCancelButtonPressed:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)onSaveButtonPressed:(UIBarButtonItem *)sender {
+- (IBAction)onSaveButtonPressed:(UIButton *)sender {
     if (self.photo == nil) {
         NSString *imageTitle = self.imageTitleTextField.text;
         NSString *imageDescription = self.imageSummaryTextField.text;

@@ -1,18 +1,20 @@
 //
-//  BuildParentViewController.m
+//  BuildStopParentViewController.m
 //  Tours
 //
-//  Created by Mark Porcella on 6/14/15.
+//  Created by Gretchen Walker on 6/16/15.
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
-#import "BuildParentViewController.h"
+#import "BuildStopParentViewController.h"
+#import "Stop.h"
 
-@interface BuildParentViewController ()
+@interface BuildStopParentViewController ()
+
 
 @end
 
-@implementation BuildParentViewController
+@implementation BuildStopParentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

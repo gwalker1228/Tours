@@ -109,7 +109,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     BuildStopImagePickerViewController *vc = segue.destinationViewController;
-      vc.initialView = segue.identifier;
+    vc.initialView = segue.identifier;
 
     if ([segue.identifier isEqualToString:@"editPhoto"]) {
         BuildStopPhotoTableViewCell *cell = sender;

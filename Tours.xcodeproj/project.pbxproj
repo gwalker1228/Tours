@@ -21,7 +21,7 @@
 		BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C521B2E3E7E000A8E2C /* BuildStopLocationViewController.m */; };
 		BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */; };
 		BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C581B2E3EE2000A8E2C /* BuildStopPreviewViewController.m */; };
-		BC0E9C621B2E4F1E000A8E2C /* BuildParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */; };
+		BC0E9C621B2E4F1E000A8E2C /* BuildTourParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C611B2E4F1E000A8E2C /* BuildTourParentViewController.m */; };
 		BC0E9C711B2E60AA000A8E2C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C701B2E60AA000A8E2C /* AudioToolbox.framework */; };
 		BC0E9C731B2E60D9000A8E2C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C721B2E60D9000A8E2C /* CoreGraphics.framework */; };
 		BC0E9C7B1B2E6136000A8E2C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C741B2E6136000A8E2C /* CFNetwork.framework */; };
@@ -46,6 +46,7 @@
 		BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */; };
 		BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */; };
 		FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */; };
+		FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D8B1B30947C00826536 /* BuildStopParentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,8 +87,8 @@
 		BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPhotosViewController.m; sourceTree = "<group>"; };
 		BC0E9C571B2E3EE2000A8E2C /* BuildStopPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopPreviewViewController.h; sourceTree = "<group>"; };
 		BC0E9C581B2E3EE2000A8E2C /* BuildStopPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPreviewViewController.m; sourceTree = "<group>"; };
-		BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildParentViewController.h; sourceTree = "<group>"; };
-		BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildParentViewController.m; sourceTree = "<group>"; };
+		BC0E9C601B2E4F1E000A8E2C /* BuildTourParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourParentViewController.h; sourceTree = "<group>"; };
+		BC0E9C611B2E4F1E000A8E2C /* BuildTourParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourParentViewController.m; sourceTree = "<group>"; };
 		BC0E9C701B2E60AA000A8E2C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		BC0E9C721B2E60D9000A8E2C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		BC0E9C741B2E6136000A8E2C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -118,6 +119,8 @@
 		BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPhotoTableViewCell.m; sourceTree = "<group>"; };
 		FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPointAnnotation.h; sourceTree = "<group>"; };
 		FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPointAnnotation.m; sourceTree = "<group>"; };
+		FAE01D8A1B30947C00826536 /* BuildStopParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopParentViewController.h; sourceTree = "<group>"; };
+		FAE01D8B1B30947C00826536 /* BuildStopParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopParentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,8 +186,8 @@
 				BC0E9C4D1B2E3DFD000A8E2C /* BuildStop */,
 				BC0E9C1C1B2E26CA000A8E2C /* AppDelegate.m */,
 				BC0E9C1B1B2E26CA000A8E2C /* AppDelegate.h */,
-				BC0E9C601B2E4F1E000A8E2C /* BuildParentViewController.h */,
-				BC0E9C611B2E4F1E000A8E2C /* BuildParentViewController.m */,
+				BC0E9C601B2E4F1E000A8E2C /* BuildTourParentViewController.h */,
+				BC0E9C611B2E4F1E000A8E2C /* BuildTourParentViewController.m */,
 				BC0E9C3D1B2E2B31000A8E2C /* MyToursViewController.h */,
 				BC0E9C3E1B2E2B31000A8E2C /* MyToursViewController.m */,
 				BC0E9C211B2E26CA000A8E2C /* Main.storyboard */,
@@ -246,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				BC0E9C5A1B2E3EFC000A8E2C /* Headers */,
+				FAE01D8B1B30947C00826536 /* BuildStopParentViewController.m */,
 				BC0E9C4F1B2E3E6A000A8E2C /* BuildStopGeneralViewController.m */,
 				BC0E9C521B2E3E7E000A8E2C /* BuildStopLocationViewController.m */,
 				BC0E9C551B2E3E9C000A8E2C /* BuildStopPhotosViewController.m */,
@@ -259,6 +263,7 @@
 		BC0E9C5A1B2E3EFC000A8E2C /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				FAE01D8A1B30947C00826536 /* BuildStopParentViewController.h */,
 				BC0E9CA31B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.h */,
 				BC0E9CA01B2F83CD000A8E2C /* BuildStopImagePickerViewController.h */,
 				BC0E9C4E1B2E3E6A000A8E2C /* BuildStopGeneralViewController.h */,
@@ -424,11 +429,12 @@
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
 				BC0E9C8A1B2F46B7000A8E2C /* Tour.m in Sources */,
+				FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */,
 				BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */,
 				BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */,
 				BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */,
 				BC0E9C4B1B2E3157000A8E2C /* BuildTourPreviewViewController.m in Sources */,
-				BC0E9C621B2E4F1E000A8E2C /* BuildParentViewController.m in Sources */,
+				BC0E9C621B2E4F1E000A8E2C /* BuildTourParentViewController.m in Sources */,
 				BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */,
 				BC0E9C501B2E3E6A000A8E2C /* BuildStopGeneralViewController.m in Sources */,
 				FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */,

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BuildParentViewController.h"
+#import "BuildStopParentViewController.h"
 
-@interface BuildStopGeneralViewController : BuildParentViewController
+@interface BuildStopGeneralViewController : BuildStopParentViewController
 
 @end

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BuildParentViewController.h"
+#import "BuildTourParentViewController.h"
 
-@interface BuildTourGeneralViewController : BuildParentViewController
+@interface BuildTourGeneralViewController : BuildTourParentViewController
 
 @end
