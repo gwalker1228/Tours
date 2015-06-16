@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
+/*
+ TODO: May want to improve animation when searching after the first time (eg zoom out/zoom in)
+
+ 
+*/
+
 #import "BuildStopLocationViewController.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
@@ -19,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property CLGeocoder *geocoder;
 @property StopPointAnnotation *stopPointAnnotation;
+@property BOOL pinDropped;
 
 @end
 
@@ -38,11 +45,25 @@
 //    [self.mapView setCamera:camera];
 }
 
+-(void)dropPin {
+
+    UIImage *pinImage = [UIImage imageNamed:@"redPin"];
+    CGFloat pinWidth = 40;
+    CGFloat pinHeight = 60;
+
+    UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.mapView.center.x - pinWidth/2, self.mapView.center.y-pinHeight/2, pinWidth, pinHeight)];
+    pin.image = pinImage;
+
+    pin.userInteractionEnabled = NO;
+
+    [self.view addSubview:pin];
+}
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
 
     [self.geocoder geocodeAddressString:searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
 
+        [self.mapView removeAnnotations:self.mapView.annotations];
         MKPlacemark *placemark = placemarks.firstObject;
 
         self.stopPointAnnotation = [[StopPointAnnotation alloc] initWithLocation:placemark.location forStop:nil];
@@ -50,30 +71,25 @@
 
         [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 
-
-        UIImage *pinImage = [UIImage imageNamed:@"redPin"];
-        CGFloat pinWidth = 40;
-        CGFloat pinHeight = 60;
-
-        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.mapView.center.x - pinWidth/2, self.mapView.center.y-pinHeight/2, pinWidth, pinHeight)];
-        pin.image = pinImage;
-
-        [self.view addSubview:pin];
-
-
+        if (!self.pinDropped) {
+            [self dropPin];
+        }
     }];
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
     MKAnnotationView *pin = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
-//
-//   //pin.draggable = YES;
-//    //StopPointAnnotation *stop = annotation;
-//
+
+//   pin.draggable = YES;
+//   StopPointAnnotation *stop = annotation;
+
     return pin;
 }
 
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+    NSLog(@"%f, %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
+}
 //- (void)viewDidLoad {
 //    [super viewDidLoad];
 //    self.clLocationManager = [CLLocationManager new];
