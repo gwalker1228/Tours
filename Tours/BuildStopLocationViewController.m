@@ -40,8 +40,9 @@
 
     self.geocoder = [CLGeocoder new];
 
+
     self.mapView.mapType = MKMapTypeHybrid;
-    self.mapView.pitchEnabled = YES;
+    self.mapView.pitchEnabled = YES; // doesn't seem to do much. The reference makes it sound like this is auto set based on the camera
     self.mapView.showsBuildings = YES;
 
 //    MKMapCamera *camera = [MKMapCamera new];
@@ -55,6 +56,7 @@
     CGFloat pinWidth = 40;
     CGFloat pinHeight = 60;
 
+    // create the imageView that defines centers the pin in the 
     UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.mapView.center.x - pinWidth/2, self.mapView.center.y-pinHeight/2, pinWidth, pinHeight)];
     pin.image = pinImage;
 
@@ -74,6 +76,8 @@
         [self.mapView addAnnotation:self.stopPointAnnotation];
 
         [self.mapView showAnnotations:self.mapView.annotations animated:YES];
+
+        [self.searchBar resignFirstResponder];
 
         if (!self.pinDropped) {
             [self dropPin];
