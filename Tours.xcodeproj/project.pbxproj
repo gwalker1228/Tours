@@ -45,6 +45,7 @@
 		BC0E9C9F1B2F7D0A000A8E2C /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C991B2F7D0A000A8E2C /* ParseUI.framework */; };
 		BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */; };
 		BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */; };
+		BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10F91B31E904005D6F94 /* TourTableViewCell.m */; };
 		FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC591B30AF3D00A3997E /* BuildManager.m */; };
 		FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC5C1B30E11100A3997E /* BuildTourStopsTableViewCell.m */; };
 		FAD9BC601B30E1C600A3997E /* IndexedPhotoCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC5F1B30E1C600A3997E /* IndexedPhotoCollectionView.m */; };
@@ -121,6 +122,8 @@
 		BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopImagePickerViewController.m; sourceTree = "<group>"; };
 		BC0E9CA31B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopPhotoTableViewCell.h; sourceTree = "<group>"; };
 		BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPhotoTableViewCell.m; sourceTree = "<group>"; };
+		BC3E10F81B31E904005D6F94 /* TourTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourTableViewCell.h; sourceTree = "<group>"; };
+		BC3E10F91B31E904005D6F94 /* TourTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourTableViewCell.m; sourceTree = "<group>"; };
 		FAD9BC581B30AF3D00A3997E /* BuildManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildManager.h; sourceTree = "<group>"; };
 		FAD9BC591B30AF3D00A3997E /* BuildManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildManager.m; sourceTree = "<group>"; };
 		FAD9BC5B1B30E11100A3997E /* BuildTourStopsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourStopsTableViewCell.h; sourceTree = "<group>"; };
@@ -249,6 +252,7 @@
 				BC0E9C471B2E312D000A8E2C /* BuildTourStopsViewController.m */,
 				BC0E9C4A1B2E3157000A8E2C /* BuildTourPreviewViewController.m */,
 				FAD9BC5C1B30E11100A3997E /* BuildTourStopsTableViewCell.m */,
+				BC3E10F91B31E904005D6F94 /* TourTableViewCell.m */,
 			);
 			name = BuildTour;
 			sourceTree = "<group>";
@@ -261,6 +265,7 @@
 				BC0E9C421B2E308F000A8E2C /* BuildTourGeneralViewController.h */,
 				BC0E9C461B2E312D000A8E2C /* BuildTourStopsViewController.h */,
 				BC0E9C491B2E3157000A8E2C /* BuildTourPreviewViewController.h */,
+				BC3E10F81B31E904005D6F94 /* TourTableViewCell.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -463,6 +468,7 @@
 				FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */,
 				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
+				BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */,
 				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
