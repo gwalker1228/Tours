@@ -21,6 +21,7 @@
 
 @property Stop *stop;
 @property NSMutableArray *photos;
+@property BOOL inEditingMode;
 
 @end
 
@@ -28,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.inEditingMode = NO;
     BuildManager *buildManager = [BuildManager sharedBuildManager];
     self.stop = buildManager.stop;
     NSLog(@"Stop title:%@", self.stop.title);
@@ -40,13 +41,11 @@
 }
 
 - (void) loadPhotos {
+
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
-
+    [query whereKey:@"stop" equalTo:self.stop];
     [query orderByDescending:@"createdAt"];
-    [query setLimit:10]; // limiting the amount of pictures we're going to see
-
-    //[query includeKey:@"image"]; // might be necessary
-
+    [query setLimit:10];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
 
@@ -55,6 +54,7 @@
         }
     }];
 }
+
 
 
 - (IBAction)onAddPictureButtonPressed:(UIButton *)sender {
@@ -110,6 +110,43 @@
     [self performSegueWithIdentifier:@"editPhoto" sender:cell];
 }
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+
+    Photo *photo = [self.photos objectAtIndex:sourceIndexPath.row];
+    [self.photos removeObject:photo];
+    [self.photos insertObject:photo atIndex:destinationIndexPath.row];
+
+    [self.tableView reloadData];
+}
+
+// NEED to Add an edit button in storyboard
+- (IBAction)onEditButtonPressed:(UIButton *)sender {
+    if (!self.inEditingMode) {
+        [sender setTitle:@"Done" forState:UIControlStateNormal];
+        [self.tableView setEditing:YES animated:YES];
+        self.inEditingMode = YES;
+    } else {
+        [sender setTitle:@"Edit" forState:UIControlStateNormal];
+        [self.tableView setEditing:NO animated:YES];
+        self.inEditingMode = NO;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+
+        Photo *photo = [self.photos objectAtIndex:indexPath.row];
+        [photo deleteInBackgroundWithBlock:^(BOOL completed, NSError *error) {
+            if (!error) {
+                [self.photos removeObjectAtIndex:indexPath.row];
+                [self.tableView reloadData];
+            } else {
+                // Error handling
+            }
+        }];
+    }
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 

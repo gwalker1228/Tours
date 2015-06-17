@@ -60,6 +60,8 @@
     }
 }
 
+
+
 - (void) displayPhotoForEditingIfFromEditSegue {
     if (self.photo) {
         self.imageTitleTextField.text = self.photo.title;
@@ -69,6 +71,7 @@
             if (!error) {
                 UIImage *image = [UIImage imageWithData:data];
                 self.imageView.image = image;
+                self.imageView.contentMode = UIViewContentModeScaleAspectFit;
             }
         }];
     }
