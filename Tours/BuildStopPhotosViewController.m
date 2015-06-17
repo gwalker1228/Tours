@@ -32,8 +32,6 @@
     self.inEditingMode = NO;
     BuildManager *buildManager = [BuildManager sharedBuildManager];
     self.stop = buildManager.stop;
-    NSLog(@"Stop title:%@", self.stop.title);
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
