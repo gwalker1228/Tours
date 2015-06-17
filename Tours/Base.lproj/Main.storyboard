@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0rt-gg-cnz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0rt-gg-cnz">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -46,12 +46,13 @@
                     <navigationItem key="navigationItem" id="tgu-Nw-ZQp">
                         <barButtonItem key="rightBarButtonItem" title="Add Stop" id="JUL-uf-xBS">
                             <connections>
-                                <segue destination="VxB-Hu-hj0" kind="presentation" id="jNz-PD-zmX"/>
+                                <segue destination="VxB-Hu-hj0" kind="presentation" identifier="addStop" id="jNz-PD-zmX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="yHe-L6-ezs" id="img-3c-dUo"/>
+                        <segue destination="VxB-Hu-hj0" kind="presentation" identifier="editStop" id="K4H-Q7-OzP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fN-IM-B4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -769,6 +770,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="jNz-PD-zmX"/>
         <segue reference="bPE-Tc-wrt"/>
     </inferredMetricsTieBreakers>
 </document>
