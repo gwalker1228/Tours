@@ -49,6 +49,7 @@
 		FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC5C1B30E11100A3997E /* BuildTourStopsTableViewCell.m */; };
 		FAD9BC601B30E1C600A3997E /* IndexedPhotoCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC5F1B30E1C600A3997E /* IndexedPhotoCollectionView.m */; };
 		FAD9BC631B30F1C700A3997E /* IndexedPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC621B30F1C700A3997E /* IndexedPhotoCollectionViewCell.m */; };
+		FAD9BC661B31F05300A3997E /* StopDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC651B31F05200A3997E /* StopDetailView.m */; };
 		FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */; };
 		FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAE01D8B1B30947C00826536 /* BuildStopParentViewController.m */; };
 /* End PBXBuildFile section */
@@ -129,6 +130,8 @@
 		FAD9BC5F1B30E1C600A3997E /* IndexedPhotoCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexedPhotoCollectionView.m; sourceTree = "<group>"; };
 		FAD9BC611B30F1C700A3997E /* IndexedPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexedPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		FAD9BC621B30F1C700A3997E /* IndexedPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexedPhotoCollectionViewCell.m; sourceTree = "<group>"; };
+		FAD9BC641B31F05200A3997E /* StopDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDetailView.h; sourceTree = "<group>"; };
+		FAD9BC651B31F05200A3997E /* StopDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDetailView.m; sourceTree = "<group>"; };
 		FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPointAnnotation.h; sourceTree = "<group>"; };
 		FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPointAnnotation.m; sourceTree = "<group>"; };
 		FAE01D8A1B30947C00826536 /* BuildStopParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopParentViewController.h; sourceTree = "<group>"; };
@@ -193,6 +196,8 @@
 		BC0E9C161B2E26CA000A8E2C /* Tours */ = {
 			isa = PBXGroup;
 			children = (
+				FAD9BC641B31F05200A3997E /* StopDetailView.h */,
+				FAD9BC651B31F05200A3997E /* StopDetailView.m */,
 				FAD9BC581B30AF3D00A3997E /* BuildManager.h */,
 				FAD9BC591B30AF3D00A3997E /* BuildManager.m */,
 				BC0E9C871B2F4691000A8E2C /* Models */,
@@ -460,6 +465,7 @@
 				BC0E9C621B2E4F1E000A8E2C /* BuildTourParentViewController.m in Sources */,
 				BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */,
 				BC0E9C501B2E3E6A000A8E2C /* BuildStopGeneralViewController.m in Sources */,
+				FAD9BC661B31F05300A3997E /* StopDetailView.m in Sources */,
 				FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */,
 				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,

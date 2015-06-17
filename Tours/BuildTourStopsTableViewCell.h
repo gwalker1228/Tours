@@ -7,15 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StopDetailView.h"
 @class IndexedPhotoCollectionView;
 
-static CGFloat tableCellHeight = 200;
+//static CGFloat tableCellHeight = 200;
 
 @interface BuildTourStopsTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *descriptionLabel;
-@property (nonatomic, strong) IndexedPhotoCollectionView *collectionView;
+
+//@property (nonatomic, strong) UILabel *titleLabel;
+//@property (nonatomic, strong) UILabel *descriptionLabel;
+//@property (nonatomic, strong) IndexedPhotoCollectionView *collectionView;
+
+- (void)setTitle:(NSString *)title summary:(NSString *)summary;
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
