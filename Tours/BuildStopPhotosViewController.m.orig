@@ -28,9 +28,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.inEditingMode = NO;
+<<<<<<< HEAD
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    self.stop = buildManager.stop;
+=======
    
     NSLog(@"Stop title:%@", self.stop.title);
 
+>>>>>>> 085656773d141765385ddda20b984a06a05ea61c
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -41,7 +46,7 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"stop" equalTo:self.stop];
-    [query orderByAscending:@"order"];
+    [query orderByDescending:@"order"];
     [query setLimit:10];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -153,15 +158,14 @@
     vc.initialView = segue.identifier;
     vc.stop = self.stop;
     vc.orderNumber = [self calculateInsertLocationForIncomingPhoto];
-    NSLog(@"order number passed: %@", vc.orderNumber);
-
     if ([segue.identifier isEqualToString:@"editPhoto"]) {
 
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Photo *photoForEdit = [self.photos objectAtIndex:indexPath.row];
+
         vc.photo = photoForEdit;
-        vc.orderNumber = photoForEdit.order;
     }
+
 }
 
 - (NSNumber *) calculateInsertLocationForIncomingPhoto {
@@ -175,6 +179,7 @@
     for (int x = 0; x < numberOfPhotos; x++) {
         Photo *photo = [self.photos objectAtIndex:x];
         photo.order = [NSNumber numberWithInt:x+1];
+        NSLog(@"order number: %d", x+1);
         
         [photo saveInBackground];
     }

@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *imageTitleTextField;
 @property (weak, nonatomic) IBOutlet UITextField *imageSummaryTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
 
 @property BOOL firstViewDisplay;
 
@@ -45,6 +46,8 @@
 }
 
 - (IBAction)onSaveButtonPressed:(UIButton *)sender {
+    self.saveButton.enabled = NO;
+    NSLog(@"image picker order: %@", self.orderNumber);
     if (self.photo == nil) {
         NSString *imageTitle = self.imageTitleTextField.text;
         NSString *imageDescription = self.imageSummaryTextField.text;

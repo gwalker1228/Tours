@@ -37,6 +37,7 @@
     photo.stop = stop;
     photo.title = title;
     photo.summary = summary;
+    photo.order = order;
 
     return photo;
 }

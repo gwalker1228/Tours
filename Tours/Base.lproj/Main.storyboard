@@ -398,6 +398,7 @@
                         <outlet property="imageSummaryTextField" destination="3Ch-UF-kko" id="ovu-ai-gky"/>
                         <outlet property="imageTitleTextField" destination="DRW-gz-hhC" id="f3t-50-Q9m"/>
                         <outlet property="imageView" destination="7Ys-QD-p0a" id="azg-KF-VQy"/>
+                        <outlet property="saveButton" destination="gdV-Gb-Ngu" id="EBK-Nc-SI2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4dH-Js-Qkf" userLabel="First Responder" sceneMemberID="firstResponder"/>
