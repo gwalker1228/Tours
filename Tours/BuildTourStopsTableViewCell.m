@@ -81,6 +81,8 @@ static CGFloat leftMarginIndent = 8.0;
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
 
+//    self.collectionView
+
     [self.contentView addSubview:self.collectionView];
 }
 
