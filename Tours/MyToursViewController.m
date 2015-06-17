@@ -5,6 +5,7 @@
 #import "BuildManager.h"
 #import "Tour.h"
 #import "BuildTourParentViewController.h"
+#import "User.h"
 
 @interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -21,7 +22,25 @@
     self.tours = [NSArray new];
     [self fetchUserTours];
 
+    if (![User currentUser]) {
+        [self presentLogInViewController];
+    }
 }
+
+
+-(void)presentLogInViewController {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UINavigationController *navigationLoginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginNavigationVC"];
+
+    double delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.parentViewController presentViewController:navigationLoginVC animated:YES completion:nil];
+    });
+    
+}
+
 
 - (void) fetchUserTours {
     PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
