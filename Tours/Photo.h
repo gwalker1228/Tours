@@ -16,8 +16,9 @@
 @property NSString *title;
 @property NSString *summary;
 @property PFFile *image;
+@property NSNumber *order;
 @property Stop *stop;
 
-+ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)description withCompletion:(void(^)(Photo *photo, NSError *error))complete;
++ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)description orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete;
 
 @end

@@ -44,7 +44,7 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"stop" equalTo:self.stop];
-    [query orderByDescending:@"createdAt"];
+    [query orderByDescending:@"order"];
     [query setLimit:10];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -116,10 +116,11 @@
     [self.photos removeObject:photo];
     [self.photos insertObject:photo atIndex:destinationIndexPath.row];
 
+    [self saveNewPhotoOrder];
     [self.tableView reloadData];
 }
 
-// NEED to Add an edit button in storyboard
+
 - (IBAction)onEditButtonPressed:(UIButton *)sender {
     if (!self.inEditingMode) {
         [sender setTitle:@"Done" forState:UIControlStateNormal];
@@ -154,10 +155,9 @@
 
     vc.initialView = segue.identifier;
     vc.stop = self.stop;
-
+    vc.orderNumber = [self calculateInsertLocationForIncomingPhoto];
     if ([segue.identifier isEqualToString:@"editPhoto"]) {
 
-//        BuildStopPhotoTableViewCell *cell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Photo *photoForEdit = [self.photos objectAtIndex:indexPath.row];
 
@@ -165,6 +165,25 @@
     }
 
 }
+
+- (NSNumber *) calculateInsertLocationForIncomingPhoto {
+    int numberOfPhotos = (int)self.photos.count;
+    numberOfPhotos++;
+    return [NSNumber numberWithInt:numberOfPhotos];
+}
+
+- (void) saveNewPhotoOrder {
+    int numberOfPhotos = (int)[self.photos count];
+    for (int x = 0; x < numberOfPhotos; x++) {
+        Photo *photo = [self.photos objectAtIndex:x];
+        photo.order = [NSNumber numberWithInt:x+1];
+        NSLog(@"order number: %d", x+1);
+        
+        [photo saveInBackground];
+    }
+}
+
+
 
 
 

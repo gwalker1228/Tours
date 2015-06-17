@@ -48,7 +48,7 @@
     if (self.photo == nil) {
         NSString *imageTitle = self.imageTitleTextField.text;
         NSString *imageDescription = self.imageSummaryTextField.text;
-        [Photo photoWithImage:self.imageView.image stop:self.stop title:imageTitle description:imageDescription withCompletion:^(Photo *photo, NSError *error) {
+        [Photo photoWithImage:self.imageView.image stop:self.stop title:imageTitle description:imageDescription orderNumber:self.orderNumber withCompletion:^(Photo *photo, NSError *error) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
     } else {
@@ -59,8 +59,6 @@
         }];
     }
 }
-
-
 
 - (void) displayPhotoForEditingIfFromEditSegue {
     if (self.photo) {

@@ -14,6 +14,7 @@
 @dynamic title;
 @dynamic summary;
 @dynamic image;
+@dynamic order;
 @dynamic stop;
 
 
@@ -21,7 +22,7 @@
     return @"Photo";
 }
 
-+ (instancetype) ojbectWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title summary:(NSString *)summary {
++ (instancetype) ojbectWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title summary:(NSString *)summary orderNumber:(NSNumber *)order {
 
     Photo *photo = [super object];
 
@@ -40,9 +41,9 @@
     return photo;
 }
 
-+ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)summary withCompletion:(void(^)(Photo *photo, NSError *error))complete {
++ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)summary orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete {
 
-    Photo *photo = [Photo ojbectWithImage:image stop:stop title:title summary:summary];
+    Photo *photo = [Photo ojbectWithImage:image stop:stop title:title summary:summary orderNumber:order];
 
     [photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         complete(photo, error);

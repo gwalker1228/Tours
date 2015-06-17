@@ -13,6 +13,7 @@
 @interface BuildStopImagePickerViewController : UIViewController
 
 @property NSString *initialView;
+@property NSNumber *orderNumber;
 @property Stop *stop;
 @property Photo *photo;
 

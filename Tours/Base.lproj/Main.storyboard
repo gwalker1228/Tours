@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0rt-gg-cnz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="0rt-gg-cnz">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -260,14 +260,29 @@
                                     <action selector="onAddPictureButtonPressed:" destination="3nF-ig-TJQ" eventType="touchUpInside" id="xzp-7O-oQB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5J-hZ-hPc">
+                                <rect key="frame" x="503" y="102" width="87" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="87" id="RfP-bI-Zcw"/>
+                                    <constraint firstAttribute="height" constant="30" id="STT-Py-Ksh"/>
+                                </constraints>
+                                <state key="normal" title="Edit Pictures">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onEditButtonPressed:" destination="3nF-ig-TJQ" eventType="touchUpInside" id="cUD-EY-Wbf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="eZA-0N-PpQ" secondAttribute="trailing" constant="-16" id="91N-3j-kDL"/>
+                            <constraint firstItem="M5J-hZ-hPc" firstAttribute="top" secondItem="AUp-L7-Q2M" secondAttribute="bottom" id="Clq-Oh-WAl"/>
                             <constraint firstItem="eZA-0N-PpQ" firstAttribute="leading" secondItem="Q0W-oi-tUo" secondAttribute="leadingMargin" constant="-16" id="DGd-PU-JLO"/>
                             <constraint firstItem="eZA-0N-PpQ" firstAttribute="top" secondItem="h1j-R1-kkI" secondAttribute="bottom" constant="70" id="Sde-2m-mdO"/>
                             <constraint firstItem="AUp-L7-Q2M" firstAttribute="trailing" secondItem="Q0W-oi-tUo" secondAttribute="trailingMargin" id="W63-B9-AXo"/>
                             <constraint firstItem="XSj-V4-tOJ" firstAttribute="top" secondItem="eZA-0N-PpQ" secondAttribute="bottom" id="i18-Xl-4sv"/>
+                            <constraint firstItem="M5J-hZ-hPc" firstAttribute="leading" secondItem="AUp-L7-Q2M" secondAttribute="leading" id="kPM-iL-O3P"/>
                             <constraint firstItem="AUp-L7-Q2M" firstAttribute="top" secondItem="h1j-R1-kkI" secondAttribute="bottom" constant="8" id="xJh-cx-AC5"/>
                         </constraints>
                     </view>
