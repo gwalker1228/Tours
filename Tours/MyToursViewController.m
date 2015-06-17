@@ -4,6 +4,7 @@
 #import "TourTableViewCell.h"
 #import "BuildManager.h"
 #import "Tour.h"
+#import "BuildTourParentViewController.h"
 
 @interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -29,8 +30,6 @@
         if (!error) {
 
             self.tours = [[[NSArray alloc] initWithArray:objects] mutableCopy];
-            Tour *tour = [self.tours firstObject];
-            NSLog(@"first tour from query date: %@", tour.createdAt);
             [self.tableView reloadData];
         } else {
             //error check
@@ -48,27 +47,33 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    NSLog(@"Tour count: %d", (int)[self.tours count]);
     return [self.tours count];
 }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    [self performSegueWithIdentifier:@"editTour" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+//    [self performSegueWithIdentifier:@"EditTour" sender:cell];
+//}
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-
+//    BuildTourParentViewController *parentVC = [BuildTourParentViewController new];
     BuildManager *buildManager = [BuildManager sharedBuildManager];
-    if ([segue.identifier isEqualToString:@"editTour"]) {
+//    parentVC.buildManager = buildManager;
+
+    if ([segue.identifier isEqualToString:@"EditTour"]) {
+
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Tour *tour = [self.tours objectAtIndex:indexPath.row];
         buildManager.tour = tour;
+        NSLog(@"segue tour passed creation at: %@", tour.createdAt);
+
     } else {
+
         Tour *tour = [Tour object];
         buildManager.tour = tour;
-        [tour saveInBackground];
+        [tour save];
     }
 }
 
