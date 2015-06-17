@@ -14,12 +14,10 @@
 #import "BuildStopPhotoTableViewCell.h"
 
 
-
 @interface BuildStopPhotosViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property Stop *stop;
 @property NSMutableArray *photos;
 @property BOOL inEditingMode;
 
@@ -30,8 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.inEditingMode = NO;
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    self.stop = buildManager.stop;
+   
     NSLog(@"Stop title:%@", self.stop.title);
 
 }

@@ -20,9 +20,16 @@
 
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissCurrentViewController)];
     [self.navigationItem setLeftBarButtonItem:doneButton];
+
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    self.tour = buildManager.tour;
+
 }
 -(void) dismissCurrentViewController {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+
+    [self.tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 
