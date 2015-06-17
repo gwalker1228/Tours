@@ -20,17 +20,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissCurrentViewController)];
     [self.navigationItem setLeftBarButtonItem:doneButton];
 
 
     self.buildManager = [BuildManager sharedBuildManager];
+
     self.tour = self.buildManager.tour;
+    NSLog(@"tour recieved from parent created date: %@", self.tour.createdAt);
+    NSLog(@"tour object description: %@", [self.tour description]);
 
 }
 -(void) dismissCurrentViewController {
 
     self.navigationItem.leftBarButtonItem.enabled = NO;
+    
     [self.tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 
         self.buildManager.tour = nil;

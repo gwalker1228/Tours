@@ -12,6 +12,7 @@
 
 @interface BuildTourParentViewController : UIViewController
 
+//@property BuildManager *buildManager; // added
 @property Tour *tour;
 
 @end
