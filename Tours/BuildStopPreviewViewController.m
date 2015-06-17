@@ -10,8 +10,6 @@
 
 @interface BuildStopPreviewViewController ()
 
-@property Stop *stop;
-
 @end
 
 @implementation BuildStopPreviewViewController
@@ -19,8 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    self.stop = buildManager.stop;
 }
 
 

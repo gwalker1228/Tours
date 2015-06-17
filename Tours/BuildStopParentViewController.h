@@ -12,5 +12,6 @@
 
 @interface BuildStopParentViewController : UIViewController
 
+@property Stop *stop;
 
 @end

@@ -22,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
-@property Stop *stop;
+
 
 @property CLLocation *locationUser;
 @property CLLocationManager *locationManager;
@@ -43,9 +43,6 @@
     self.mapView.mapType = MKMapTypeHybrid;
     self.mapView.pitchEnabled = YES;
     self.mapView.showsBuildings = YES;
-
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    self.stop = buildManager.stop;
 
 //    MKMapCamera *camera = [MKMapCamera new];
 //    camera.centerCoordinate = self.mapView.centerCoordinate;
@@ -95,7 +92,9 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    NSLog(@"%f, %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
+//    NSLog(@"%f, %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
+    CLLocationCoordinate2D mapCenter = mapView.centerCoordinate;
+    self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
 }
 //- (void)viewDidLoad {
 //    [super viewDidLoad];

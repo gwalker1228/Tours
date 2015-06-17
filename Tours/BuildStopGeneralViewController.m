@@ -5,7 +5,7 @@
 
 @interface BuildStopGeneralViewController () <UITextFieldDelegate, UITextViewDelegate>
 
-@property Stop *stop;
+
 @property (weak, nonatomic) IBOutlet UITextField *buildStopGeneralTitle;
 @property (weak, nonatomic) IBOutlet UITextView *buildStopGeneralTextField;
 
@@ -16,8 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    self.stop = buildManager.stop;
+    
     self.buildStopGeneralTitle.text = self.stop.title;
     self.buildStopGeneralTextField.text = self.stop.summary;
     self.buildStopGeneralTextField.delegate = self;

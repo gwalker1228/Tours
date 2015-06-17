@@ -41,7 +41,6 @@
 @interface BuildTourStopsViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property Tour *tour;
 @property NSArray *stops;
 
 @property NSArray *objects;
@@ -52,11 +51,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    self.tour = buildManager.tour;
-
 
     CustomClass *object1 = [[CustomClass alloc] initWithTitle:@"Title object 1" detail:@"Description number 1"
                                                        photos:@[@"2", @"4", @"1"]];
