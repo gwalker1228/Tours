@@ -76,7 +76,7 @@
     stop.tour = self.tour;
     buildManager.stop = stop;
 
-    [stop saveInBackground];
+    [stop save];
 }
 
 

@@ -31,7 +31,6 @@
 
     [self checkForCameraAvailableAndAlert];
     [self displayPhotoForEditingIfFromEditSegue];
-    NSLog(@"initial view: %@", self.initialView);
 
 }
 
@@ -47,7 +46,6 @@
 
 - (IBAction)onSaveButtonPressed:(UIButton *)sender {
     self.saveButton.enabled = NO;
-    NSLog(@"image picker order: %@", self.orderNumber);
     if (self.photo == nil) {
         NSString *imageTitle = self.imageTitleTextField.text;
         NSString *imageDescription = self.imageSummaryTextField.text;

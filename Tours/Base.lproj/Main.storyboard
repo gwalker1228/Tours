@@ -69,9 +69,26 @@
                     <view key="view" contentMode="scaleToFill" id="I7N-IV-hQM">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MPx-Ax-SfO">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <connections>
+                                    <outlet property="delegate" destination="GOO-cm-XGf" id="FFi-C7-7IW"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MPx-Ax-SfO" firstAttribute="bottom" secondItem="I7N-IV-hQM" secondAttribute="bottomMargin" id="4B6-OE-9DY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MPx-Ax-SfO" secondAttribute="trailing" constant="-16" id="LjY-uc-w2g"/>
+                            <constraint firstItem="MPx-Ax-SfO" firstAttribute="leading" secondItem="I7N-IV-hQM" secondAttribute="leadingMargin" constant="-16" id="an1-lL-uVg"/>
+                            <constraint firstItem="MPx-Ax-SfO" firstAttribute="top" secondItem="I7N-IV-hQM" secondAttribute="topMargin" id="sTz-iL-Vee"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="u5P-qS-lVA"/>
+                    <connections>
+                        <outlet property="mapView" destination="MPx-Ax-SfO" id="bM0-FR-quN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C1F-1U-p14" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -416,9 +433,26 @@
                     <view key="view" contentMode="scaleToFill" id="4oO-aA-ah6">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9gn-rK-Khl">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Ttb-5z-EUC" id="NO6-cs-eHG"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="9gn-rK-Khl" secondAttribute="trailing" constant="-16" id="OKT-zo-bfR"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="9gn-rK-Khl" secondAttribute="bottom" id="Uef-hh-RKv"/>
+                            <constraint firstItem="9gn-rK-Khl" firstAttribute="top" secondItem="4oO-aA-ah6" secondAttribute="topMargin" id="WBh-Dp-24s"/>
+                            <constraint firstItem="9gn-rK-Khl" firstAttribute="leading" secondItem="4oO-aA-ah6" secondAttribute="leadingMargin" constant="-16" id="c2i-mF-ZJJ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Laj-O3-gZ0"/>
+                    <connections>
+                        <outlet property="mapView" destination="9gn-rK-Khl" id="86i-sJ-zNg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u26-Oa-ez6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -505,6 +539,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YGh-x8-U0f"/>
+                    <connections>
+                        <outlet property="buildTourGeneralSummary" destination="3ML-ec-1QT" id="q0u-q1-IMW"/>
+                        <outlet property="buildTourGeneralTitle" destination="ixq-wf-nw8" id="Vnv-YQ-DeO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaM-kb-dQE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -28,8 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.inEditingMode = NO;
-   
-    NSLog(@"Stop title:%@", self.stop.title);
 
 }
 
@@ -153,7 +151,6 @@
     vc.initialView = segue.identifier;
     vc.stop = self.stop;
     vc.orderNumber = [self calculateInsertLocationForIncomingPhoto];
-    NSLog(@"order number passed: %@", vc.orderNumber);
 
     if ([segue.identifier isEqualToString:@"editPhoto"]) {
 

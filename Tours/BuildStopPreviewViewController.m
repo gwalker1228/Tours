@@ -7,8 +7,11 @@
 //
 
 #import "BuildStopPreviewViewController.h"
+#import <MapKit/MapKit.h>
 
 @interface BuildStopPreviewViewController ()
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 

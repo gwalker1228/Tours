@@ -9,8 +9,10 @@
 #import "BuildStopParentViewController.h"
 
 
+
 @interface BuildStopParentViewController ()
 
+@property BuildManager *buildManager;
 @end
 
 @implementation BuildStopParentViewController
@@ -21,14 +23,17 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissCurrentViewController)];
     [self.navigationItem setLeftBarButtonItem:doneButton];
 
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    self.stop = buildManager.stop;
+    self.buildManager = [BuildManager sharedBuildManager];
+    self.stop = self.buildManager.stop;
+
 }
 -(void) dismissCurrentViewController {
 
     self.navigationItem.leftBarButtonItem.enabled = NO;
 
     [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+
+        self.buildManager.stop = nil;
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }];
 }

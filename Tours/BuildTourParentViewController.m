@@ -7,9 +7,11 @@
 //
 
 #import "BuildTourParentViewController.h"
-#import "Tour.h"
+
 
 @interface BuildTourParentViewController ()
+
+@property BuildManager *buildManager;
 
 @end
 
@@ -21,13 +23,17 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissCurrentViewController)];
     [self.navigationItem setLeftBarButtonItem:doneButton];
 
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    self.tour = buildManager.tour;
+
+    self.buildManager = [BuildManager sharedBuildManager];
+    self.tour = self.buildManager.tour;
 
 }
 -(void) dismissCurrentViewController {
 
+    self.navigationItem.leftBarButtonItem.enabled = NO;
     [self.tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+
+        self.buildManager.tour = nil;
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }];
 }
