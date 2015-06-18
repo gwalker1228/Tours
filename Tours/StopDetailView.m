@@ -14,19 +14,18 @@ static CGFloat verticalSpaceInterval = 8.0;
 static CGFloat rightMarginIndent = 8.0;
 static CGFloat leftMarginIndent = 8.0;
 
-@implementation StopDetailView
+@interface StopDetailView ()
 
-//- (id)initWithCoder:(NSCoder *)aDecoder {
-//    self = [super initWithCoder:aDecoder];
-//
-//    [self createLabels];
-//    [self createCollectionView];
-//
-//    return self;
-//}
+@property CGRect parentFrame;
+
+@end
+
+@implementation StopDetailView
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
+
+    self.parentFrame = frame;
 
     [self createLabels];
     [self createCollectionView];
@@ -36,10 +35,7 @@ static CGFloat leftMarginIndent = 8.0;
 
 - (void)createLabels {
 
-    //CGSize superviewFrameSize = self.contentView.frame.size;
-
-    //    CGFloat labelWidth = superviewFrameSize.width - (rightMarginIndent + leftMarginIndent);
-    CGFloat labelWidth = 300;
+    CGFloat labelWidth = self.parentFrame.size.width - verticalSpaceInterval * 2;
     CGFloat labelHeight = 30;
 
     CGFloat titleLabelX = rightMarginIndent;
@@ -60,17 +56,12 @@ static CGFloat leftMarginIndent = 8.0;
 
 - (void)createCollectionView {
 
-    // CGSize superviewFrameSize = self.contentView.layer.frame.size;
-
-    //CGFloat collectionViewX = rightMarginIndent;
     CGFloat collectionViewY = self.summaryLabel.layer.frame.origin.y + self.summaryLabel.layer.frame.size.height + verticalSpaceInterval;
-
-    CGFloat cellWidth = (tableCellHeight - verticalSpaceInterval) - collectionViewY - 2;
+    CGFloat cellWidth = (self.parentFrame.size.height - verticalSpaceInterval) - collectionViewY - 2;
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.sectionInset = UIEdgeInsetsMake(verticalSpaceInterval, 8.0, 8.0, 8.0);
 
-    //    flowLayout.itemSize = CGSizeMake(150, 150);
+    flowLayout.sectionInset = UIEdgeInsetsMake(verticalSpaceInterval, 8.0, 8.0, 8.0);
     flowLayout.itemSize = CGSizeMake(cellWidth, cellWidth);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     [flowLayout setMinimumInteritemSpacing:1.0f];
@@ -81,17 +72,14 @@ static CGFloat leftMarginIndent = 8.0;
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
 
-    //    self.collectionView
-
     [self addSubview:self.collectionView];
 }
 
 -(void)layoutSubviews {
     [super layoutSubviews];
 
-    CGRect bounds = self.bounds;
     CGFloat collectionViewY = self.summaryLabel.layer.frame.origin.y + self.summaryLabel.layer.frame.size.height;
-    self.collectionView.frame = CGRectMake(0, collectionViewY, bounds.size.width, bounds.size.height - collectionViewY);
+    self.collectionView.frame = CGRectMake(0, collectionViewY, self.parentFrame.size.width, self.parentFrame.size.height - collectionViewY);
 }
 
 

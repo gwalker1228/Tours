@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 @class IndexedPhotoCollectionView;
 
-static CGFloat tableCellHeight = 200;
-
 @interface StopDetailView : UIView
 
 @property (nonatomic, strong) UILabel *titleLabel;
