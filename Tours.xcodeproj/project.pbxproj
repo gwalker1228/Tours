@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326301B322B7C00DE7E4E /* LoginViewController.m */; };
+		00A326341B322B9D00DE7E4E /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326331B322B9D00DE7E4E /* SignupViewController.m */; };
+		00A326381B322C1200DE7E4E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326371B322C1200DE7E4E /* User.m */; };
 		BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C191B2E26CA000A8E2C /* main.m */; };
 		BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9C1C1B2E26CA000A8E2C /* AppDelegate.m */; };
 		BC0E9C231B2E26CA000A8E2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC0E9C211B2E26CA000A8E2C /* Main.storyboard */; };
@@ -66,6 +69,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00A3262F1B322B7C00DE7E4E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		00A326301B322B7C00DE7E4E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		00A326321B322B9D00DE7E4E /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
+		00A326331B322B9D00DE7E4E /* SignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignupViewController.m; sourceTree = "<group>"; };
+		00A326361B322C1200DE7E4E /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		00A326371B322C1200DE7E4E /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		BC0E9C141B2E26CA000A8E2C /* Tours.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tours.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0E9C181B2E26CA000A8E2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC0E9C191B2E26CA000A8E2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -177,6 +186,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00A326351B322BAE00DE7E4E /* Login&Signup */ = {
+			isa = PBXGroup;
+			children = (
+				00A3262F1B322B7C00DE7E4E /* LoginViewController.h */,
+				00A326301B322B7C00DE7E4E /* LoginViewController.m */,
+				00A326321B322B9D00DE7E4E /* SignupViewController.h */,
+				00A326331B322B9D00DE7E4E /* SignupViewController.m */,
+			);
+			name = "Login&Signup";
+			sourceTree = "<group>";
+		};
 		BC0E9C0B1B2E26CA000A8E2C = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +221,7 @@
 			children = (
 				FAD9BC641B31F05200A3997E /* StopDetailView.h */,
 				FAD9BC651B31F05200A3997E /* StopDetailView.m */,
+				00A326351B322BAE00DE7E4E /* Login&Signup */,
 				FAD9BC581B30AF3D00A3997E /* BuildManager.h */,
 				FAD9BC591B30AF3D00A3997E /* BuildManager.m */,
 				BC0E9C871B2F4691000A8E2C /* Models */,
@@ -333,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				BC0E9C911B2F46E2000A8E2C /* Headers */,
+				00A326371B322C1200DE7E4E /* User.m */,
 				BC0E9C891B2F46B7000A8E2C /* Tour.m */,
 				BC0E9C8C1B2F46C9000A8E2C /* Stop.m */,
 				BC0E9C8F1B2F46D7000A8E2C /* Photo.m */,
@@ -344,6 +366,7 @@
 		BC0E9C911B2F46E2000A8E2C /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				00A326361B322C1200DE7E4E /* User.h */,
 				BC0E9C881B2F46B7000A8E2C /* Tour.h */,
 				BC0E9C8B1B2F46C9000A8E2C /* Stop.h */,
 				BC0E9C8E1B2F46D7000A8E2C /* Photo.h */,
@@ -452,6 +475,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00A326381B322C1200DE7E4E /* User.m in Sources */,
 				BC0E9C901B2F46D7000A8E2C /* Photo.m in Sources */,
 				FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */,
 				BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */,
@@ -460,6 +484,7 @@
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				FAD9BC631B30F1C700A3997E /* IndexedPhotoCollectionViewCell.m in Sources */,
 				FAD9BC601B30E1C600A3997E /* IndexedPhotoCollectionView.m in Sources */,
+				00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */,
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
 				BC0E9C8A1B2F46B7000A8E2C /* Tour.m in Sources */,
 				FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */,
@@ -471,6 +496,7 @@
 				BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */,
 				BC0E9C501B2E3E6A000A8E2C /* BuildStopGeneralViewController.m in Sources */,
 				FAD9BC661B31F05300A3997E /* StopDetailView.m in Sources */,
+				00A326341B322B9D00DE7E4E /* SignupViewController.m in Sources */,
 				FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */,
 				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
