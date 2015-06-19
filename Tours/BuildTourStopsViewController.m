@@ -23,7 +23,7 @@
 @property NSArray *stops;
 @property NSArray *photos;
 @property NSMutableArray *arrayOfArraysOfPhotos;
-//@property NSMutableArray *arrayOfArraysOfImages;
+
 
 @end
 
@@ -36,7 +36,6 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     self.photos = [NSMutableArray new];
-//    self.arrayOfArraysOfImages = [NSMutableArray new];
     self.arrayOfArraysOfPhotos = [NSMutableArray new];
     self.stops = [NSArray new];
     [self loadStops];
@@ -56,14 +55,15 @@
 - (void) findAllPhotosForThisTour {
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"tour" equalTo:self.tour];
+    [query orderByAscending:@"order"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
 
         self.photos = photos;
-        [self buildArrayOfPhotosForEachStopAndMakeAnArrayOfThem];
+        [self buildArrayOfPhotosForEachStopAndMakeAnArrayOfArrays];
     }];
 }
 
-- (void) buildArrayOfPhotosForEachStopAndMakeAnArrayOfThem {
+- (void) buildArrayOfPhotosForEachStopAndMakeAnArrayOfArrays {
     for (Stop *stop in self.stops) {
         NSMutableArray *ArrayForSingleStop = [NSMutableArray new];
 
@@ -72,46 +72,11 @@
                 [ArrayForSingleStop addObject:photo];
             }
         }
-        
-        // add an NSPredicate to sort the mini array by order number
+
         [self.arrayOfArraysOfPhotos addObject:ArrayForSingleStop];
     }
     [self.tableView reloadData];
 }
-
-//- (void) findPhotosForEachStop {
-//
-//    for (Stop *stop in self.stops) {
-//
-//        PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
-//        [query whereKey:@"stop" equalTo:stop];
-////        [query orderByAscending:@"order"];
-//        [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
-//
-//            NSArray *photosForSingleStop = photos;
-//            [self.arrayOfArraysOfPhotos addObject:photosForSingleStop];
-////            NSInteger indexOfStopInArray = [self.stops indexOfObject:stop];
-////            NSInteger numberOfObjectInStopArray = [self.stops count];
-////
-////            if (indexOfStopInArray == numberOfObjectInStopArray - 1) {
-////            }
-//            [self unwrapAllPhotosFromArrayOfArrays];
-//        }];
-//    }
-//}
-
-// need to unwrap them in order to to count how many photos for each stop for the collection view NumberOfCells
-//-(void) unwrapAllPhotosFromArrayOfArrays {
-//    [self.photos removeAllObjects];
-//    for (NSArray *array in self.arrayOfArraysOfPhotos) {
-//        for (Photo *photo in array) {
-//            [self.photos addObject:photo];
-//        }
-//    }
-//    [self.tableView reloadData];
-//
-//}
-
 
 #pragma mark - UITableViewDataSource & Delegate
 

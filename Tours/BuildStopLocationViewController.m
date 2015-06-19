@@ -25,7 +25,7 @@
 
 
 @property CLLocation *locationUser;
-@property CLLocationManager *locationManager;
+@property CLLocationManager *clLocationManager;
 @property CLGeocoder *geocoder;
 
 @property StopPointAnnotation *stopPointAnnotation;
@@ -40,8 +40,15 @@
 
     self.geocoder = [CLGeocoder new];
 
+    self.clLocationManager = [CLLocationManager new];
+    [self.clLocationManager requestWhenInUseAuthorization];
+    [self.clLocationManager startUpdatingLocation];
+//    self.clLocationManager.delegate = self;
 
+
+    self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
+
     self.mapView.pitchEnabled = YES; // doesn't seem to do much. The reference makes it sound like this is auto set based on the camera
     self.mapView.showsBuildings = YES;
 
@@ -49,6 +56,23 @@
 //    camera.centerCoordinate = self.mapView.centerCoordinate;
 //    [self.mapView setCamera:camera];
 }
+
+
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *location = locations.firstObject;
+    NSLog(@"updated location");
+    if (location.verticalAccuracy < 10000 && location.horizontalAccuracy < 10000) {
+        self.locationUser = location;
+        NSLog(@"updated location");
+        MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 100000, 10000);
+        [self.mapView setRegion:coordinateRegion animated:YES];
+        [self.clLocationManager stopUpdatingLocation];
+    }
+}
+
+
 
 -(void)dropPin {
 
@@ -109,13 +133,7 @@
 //    
 //}
 //
-//- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-//    CLLocation *location = locations.firstObject;
-//    if (location.verticalAccuracy < 1000 && location.horizontalAccuracy < 1000) {
-//        self.locationUser = location;
-//        [self.clLocationManager stopUpdatingLocation];
-//    }
-//}
+
 
 
 

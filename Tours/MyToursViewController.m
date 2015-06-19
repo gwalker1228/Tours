@@ -24,14 +24,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.tours = [NSArray new];
-    [self fetchUserTours];
-
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
     if (![User currentUser]) {
         [self presentLogInViewController];
+    } else {
+        [self fetchUserTours];
     }
-
 }
-
 
 -(void)presentLogInViewController {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
