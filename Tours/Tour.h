@@ -13,6 +13,6 @@
 
 @property NSString *title;
 @property NSString *summary;
-//@property User *currentUser;
+@property PFUser *creator;
 
 @end

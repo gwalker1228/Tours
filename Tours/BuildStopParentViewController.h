@@ -10,6 +10,8 @@
 #import "BuildManager.h"
 #import "Stop.h"
 
+@class Tour;
+
 @interface BuildStopParentViewController : UIViewController
 
 @property Stop *stop;

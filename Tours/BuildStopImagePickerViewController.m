@@ -9,6 +9,7 @@
 #import "BuildStopImagePickerViewController.h"
 #import "Photo.h"
 #import "Stop.h"
+#import "Tour.h"
 #import "BuildStopPhotoTableViewCell.h"
 
 @interface BuildStopImagePickerViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -49,7 +50,7 @@
     if (self.photo == nil) {
         NSString *imageTitle = self.imageTitleTextField.text;
         NSString *imageDescription = self.imageSummaryTextField.text;
-        [Photo photoWithImage:self.imageView.image stop:self.stop title:imageTitle description:imageDescription orderNumber:self.orderNumber withCompletion:^(Photo *photo, NSError *error) {
+        [Photo photoWithImage:self.imageView.image stop:self.stop tour:self.tour title:imageTitle description:imageDescription orderNumber:self.orderNumber withCompletion:^(Photo *photo, NSError *error) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
     } else {

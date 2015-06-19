@@ -12,6 +12,7 @@
 
 @dynamic title;
 @dynamic summary;
+@dynamic creator;
 
 + (NSString * __nonnull)parseClassName {
     return @"Tour";

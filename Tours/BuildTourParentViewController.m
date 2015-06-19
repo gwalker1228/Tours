@@ -28,9 +28,6 @@
     self.buildManager = [BuildManager sharedBuildManager];
 
     self.tour = self.buildManager.tour;
-    NSLog(@"tour recieved from parent created date: %@", self.tour.createdAt);
-    NSLog(@"tour object description: %@", [self.tour description]);
-
 }
 -(void) dismissCurrentViewController {
 

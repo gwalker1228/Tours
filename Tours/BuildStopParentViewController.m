@@ -7,7 +7,7 @@
 //
 
 #import "BuildStopParentViewController.h"
-
+#import "Tour.h"
 
 
 @interface BuildStopParentViewController ()
@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(dismissCurrentViewController)];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done With Stop" style:UIBarButtonItemStylePlain target:self action:@selector(dismissCurrentViewController)];
     [self.navigationItem setLeftBarButtonItem:doneButton];
 
     self.buildManager = [BuildManager sharedBuildManager];
@@ -32,9 +32,10 @@
     self.navigationItem.leftBarButtonItem.enabled = NO;
 
     [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-
-        self.buildManager.stop = nil;
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        if (!error) {
+            self.buildManager.stop = nil;
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        }
     }];
 }
 

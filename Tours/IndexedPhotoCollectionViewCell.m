@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
+
 #import "IndexedPhotoCollectionViewCell.h"
 
 @implementation IndexedPhotoCollectionViewCell
@@ -14,7 +15,7 @@
 
     self = [super initWithFrame:frame];
 
-    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    self.imageView = [[PFImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
     [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
     [self.contentView addSubview:self.imageView];
 

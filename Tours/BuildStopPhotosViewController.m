@@ -12,7 +12,7 @@
 #import "Stop.h"
 #import "Photo.h"
 #import "BuildStopPhotoTableViewCell.h"
-
+#import <ParseUI/ParseUI.h>
 
 @interface BuildStopPhotosViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -80,10 +80,15 @@
 
     BuildStopPhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 
-    Photo *photo = [self.photos objectAtIndex:indexPath.row];
+    cell.buildStopPhotoImageView.image = [UIImage imageNamed:@"redPin"]; // placeholder image
 
+    Photo *photo = [self.photos objectAtIndex:indexPath.row];
+//    cell.buildStopPhotoImageView.file = photo1.image;
+//    [cell.buildStopPhotoImageView loadInBackground];
+//
     cell.buildStopPhotoTitle.text = photo.title;
     cell.buildStopPhotoSummary.text = photo.summary;
+
 
     PFFile *imageFile = photo.image;
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -150,8 +155,13 @@
 
     BuildStopImagePickerViewController *vc = segue.destinationViewController;
 
+    BuildManager *buildManager = [BuildManager sharedBuildManager];
+
+
     vc.initialView = segue.identifier;
     vc.stop = self.stop;
+    vc.tour = buildManager.tour;
+
     vc.orderNumber = [self calculateInsertLocationForIncomingPhoto];
 
     if ([segue.identifier isEqualToString:@"editPhoto"]) {
@@ -164,12 +174,14 @@
 }
 
 - (NSNumber *) calculateInsertLocationForIncomingPhoto {
+    
     int numberOfPhotos = (int)self.photos.count;
     numberOfPhotos++;
     return [NSNumber numberWithInt:numberOfPhotos];
 }
 
 - (void) saveNewPhotoOrder {
+
     int numberOfPhotos = (int)[self.photos count];
     for (int x = 0; x < numberOfPhotos; x++) {
         Photo *photo = [self.photos objectAtIndex:x];

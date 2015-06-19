@@ -10,6 +10,7 @@
 #import <Parse/PFObject+Subclass.h>
 
 @class Stop;
+@class Tour;
 
 @interface Photo : PFObject <PFSubclassing>
 
@@ -18,7 +19,8 @@
 @property PFFile *image;
 @property NSNumber *order;
 @property Stop *stop;
+@property Tour *tour;
 
-+ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)description orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete;
++ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop tour:(Tour *)tour title:(NSString *)title description:(NSString *)description orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete;
 
 @end

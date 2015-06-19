@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ParseUI/ParseUI.h>
 
 @interface BuildStopPhotoTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *buildStopPhotoImageView;
+@property (weak, nonatomic) IBOutlet PFImageView *buildStopPhotoImageView;
 @property (weak, nonatomic) IBOutlet UILabel *buildStopPhotoTitle;
 @property (weak, nonatomic) IBOutlet UILabel *buildStopPhotoSummary;
 

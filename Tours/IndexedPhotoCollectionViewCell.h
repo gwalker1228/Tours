@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ParseUI/ParseUI.h>
 
 @interface IndexedPhotoCollectionViewCell : UICollectionViewCell
 
-@property UIImageView *imageView;
+@property PFImageView *imageView;
 
 @end

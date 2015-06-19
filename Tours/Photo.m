@@ -8,6 +8,7 @@
 
 #import "Photo.h"
 #import "Stop.h"
+#import "Tour.h"
 
 @implementation Photo
 
@@ -16,13 +17,14 @@
 @dynamic image;
 @dynamic order;
 @dynamic stop;
+@dynamic tour;
 
 
 + (NSString * __nonnull)parseClassName {
     return @"Photo";
 }
 
-+ (instancetype) ojbectWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title summary:(NSString *)summary orderNumber:(NSNumber *)order {
++ (instancetype) ojbectWithImage:(UIImage *)image stop:(Stop *)stop tour:(Tour *)tour title:(NSString *)title summary:(NSString *)summary orderNumber:(NSNumber *)order {
 
     Photo *photo = [super object];
 
@@ -35,6 +37,7 @@
 
     photo.image = [PFFile fileWithData:imageData];
     photo.stop = stop;
+    photo.tour = tour;
     photo.title = title;
     photo.summary = summary;
     photo.order = order;
@@ -42,9 +45,9 @@
     return photo;
 }
 
-+ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop title:(NSString *)title description:(NSString *)summary orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete {
++ (void) photoWithImage:(UIImage *)image stop:(Stop *)stop tour:(Tour *)tour title:(NSString *)title description:(NSString *)summary orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete {
 
-    Photo *photo = [Photo ojbectWithImage:image stop:stop title:title summary:summary orderNumber:order];
+    Photo *photo = [Photo ojbectWithImage:image stop:stop tour:tour title:title summary:summary orderNumber:order];
 
     [photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         complete(photo, error);

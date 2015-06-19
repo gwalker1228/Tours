@@ -19,12 +19,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     self.tours = [NSArray new];
     [self fetchUserTours];
 
     if (![User currentUser]) {
         [self presentLogInViewController];
     }
+
 }
 
 
@@ -44,7 +49,7 @@
 
 - (void) fetchUserTours {
     PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
-//    [query whereKey:@"User" equalTo:self.user];
+    [query whereKey:@"creator" equalTo:[PFUser currentUser]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
 
@@ -59,8 +64,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TourTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     Tour *tour = [self.tours objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"date created:%@", tour.createdAt];
-    cell.detailTextLabel.text = @"test";
+    cell.textLabel.text = tour.title;
+    cell.detailTextLabel.text = tour.summary;
     return cell;
 }
 
@@ -69,32 +74,31 @@
     return [self.tours count];
 }
 
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-//    [self performSegueWithIdentifier:@"EditTour" sender:cell];
-//}
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-//    BuildTourParentViewController *parentVC = [BuildTourParentViewController new];
     BuildManager *buildManager = [BuildManager sharedBuildManager];
-//    parentVC.buildManager = buildManager;
 
     if ([segue.identifier isEqualToString:@"EditTour"]) {
 
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Tour *tour = [self.tours objectAtIndex:indexPath.row];
         buildManager.tour = tour;
-        NSLog(@"segue tour passed creation at: %@", tour.createdAt);
+        buildManager.tour.creator = [PFUser currentUser];
 
     } else {
 
         Tour *tour = [Tour object];
         buildManager.tour = tour;
+        buildManager.tour.creator = [PFUser currentUser];
         [tour save];
     }
 }
+
+
+
+
+
+
 
 
 
