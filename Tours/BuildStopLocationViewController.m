@@ -17,7 +17,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "StopPointAnnotation.h"
 
-@interface BuildStopLocationViewController () <MKMapViewDelegate, UISearchBarDelegate>
+@interface BuildStopLocationViewController () <MKMapViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -40,24 +40,33 @@
 
     self.geocoder = [CLGeocoder new];
 
-    self.clLocationManager = [CLLocationManager new];
-    [self.clLocationManager requestWhenInUseAuthorization];
-    [self.clLocationManager startUpdatingLocation];
-//    self.clLocationManager.delegate = self;
-
-
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
 
     self.mapView.pitchEnabled = YES; // doesn't seem to do much. The reference makes it sound like this is auto set based on the camera
     self.mapView.showsBuildings = YES;
 
+    if (self.stop.location == nil) {
+        NSLog(@"still finding user location");
+        [self findUserLocation];
+    }
+    [self dropPin];
+    [self zoomMapToSavedStopLocation];
+
+
 //    MKMapCamera *camera = [MKMapCamera new];
 //    camera.centerCoordinate = self.mapView.centerCoordinate;
 //    [self.mapView setCamera:camera];
 }
 
-
+- (void) findUserLocation {
+    if (nil == self.clLocationManager) {
+        self.clLocationManager = [[CLLocationManager alloc] init];
+    }
+    self.clLocationManager.delegate = self;
+    [self.clLocationManager requestWhenInUseAuthorization];
+    [self.clLocationManager startUpdatingLocation];
+}
 
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
@@ -65,49 +74,70 @@
     NSLog(@"updated location");
     if (location.verticalAccuracy < 10000 && location.horizontalAccuracy < 10000) {
         self.locationUser = location;
-        NSLog(@"updated location");
         MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 100000, 10000);
-        [self.mapView setRegion:coordinateRegion animated:YES];
+        [self.mapView setRegion:coordinateRegion animated:NO];
         [self.clLocationManager stopUpdatingLocation];
     }
 }
 
 
 
+
 -(void)dropPin {
 
-    UIImage *pinImage = [UIImage imageNamed:@"redPin"];
-    CGFloat pinWidth = 40;
-    CGFloat pinHeight = 60;
+    if (!self.pinDropped) {
+        UIImage *pinImage = [UIImage imageNamed:@"redPin"];
+        CGFloat pinWidth = 40;
+        CGFloat pinHeight = 60;
 
-    // create the imageView that defines centers the pin in the 
-    UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.mapView.center.x - pinWidth/2, self.mapView.center.y-pinHeight/2, pinWidth, pinHeight)];
-    pin.image = pinImage;
+        // create the imageView that defines centers the pin in the
+        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - pinWidth/2, self.view.center.y - pinHeight/2, pinWidth, pinHeight)];
 
-    pin.userInteractionEnabled = NO;
 
-    [self.view addSubview:pin];
+//        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.mapView.center.x, self.mapView.center.y, pinWidth, pinHeight)];
+        pin.image = pinImage;
+
+        pin.userInteractionEnabled = NO;
+
+//        [self.view addSubview:pin];
+        [self.view addSubview:pin];
+        self.pinDropped = YES;
+    }
+}
+
+- (void) zoomMapToSavedStopLocation {
+    if (self.stop.location) {
+//        [self dropPin];
+        CLLocationCoordinate2D stopCLLocationCoordinate2D = CLLocationCoordinate2DMake(self.stop.location.latitude, self.stop.location.longitude);
+        MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(stopCLLocationCoordinate2D, 1000, 1000);
+        [self.mapView setRegion:coordinateRegion animated:NO];
+    }
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
 
     [self.geocoder geocodeAddressString:searchBar.text completionHandler:^(NSArray *placemarks, NSError *error) {
-
-        [self.mapView removeAnnotations:self.mapView.annotations];
+//
+//        [self.mapView removeAnnotations:self.mapView.annotations];
         MKPlacemark *placemark = placemarks.firstObject;
+        CLLocationCoordinate2D stopCLLocationCoordinate2D = placemark.location.coordinate;
+//
+//        self.stopPointAnnotation = [[StopPointAnnotation alloc] initWithLocation:placemark.location forStop:nil];
+//        [self.mapView addAnnotation:self.stopPointAnnotation];
+//
+//        [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 
-        self.stopPointAnnotation = [[StopPointAnnotation alloc] initWithLocation:placemark.location forStop:nil];
-        [self.mapView addAnnotation:self.stopPointAnnotation];
+//        CLLocationCoordinate2D stopCLLocationCoordinate2D = CLLocationCoordinate2DMake(self.stop.location.latitude, self.stop.location.longitude);
+        MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(stopCLLocationCoordinate2D, 1000, 1000);
+        [self.mapView setRegion:coordinateRegion animated:NO];
 
-        [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 
         [self.searchBar resignFirstResponder];
 
-        if (!self.pinDropped) {
-            [self dropPin];
-        }
+//        [self dropPin];
     }];
 }
+
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
@@ -121,9 +151,16 @@
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
 //    NSLog(@"%f, %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
+//    if (!self.pinDropped) {
+//        [self dropPin];
+//    }
+    [self dropPin];
+    NSLog(@"moving map");
     CLLocationCoordinate2D mapCenter = mapView.centerCoordinate;
     self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
 }
+
+
 //- (void)viewDidLoad {
 //    [super viewDidLoad];
 //    self.clLocationManager = [CLLocationManager new];
