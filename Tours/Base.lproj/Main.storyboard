@@ -682,7 +682,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Hvo-eZ-ZKM" kind="presentation" id="A50-g3-5YY"/>
+                                            <segue destination="Hvo-eZ-ZKM" kind="presentation" identifier="EditTour" id="A50-g3-5YY"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -703,7 +703,7 @@
                     <navigationItem key="navigationItem" id="HiJ-lT-zn7">
                         <barButtonItem key="leftBarButtonItem" title="New Tour" id="zsO-po-Wob">
                             <connections>
-                                <segue destination="Hvo-eZ-ZKM" kind="presentation" id="zUB-zT-3lh"/>
+                                <segue destination="Hvo-eZ-ZKM" kind="presentation" identifier="newTour" id="zUB-zT-3lh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1183,7 +1183,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="RIo-qV-Udd"/>
-        <segue reference="zUB-zT-3lh"/>
         <segue reference="bPE-Tc-wrt"/>
+        <segue reference="A50-g3-5YY"/>
     </inferredMetricsTieBreakers>
 </document>
