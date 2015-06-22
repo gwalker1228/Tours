@@ -80,7 +80,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="u5P-qS-lVA"/>
                     <connections>
-                        <outlet property="mapView" destination="MPx-Ax-SfO" id="bM0-FR-quN"/>
+                        <outlet property="mapView" destination="MPx-Ax-SfO" id="XZK-vW-any"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C1F-1U-p14" userLabel="First Responder" sceneMemberID="firstResponder"/>

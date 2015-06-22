@@ -47,7 +47,7 @@
     self.mapView.showsBuildings = YES;
 
     if (self.stop.location == nil) {
-        NSLog(@"still finding user location");
+//        NSLog(@"still finding user location");
         [self findUserLocation];
     }
     [self dropPin];
@@ -79,8 +79,6 @@
         [self.clLocationManager stopUpdatingLocation];
     }
 }
-
-
 
 
 -(void)dropPin {
@@ -155,7 +153,6 @@
 //        [self dropPin];
 //    }
     [self dropPin];
-    NSLog(@"moving map");
     CLLocationCoordinate2D mapCenter = mapView.centerCoordinate;
     self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
 }

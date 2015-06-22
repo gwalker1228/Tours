@@ -24,7 +24,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.tours = [NSArray new];
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
+//    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
     if (![User currentUser]) {
         [self presentLogInViewController];
     } else {

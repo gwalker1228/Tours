@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ParseUI/ParseUI.h>
 
 static NSString *indexedPhotoCollectionViewCellID = @"CollectionViewCell";
 
 @interface IndexedPhotoCollectionView : UICollectionView
 
-@property (nonatomic, strong) UIImageView *imageView;
+//@property (nonatomic, strong) UIImageView *imageView; // not sure this is necessary
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
 
