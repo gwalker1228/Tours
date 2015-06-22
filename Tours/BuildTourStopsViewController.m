@@ -21,8 +21,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property NSArray *stops;
-@property NSArray *photos;
-@property NSMutableArray *arrayOfArraysOfPhotos;
+@property NSMutableDictionary *stopPhotos;
+@property BOOL isEditing;
 
 
 @end
@@ -32,51 +32,64 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    CGSize editButtonSize = CGSizeMake(100, 30);
+    CGPoint editButtonOrigin = CGPointMake(self.view.layer.bounds.size.width - editButtonSize.width - 8, 0);
+    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(editButtonOrigin.x, editButtonOrigin.y, editButtonSize.width, editButtonSize.height)];
+    [editButton setBackgroundColor:[UIColor redColor]];
+    [editButton setTitle:@"Edit Stops" forState:UIControlStateNormal];
+
+    [editButton addTarget:self action:@selector(onEditButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view addSubview:editButton];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    self.photos = [NSMutableArray new];
-    self.arrayOfArraysOfPhotos = [NSMutableArray new];
-    self.stops = [NSArray new];
     [self loadStops];
-
 }
 
 -(void)loadStops {
 
     PFQuery *query = [Stop query];
     [query whereKey:@"tour" equalTo:self.tour];
+    [query orderByAscending:@"orderIndex"];
+
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
         self.stops = stops;
-      [self findAllPhotosForThisTour];
+        [self loadPhotos];
     }];
 }
 
-- (void) findAllPhotosForThisTour {
+-(void)loadPhotos {
+
+    self.stopPhotos = [NSMutableDictionary new];
+
+    for (Stop *stop in self.stops) {
+        self.stopPhotos[stop.title] = [NSMutableArray new];
+    }
+
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"tour" equalTo:self.tour];
     [query orderByAscending:@"order"];
+
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
 
-        self.photos = photos;
-        [self buildArrayOfPhotosForEachStopAndMakeAnArrayOfArrays];
+        for (Photo *photo in photos) {
+
+            NSString *photoStopTitle = photo.stop.title;
+            [self.stopPhotos[photoStopTitle] addObject:photo];
+        }
+
+        [self.tableView reloadData];
     }];
 }
 
-- (void) buildArrayOfPhotosForEachStopAndMakeAnArrayOfArrays {
-    for (Stop *stop in self.stops) {
-        NSMutableArray *ArrayForSingleStop = [NSMutableArray new];
+- (void)onEditButtonPressed:(UIButton *)sender {
 
-        for (Photo *photo in self.photos) {
-            if (photo.stop == stop) {
-                [ArrayForSingleStop addObject:photo];
-            }
-        }
-
-        [self.arrayOfArraysOfPhotos addObject:ArrayForSingleStop];
-    }
-    [self.tableView reloadData];
+    self.isEditing = !self.isEditing;
+    [self.tableView setEditing:(self.isEditing) animated:YES];
 }
+
 
 #pragma mark - UITableViewDataSource & Delegate
 
@@ -116,20 +129,38 @@
     [self performSegueWithIdentifier:@"editStop" sender:self];
 }
 
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+
+    Stop *stop = self.stops[sourceIndexPath.row];
+
+    NSMutableArray *mutableStops = [self.stops mutableCopy];
+    [mutableStops removeObjectAtIndex:sourceIndexPath.row];
+    [mutableStops insertObject:stop atIndex:destinationIndexPath.row];
+
+    self.stops = (NSArray *)mutableStops;
+    [self updateStopOrderIndexesFromIndexPath:sourceIndexPath toIndexPath:destinationIndexPath];
+
+    [tableView reloadData];
+}
+
+-(void) updateStopOrderIndexesFromIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+
+    for (NSUInteger i = sourceIndexPath.row; i <= destinationIndexPath.row; i++) {
+
+        Stop *stop = self.stops[i];
+
+        stop.orderIndex = i;
+        [stop saveInBackground];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource, Delegate & DelegateFlowLayout
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
     Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
 
-    int i = 0;
-    for (Photo *photo in self.photos) {
-        if (photo.stop == stop) {
-            i++;
-        }
-    }
-    return i;
-
+    return [self.stopPhotos[stop.title] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -138,101 +169,13 @@
     NSNumber *tableViewCellnumber = [NSNumber numberWithLong:[(IndexedPhotoCollectionView *)collectionView indexPath].row];
     NSInteger tableViewCellInt = [tableViewCellnumber integerValue];
 
-    Photo *photo = [[self.arrayOfArraysOfPhotos objectAtIndex:tableViewCellInt] objectAtIndex:indexPath.row];
+    Stop *stop = self.stops[tableViewCellInt];
+    Photo *photo = self.stopPhotos[stop.title][indexPath.row];
+
     cell.imageView.image = [UIImage imageNamed:@"redPin"]; // placeholder image
     cell.imageView.file = photo.image;
     [cell.imageView loadInBackground];
     return cell;
-
-//    long collectionViewCell = indexPath.row;
-
-
-
-//    if ([[self.arrayOfArraysOfPhotos objectAtIndex:tableViewCellInt] objectAtIndex:indexPath.row] != nil) {
-//
-//    }
-
-
-
-
-//    PFFile *imageFile = photo.image;
-//    [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-//        if (!error) {
-//            UIImage *cellImage = [UIImage imageWithData:data];
-//            cell.imageView.image = cellImage;
-//        }
-//    }];
-
-//            NSInteger tableViewCellnumber = [NSNumber numberWithLong:[(IndexedPhotoCollectionView *)collectionView indexPath].row];
-
-//
-//    Stop *stop =  self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
-//    for (Photo *photo in self.photos) {
-//        if (photo.stop == stop) {
-
-//
-//            PFImageView *imageView = [[PFImageView alloc] init];
-//            imageView.image = [UIImage imageNamed:@"redPin"]; // placeholder image
-//            imageView.file = photo.image;
-           // imageView.file = (PFFile *)someObject[@"picture"]; // remote image
-//            cell.imageView.image = imageView.image;
-//            [imageView loadInBackground];
-           // [imageView loadInBackground:^(PFImageView *image, NSError *error){
-
-
-          //  }];
-
-//            NSNumber *tableViewCellnumber = [NSNumber numberWithLong:[(IndexedPhotoCollectionView *)collectionView indexPath].row];
-//            int intNumber = [number intValue];
-//            NSLog(@"int value to add: %d", intNumber);
-//            NSLog(@"index Path %lu", indexPath.row );
-//            stopIndex = stopIndex + intNumber - 1;
-//            stopIndex = stopIndex + indexPath.row - 1;
-          //  NSLog(@"index path %lu", stopIndex);
-//           // NSLog(@"stop index: %ld", (long)stopIndex);
-//
-//            NSInteger photoIndex = [self.photos indexOfObject:photo];
-//            photoIndex = photoIndex + indexPath.row;
-//            NSLog(@"photo index: %lu", photoIndex);
-//            NSLog(@"indexPath.row: %lu", indexPath.row);
-//            UIImage *image = [self.photoImages objectAtIndex:photoIndex];
-//            cell.imageView.image = image;
-//            NSLog(@"next loop");
-//        }
-//    }
-//    NSLog(@"next collection View cell");
-
-//
-//    return cell;
-   // cell.imageView.image = [UIImage imageNamed:@"redPin"];
-
- //   cell.imageView.image = [self.photoImages objectAtIndex:indexPath.row];
-
-
-//    PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
-//    [query whereKey:@"stop" equalTo:stopForCollectionViewQuery];
-//    [query whereKey:@"order" equalTo:[NSNumber numberWithLong:indexPath.row]];
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error){
-//        Photo *photo = [objects firstObject];
-//        PFFile *imageFile = photo.image;
-//        [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-//            if (!error) {
-//                UIImage *cellImage = [UIImage imageWithData:data];
-//                cell.imageView.image = cellImage;
-//                [collectionView reloadData];
-//            }
-//        }];
-//    }];
-
-
-
-//    CustomClass *object = self.objects[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
-//    NSString *fileName = object.photos[indexPath.row];
-////
-////   // cell.backgroundColor = [UIColor redColor];
-//    cell.imageView.image = [UIImage imageNamed:fileName];
-
-//    return cell;
 }
 
 
@@ -244,17 +187,11 @@
         Stop *stop = [Stop object];
     
         stop.tour = self.tour;
-
+        stop.orderIndex = self.stops.count;
         buildManager.stop = stop;
 
         [stop save];
     }
-    //    else {
-    //        stop = self.stops[[self.tableView indexPathForCell:sender].row];
-    //        buildManager.stop = stop;
-    //
-    //        [self performSegueWithIdentifier:@"editStop" sender:self];
-    //    }
 }
 
 @end

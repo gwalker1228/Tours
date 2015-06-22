@@ -15,8 +15,9 @@
 @property NSString *title;
 @property NSString *summary;
 @property PFGeoPoint *location;
+@property NSUInteger orderIndex;
 @property Tour *tour;
 
 + (void) stopWithTour:(Tour *)tour withCompletion:(void(^)(Stop *stop, NSError *error))complete;
-
++ (void) stopWithTour:(Tour *)tour orderIndex:(int)index withCompletion:(void(^)(Stop *stop, NSError *error))complete;
 @end
