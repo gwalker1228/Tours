@@ -20,4 +20,6 @@
 
 + (void) stopWithTour:(Tour *)tour withCompletion:(void(^)(Stop *stop, NSError *error))complete;
 + (void) stopWithTour:(Tour *)tour orderIndex:(int)index withCompletion:(void(^)(Stop *stop, NSError *error))complete;
+- (void) deleteStopAndPhotosInBackground;
+
 @end

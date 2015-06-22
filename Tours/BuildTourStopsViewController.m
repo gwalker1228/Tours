@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property NSArray *stops;
+@property NSMutableArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property BOOL isEditing;
 
@@ -55,7 +55,7 @@
     [query orderByAscending:@"orderIndex"];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
-        self.stops = stops;
+        self.stops = [stops mutableCopy];
         [self loadPhotos];
     }];
 }
@@ -87,7 +87,6 @@
     }
 
     // Query parse for all photos related to tour
-
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"tour" equalTo:self.tour];
     [query orderByAscending:@"order"];
@@ -154,14 +153,27 @@
 
     Stop *stop = self.stops[sourceIndexPath.row];
 
-    NSMutableArray *mutableStops = [self.stops mutableCopy];
-    [mutableStops removeObjectAtIndex:sourceIndexPath.row];
-    [mutableStops insertObject:stop atIndex:destinationIndexPath.row];
+    [self.stops removeObjectAtIndex:sourceIndexPath.row];
+    [self.stops insertObject:stop atIndex:destinationIndexPath.row];
 
-    self.stops = (NSArray *)mutableStops;
     [self updateStopOrderIndexesFromIndexPath:sourceIndexPath toIndexPath:destinationIndexPath];
 
     [tableView reloadData];
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+
+        Stop *stop = self.stops[indexPath.row];
+        [self.stops removeObjectAtIndex:indexPath.row];
+
+        [stop deleteStopAndPhotosInBackground];
+
+        [self updateStopOrderIndexesFromIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:self.stops.count-1 inSection:0]];
+
+        [tableView reloadData];
+    }
 }
 
 -(void) updateStopOrderIndexesFromIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {

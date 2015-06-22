@@ -8,6 +8,7 @@
 
 #import "Stop.h"
 #import "Tour.h"
+#import "Photo.h"
 
 @implementation Stop
 
@@ -48,5 +49,17 @@
     }];
 }
 
+- (void) deleteStopAndPhotosInBackground {
+
+    PFQuery *query = [Photo query];
+    [query whereKey:@"stop" equalTo:self];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error) {
+        for (Photo *photo in photos) {
+            [photo deleteInBackground];
+        }
+        [self deleteInBackground];
+    }];
+}
 
 @end
