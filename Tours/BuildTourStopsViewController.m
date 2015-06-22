@@ -62,11 +62,31 @@
 
 -(void)loadPhotos {
 
+     /*
+        Photos are stored in NSMutableDictionary *stopPhotos. A key is created for each stop using the stop's title. The value of that key is a mutable array 
+        to which photos for that particular stop are stored. When this method completes, the dictionary will look something like:
+      
+      NSMutableDictionary *stopPhotos =
+      {
+        "firstStopTitle" : [Photo1, Photo2, Photo3, ...],
+        "secondStopTitle" : [Photo1, Photo2, Photo3, ...],
+
+        .
+        .
+        .
+
+        "lastStopTitle" : [Photo1, Photo2, ...]
+      }
+    */
+
+    // Initialize dictionary with keys for stop titles and an empty mutable array for each key
     self.stopPhotos = [NSMutableDictionary new];
 
     for (Stop *stop in self.stops) {
         self.stopPhotos[stop.title] = [NSMutableArray new];
     }
+
+    // Query parse for all photos related to tour
 
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"tour" equalTo:self.tour];
@@ -74,10 +94,11 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
 
+        // For each photo related to tour, add to appropriate array in photoStops dictionary, based on the photo's associated stop
         for (Photo *photo in photos) {
 
-            NSString *photoStopTitle = photo.stop.title;
-            [self.stopPhotos[photoStopTitle] addObject:photo];
+            Stop *photoStop = photo.stop; // get photo's stop
+            [self.stopPhotos[photoStop.title] addObject:photo]; // add photo to that stop's photo array in photoStops dictionary
         }
 
         [self.tableView reloadData];
