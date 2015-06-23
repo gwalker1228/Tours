@@ -24,17 +24,17 @@
 //@synthesize delegate = _delegate;
 
 - (void)baseInit {
-    _notSelectedImage = nil;
-    _halfSelectedImage = nil;
-    _fullSelectedImage = nil;
-    _rating = 0;
-    _editable = NO;
-    _imageViews = [[NSMutableArray alloc] init];
-    _maxRating = 5;
-    _midMargin = 5;
-    _leftMargin = 0;
-    _minImageSize = CGSizeMake(5, 5);
-    _delegate = nil;
+    self.notSelectedImage = nil;
+    self.halfSelectedImage = nil;
+    self.fullSelectedImage = nil;
+    self.rating = 0;
+    self.editable = NO;
+    self.imageViews = [[NSMutableArray alloc] init];
+    self.maxRating = 5;
+    self.midMargin = 5;
+    self.leftMargin = 0;
+    self.minImageSize = CGSizeMake(5, 5);
+    self.delegate = nil;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -79,11 +79,11 @@
 }
 
 - (void)setMaxRating:(int)maxRating {
-    _maxRating = maxRating;
+    self.maxRating = maxRating;
 
     // Remove old image views
     for(int i = 0; i < self.imageViews.count; ++i) {
-        UIImageView *imageView = (UIImageView *) [self.imageViews objectAtIndex:i];
+        UIImageView *imageView = (UIImageView *)[self.imageViews objectAtIndex:i];
         [imageView removeFromSuperview];
     }
     [self.imageViews removeAllObjects];

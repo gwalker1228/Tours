@@ -34,11 +34,11 @@
 @implementation BuildTourPreviewViewController
 
 -(void) viewDidLoad {
+
     [super viewDidLoad];
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
     self.stopAnnotations = [NSMutableArray new];
-
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -89,7 +89,6 @@
 
         Stop *photoStop = photo.stop;
         [self.stopPhotos[photoStop.objectId] addObject:photo];
-
     }
 }
 
