@@ -32,6 +32,8 @@
     }
 }
 
+
+
 -(void)presentLogInViewController {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UINavigationController *navigationLoginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginNavigationVC"];
@@ -42,8 +44,16 @@
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [self.parentViewController presentViewController:navigationLoginVC animated:YES completion:nil];
     });
-    
 }
+
+
+- (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
+    NSLog(@"See you soon, %@", [User currentUser].username);
+    [User logOut];
+    [self presentLogInViewController];
+}
+
+
 
 
 - (void) fetchUserTours {

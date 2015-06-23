@@ -68,14 +68,14 @@
       
       NSMutableDictionary *stopPhotos =
       {
-        "firstStopTitle" : [Photo1, Photo2, Photo3, ...],
-        "secondStopTitle" : [Photo1, Photo2, Photo3, ...],
+        firstStop_objectID : [Photo1, Photo2, Photo3, ...],
+        secondStop_objectID : [Photo1, Photo2, Photo3, ...],
 
         .
         .
         .
 
-        "lastStopTitle" : [Photo1, Photo2, ...]
+        lastStop_objectID : [Photo1, Photo2, ...]
       }
     */
 
@@ -83,7 +83,7 @@
     self.stopPhotos = [NSMutableDictionary new];
 
     for (Stop *stop in self.stops) {
-        self.stopPhotos[stop.title] = [NSMutableArray new];
+        self.stopPhotos[stop.objectId] = [NSMutableArray new];
     }
 
     // Query parse for all photos related to tour
@@ -97,7 +97,7 @@
         for (Photo *photo in photos) {
 
             Stop *photoStop = photo.stop; // get photo's stop
-            [self.stopPhotos[photoStop.title] addObject:photo]; // add photo to that stop's photo array in photoStops dictionary
+            [self.stopPhotos[photoStop.objectId] addObject:photo]; // add photo to that stop's photo array in photoStops dictionary
         }
 
         [self.tableView reloadData];
@@ -193,7 +193,7 @@
 
     Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
 
-    return [self.stopPhotos[stop.title] count];
+    return [self.stopPhotos[stop.objectId] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -203,7 +203,7 @@
     NSInteger tableViewCellInt = [tableViewCellnumber integerValue];
 
     Stop *stop = self.stops[tableViewCellInt];
-    Photo *photo = self.stopPhotos[stop.title][indexPath.row];
+    Photo *photo = self.stopPhotos[stop.objectId][indexPath.row];
 
     cell.imageView.image = [UIImage imageNamed:@"redPin"]; // placeholder image
     cell.imageView.file = photo.image;
