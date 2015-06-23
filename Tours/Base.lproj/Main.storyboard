@@ -149,7 +149,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fx3-0L-Syc">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Stop Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fx3-0L-Syc">
                                 <rect key="frame" x="16" y="94" width="568" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -737,10 +737,10 @@
             </objects>
             <point key="canvasLocation" x="-35" y="2221"/>
         </scene>
-        <!--My Tours View Controller-->
+        <!--My Tours-->
         <scene sceneID="OzH-4T-tiT">
             <objects>
-                <viewController id="Pir-ka-q74" customClass="MyToursViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Pir-ka-q74" customClass="MyToursViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="roP-bb-54H"/>
                         <viewControllerLayoutGuide type="bottom" id="fjI-ps-M7n"/>
@@ -791,7 +791,7 @@
                             <constraint firstItem="P4i-IV-Jqo" firstAttribute="top" secondItem="roP-bb-54H" secondAttribute="bottom" id="mlG-oD-yox"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="HiJ-lT-zn7">
+                    <navigationItem key="navigationItem" title="My Tours" id="HiJ-lT-zn7">
                         <barButtonItem key="leftBarButtonItem" title="New Tour" id="zsO-po-Wob">
                             <connections>
                                 <segue destination="Hvo-eZ-ZKM" kind="presentation" identifier="newTour" id="zUB-zT-3lh"/>
