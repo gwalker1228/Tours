@@ -51,6 +51,7 @@
 		BC0E9C9F1B2F7D0A000A8E2C /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0E9C991B2F7D0A000A8E2C /* ParseUI.framework */; };
 		BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */; };
 		BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */; };
+		BC1E99461B39DFE70079EC99 /* RateView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC1E99451B39DFE70079EC99 /* RateView.m */; };
 		BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10F91B31E904005D6F94 /* TourTableViewCell.m */; };
 		BC3E10FD1B3654CF005D6F94 /* CalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10FC1B3654CF005D6F94 /* CalloutView.m */; };
 		BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10FF1B368032005D6F94 /* MapPreviewView.m */; };
@@ -146,6 +147,8 @@
 		BC0E9CA11B2F83CD000A8E2C /* BuildStopImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopImagePickerViewController.m; sourceTree = "<group>"; };
 		BC0E9CA31B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildStopPhotoTableViewCell.h; sourceTree = "<group>"; };
 		BC0E9CA41B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopPhotoTableViewCell.m; sourceTree = "<group>"; };
+		BC1E99441B39DFE70079EC99 /* RateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RateView.h; sourceTree = "<group>"; };
+		BC1E99451B39DFE70079EC99 /* RateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RateView.m; sourceTree = "<group>"; };
 		BC3E10F81B31E904005D6F94 /* TourTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourTableViewCell.h; sourceTree = "<group>"; };
 		BC3E10F91B31E904005D6F94 /* TourTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourTableViewCell.m; sourceTree = "<group>"; };
 		BC3E10FB1B3654CF005D6F94 /* CalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CalloutView.h; path = ../CalloutView.h; sourceTree = "<group>"; };
@@ -393,6 +396,8 @@
 		BC0E9C871B2F4691000A8E2C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				BC1E99441B39DFE70079EC99 /* RateView.h */,
+				BC1E99451B39DFE70079EC99 /* RateView.m */,
 				BC0E9C911B2F46E2000A8E2C /* Headers */,
 				00A326371B322C1200DE7E4E /* User.m */,
 				BC0E9C891B2F46B7000A8E2C /* Tour.m */,
@@ -549,6 +554,7 @@
 				FAAC090E1B3911E10064D07B /* TourDetailViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
 				BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */,
+				BC1E99461B39DFE70079EC99 /* RateView.m in Sources */,
 				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
