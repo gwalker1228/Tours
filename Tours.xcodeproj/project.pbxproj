@@ -56,6 +56,7 @@
 		BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10FF1B368032005D6F94 /* MapPreviewView.m */; };
 		BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */; };
 		BC3E11091B385D42005D6F94 /* BuildTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */; };
+		FAAC090E1B3911E10064D07B /* TourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC090D1B3911E10064D07B /* TourDetailViewController.m */; };
 		FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC591B30AF3D00A3997E /* BuildManager.m */; };
 		FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC5C1B30E11100A3997E /* BuildTourStopsTableViewCell.m */; };
 		FAD9BC601B30E1C600A3997E /* IndexedPhotoCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC5F1B30E1C600A3997E /* IndexedPhotoCollectionView.m */; };
@@ -155,6 +156,8 @@
 		BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractPinAnnotationView.m; sourceTree = "<group>"; };
 		BC3E11071B385D42005D6F94 /* BuildTourPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourPreviewViewController.h; sourceTree = "<group>"; };
 		BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourPreviewViewController.m; sourceTree = "<group>"; };
+		FAAC090C1B3911E10064D07B /* TourDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourDetailViewController.h; sourceTree = "<group>"; };
+		FAAC090D1B3911E10064D07B /* TourDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourDetailViewController.m; sourceTree = "<group>"; };
 		FAD9BC581B30AF3D00A3997E /* BuildManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildManager.h; sourceTree = "<group>"; };
 		FAD9BC591B30AF3D00A3997E /* BuildManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildManager.m; sourceTree = "<group>"; };
 		FAD9BC5B1B30E11100A3997E /* BuildTourStopsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourStopsTableViewCell.h; sourceTree = "<group>"; };
@@ -240,6 +243,8 @@
 		BC0E9C161B2E26CA000A8E2C /* Tours */ = {
 			isa = PBXGroup;
 			children = (
+				FAAC090C1B3911E10064D07B /* TourDetailViewController.h */,
+				FAAC090D1B3911E10064D07B /* TourDetailViewController.m */,
 				BC3E10FB1B3654CF005D6F94 /* CalloutView.h */,
 				BC3E10FC1B3654CF005D6F94 /* CalloutView.m */,
 				FAD9BC641B31F05200A3997E /* StopDetailView.h */,
@@ -541,6 +546,7 @@
 				00A326341B322B9D00DE7E4E /* SignupViewController.m in Sources */,
 				FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */,
 				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
+				FAAC090E1B3911E10064D07B /* TourDetailViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
 				BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */,
 				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,

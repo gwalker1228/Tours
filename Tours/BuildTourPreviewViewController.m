@@ -150,7 +150,6 @@
     stopView.titleLabel.text = stop.title;
     stopView.summaryLabel.text = stop.summary;
     [viewAddedToPin addSubview:stopView];
-
 }
 
 
@@ -169,7 +168,6 @@
         cell.imageView.image = [UIImage imageWithData:data];
     }];
     return cell;
-
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

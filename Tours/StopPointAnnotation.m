@@ -8,6 +8,7 @@
 
 #import "StopPointAnnotation.h"
 #import "Stop.h"
+#import <Parse/Parse.h>
 
 
 @implementation StopPointAnnotation
@@ -17,6 +18,16 @@
     self = [super init];
 
     self.coordinate = location.coordinate;
+    self.stop = stop;
+
+    return self;
+}
+
+-(instancetype)initWithStop:(Stop *)stop {
+
+    self = [super init];
+
+    self.coordinate = CLLocationCoordinate2DMake(stop.location.latitude, stop.location.longitude);
     self.stop = stop;
 
     return self;
