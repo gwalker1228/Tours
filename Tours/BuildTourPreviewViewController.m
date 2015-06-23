@@ -25,9 +25,10 @@
 @property NSMutableArray *stopAnnotations;
 @property NSArray *photos;
 @property NSArray *stops;
+@property NSMutableDictionary *stopPhotos;
 @property BOOL foundPhotosForStop;
-@property int numberTimesDeselected;
-@property BOOL removeViewAfterSelection;
+//@property int numberTimesDeselected;
+@property BOOL removeViewAfterNextSelection;
 
 @end
 
@@ -38,12 +39,12 @@
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
     self.stopAnnotations = [NSMutableArray new];
-    // Do any additional setup after loading the view.
+
 }
 
 -(void) viewWillAppear:(BOOL)animated {
     self.foundPhotosForStop = NO;
-    self.removeViewAfterSelection = NO;
+    self.removeViewAfterNextSelection = NO;
     [self findStopsForTour];
 
 }
@@ -58,7 +59,7 @@
         if (error == nil) {
             self.stops = stops;
             [self placeStopAnnotationsOnMap];
-            [self findStopsForTour];
+            [self findPhotosForTour];
         } else {
             // error check
         }
@@ -69,24 +70,29 @@
 -(void) findPhotosForTour {
 
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
-    [query whereKey:@"stop" equalTo:self.tour];
+    [query whereKey:@"tour" equalTo:self.tour];
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error) {
 
         self.photos = photos;
-
+        [self makeDictionaryOfPhotoArrays];
     }];
 
 }
 
 -(void) makeDictionaryOfPhotoArrays {
 
+    self.stopPhotos = [NSMutableDictionary new];
+
     for (Stop *stop in self.stops) {
-
-        
-
+        self.stopPhotos[stop.objectId] = [NSMutableArray new];
     }
 
+    for (Photo *photo in self.photos) {
 
+        Stop *photoStop = photo.stop;
+        [self.stopPhotos[photoStop.objectId] addObject:photo];
+
+    }
 }
 
 
@@ -100,8 +106,6 @@
         [self.stopAnnotations addObject:stopAnnotation];
         [self.mapView addAnnotation:stopAnnotation];
     }
-
-//    [self.mapView showAnnotations:self.stopAnnotations animated:NO];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -113,37 +117,16 @@
     return annotationView;
 }
 
--(void) findPhotosForSelectedStop:(Stop *)stop annotation:(StopPointAnnotation *)annotation view:(MKAnnotationView *)view {
-
-    PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
-    [query whereKey:@"stop" equalTo:stop];
-    [query orderByAscending:@"order"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error) {
-        self.photosForSelectedStop = photos;
-        [self.mapView removeAnnotations:self.stopAnnotations];
-        [self.mapView addAnnotations:self.stopAnnotations];
-
-
-        [self.mapView selectAnnotation:annotation animated:NO];
-//        [self.mapView deselectAnnotation:annotation animated:NO];
-//        [self.mapView deselectAnnotation:annotation animated:NO];
-        self.foundPhotosForStop = YES;
-        NSLog(@"annotation description: %@", annotation.description);
-
-        //        self.removeViewAfterSelection = YES;
-    }];
-    
-}
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
 
-//
-//    if (self.removeViewAfterSelection) {
-//        [self.mapView removeAnnotations:self.stopAnnotations];
-//        [self.mapView addAnnotations:self.stopAnnotations];
-//        self.removeViewAfterSelection = NO;
-//        return;
-//    }
+
+    if (self.removeViewAfterNextSelection) {
+        [self.mapView removeAnnotations:self.stopAnnotations];
+        [self.mapView addAnnotations:self.stopAnnotations];
+        self.removeViewAfterNextSelection = NO;
+        return;
+    }
 
     CGRect viewAddedToPinFrame = CGRectMake(0, 0, 250, 250);
     UIView *viewAddedToPin = [[UIView alloc] initWithFrame:viewAddedToPinFrame];
@@ -156,65 +139,29 @@
     Stop *stop = stopPointAnnotation.stop;
 
     [self.mapView deselectAnnotation:stopPointAnnotation animated:NO];
+    self.removeViewAfterNextSelection = YES;
+
+
+    self.photosForSelectedStop = [self.stopPhotos objectForKey:stop.objectId];
 
     MapPreviewView *stopView = [[MapPreviewView alloc] initWithFrame:viewAddedToPinFrame];
+
     [stopView setCollectionViewDataSourceDelegate:self];
     stopView.titleLabel.text = stop.title;
     stopView.summaryLabel.text = stop.summary;
     [viewAddedToPin addSubview:stopView];
 
-//    [self addCollectionViewToAnnotationView:view forAnnotaion:view.annotation];
-
-
-
-//    self.foundPhotosForStop = NO;
-
-
-    if (self.foundPhotosForStop == NO) {
-        [self findPhotosForSelectedStop:stop annotation:view.annotation view:view];
-    }
-
 }
 
-//- (void) addCollectionViewToAnnotationView:(MKAnnotationView *)view forAnnotaion:(StopPointAnnotation *)annotation {
-//
-//    CGRect viewAddedToPinFrame = CGRectMake(0, 0, 250, 250);
-//    UIView *viewAddedToPin = [[UIView alloc] initWithFrame:viewAddedToPinFrame];
-//
-//addSubview:viewAddedToPin.center = CGPointMake(view.bounds.size.width*0.5f, -viewAddedToPin.bounds.size.height*0.5f);
-//    viewAddedToPin.backgroundColor = [UIColor whiteColor];
-//    [view addSubview:viewAddedToPin];
-//
-//    StopPointAnnotation *stopPointAnnotation = view.annotation;
-//    Stop *stop = stopPointAnnotation.stop;
-//
-//
-//    MapPreviewView *stopView = [[MapPreviewView alloc] initWithFrame:viewAddedToPinFrame];
-//    [stopView setCollectionViewDataSourceDelegate:self];
-//    stopView.titleLabel.text = stop.title;
-//    stopView.summaryLabel.text = stop.summary;
-//    [viewAddedToPin addSubview:stopView];
-//
-//
-//}
 
-- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
-
-    self.numberTimesDeselected++;
-    if (self.numberTimesDeselected > 1) {
-        [self.mapView removeAnnotations:self.stopAnnotations];
-        [self.mapView addAnnotations:self.stopAnnotations];
-        self.numberTimesDeselected = 0;
-        self.foundPhotosForStop = NO;
-    }
-
-}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     IndexedPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:indexedPhotoCollectionViewCellID forIndexPath:indexPath];
 
     Photo *photo = [self.photosForSelectedStop objectAtIndex:indexPath.row];
+
+
     cell.imageView.image = [UIImage imageNamed:@"redPin"];
     cell.imageView.file = photo.image;
     [cell.imageView.file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -229,7 +176,6 @@
 
     return [self.photosForSelectedStop count];
 }
-
 
 
 
