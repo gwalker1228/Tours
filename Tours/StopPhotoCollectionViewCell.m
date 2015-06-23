@@ -10,7 +10,7 @@
 
 @interface StopPhotoCollectionViewCell ()
 
-@property (strong, nonatomic) UIImageView *imageView;
+
 
 @end
 
@@ -20,8 +20,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.imageView = [[UIImageView alloc] init];
-        self.imageView.image = [UIImage imageNamed:@"3"];
+
+        self.imageView = [[PFImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.contentView addSubview:self.imageView];
     }
     return self;

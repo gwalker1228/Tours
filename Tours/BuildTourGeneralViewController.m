@@ -22,11 +22,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self setupView];
+}
+
+- (void)setupView {
+
     self.buildTourGeneralTitle.text = self.tour.title;
     self.buildTourGeneralSummary.text = self.tour.summary;
     self.buildTourGeneralTitle.delegate = self;
     self.buildTourGeneralSummary.delegate = self;
 
+    self.buildTourGeneralSummary.layer.borderColor = [[UIColor grayColor] colorWithAlphaComponent:.4].CGColor;
+    self.buildTourGeneralSummary.layer.borderWidth = .5;
+    self.buildTourGeneralSummary.layer.cornerRadius = 5;
+    self.buildTourGeneralSummary.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

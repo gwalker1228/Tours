@@ -17,5 +17,6 @@
 
 
 -(instancetype)initWithLocation:(CLLocation *)location forStop:(Stop *)stop;
+-(instancetype)initWithStop:(Stop *)stop;
 
 @end
