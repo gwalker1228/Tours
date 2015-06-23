@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ParseUI/ParseUI.h>
 
 @interface StopPhotoCollectionViewCell : UICollectionViewCell
+
+@property (strong, nonatomic) PFImageView *imageView;
 
 @end

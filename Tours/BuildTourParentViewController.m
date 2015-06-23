@@ -26,7 +26,6 @@
 
 
     self.buildManager = [BuildManager sharedBuildManager];
-
     self.tour = self.buildManager.tour;
 }
 -(void) dismissCurrentViewController {

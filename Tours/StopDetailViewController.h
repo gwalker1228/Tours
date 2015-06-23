@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Stop;
 
 @interface StopDetailViewController : UIViewController
+
+@property Stop *stop;
 
 @end
