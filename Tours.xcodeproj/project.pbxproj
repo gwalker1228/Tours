@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0076CE341B38989800365B2F /* StopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CE331B38989800365B2F /* StopDetailViewController.m */; };
+		0076CE3A1B38DB9300365B2F /* StopPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CE391B38DB9300365B2F /* StopPhotoCollectionViewCell.m */; };
 		007BE45A1B3482FF0076A6FF /* StopPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */; };
 		007BE45D1B34A16D0076A6FF /* TourPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE45C1B34A16D0076A6FF /* TourPageMasterViewController.m */; };
 		00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326301B322B7C00DE7E4E /* LoginViewController.m */; };
@@ -74,6 +76,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0076CE321B38989800365B2F /* StopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDetailViewController.h; sourceTree = "<group>"; };
+		0076CE331B38989800365B2F /* StopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDetailViewController.m; sourceTree = "<group>"; };
+		0076CE381B38DB9300365B2F /* StopPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		0076CE391B38DB9300365B2F /* StopPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		007BE4581B3482FF0076A6FF /* StopPageMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPageMasterViewController.h; sourceTree = "<group>"; };
 		007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPageMasterViewController.m; sourceTree = "<group>"; };
 		007BE45B1B34A16D0076A6FF /* TourPageMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourPageMasterViewController.h; sourceTree = "<group>"; };
@@ -301,6 +307,8 @@
 				FAD9BC5C1B30E11100A3997E /* BuildTourStopsTableViewCell.m */,
 				BC3E10F91B31E904005D6F94 /* TourTableViewCell.m */,
 				007BE45C1B34A16D0076A6FF /* TourPageMasterViewController.m */,
+				0076CE331B38989800365B2F /* StopDetailViewController.m */,
+				0076CE391B38DB9300365B2F /* StopPhotoCollectionViewCell.m */,
 			);
 			name = BuildTour;
 			sourceTree = "<group>";
@@ -315,6 +323,8 @@
 				BC0E9C461B2E312D000A8E2C /* BuildTourStopsViewController.h */,
 				BC3E10F81B31E904005D6F94 /* TourTableViewCell.h */,
 				007BE45B1B34A16D0076A6FF /* TourPageMasterViewController.h */,
+				0076CE321B38989800365B2F /* StopDetailViewController.h */,
+				0076CE381B38DB9300365B2F /* StopPhotoCollectionViewCell.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -507,9 +517,11 @@
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
 				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
+				0076CE341B38989800365B2F /* StopDetailViewController.m in Sources */,
 				FAD9BC631B30F1C700A3997E /* IndexedPhotoCollectionViewCell.m in Sources */,
 				FAD9BC601B30E1C600A3997E /* IndexedPhotoCollectionView.m in Sources */,
 				00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */,
+				0076CE3A1B38DB9300365B2F /* StopPhotoCollectionViewCell.m in Sources */,
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
 				BC0E9C8A1B2F46B7000A8E2C /* Tour.m in Sources */,
 				BC3E11091B385D42005D6F94 /* BuildTourPreviewViewController.m in Sources */,
