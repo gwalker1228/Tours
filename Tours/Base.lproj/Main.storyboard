@@ -575,11 +575,17 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rsx-D0-vFl" customClass="PFImageView">
                                 <rect key="frame" x="0.0" y="64" width="600" height="243"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="243" id="52N-aF-E7p"/>
                                     <constraint firstAttribute="width" secondItem="rsx-D0-vFl" secondAttribute="height" multiplier="120:49" constant="4.8979591836734926" id="i8A-35-Lly"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="i8A-35-Lly"/>
+                                    </mask>
+                                </variation>
                             </imageView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="JBe-J9-C45">
-                                <rect key="frame" x="0.0" y="308" width="600" height="169"/>
+                                <rect key="frame" x="0.0" y="309" width="600" height="169"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="169" id="OlN-gD-N6L"/>
                                 </constraints>
@@ -588,7 +594,7 @@
                                 </connections>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="QnB-Bo-Yg4">
-                                <rect key="frame" x="0.0" y="478" width="600" height="160"/>
+                                <rect key="frame" x="0.0" y="479" width="600" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="160" id="SeE-EC-fQh"/>
                                 </constraints>
@@ -630,6 +636,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="QnB-Bo-Yg4" secondAttribute="trailing" constant="-16" id="86O-Cy-LvA"/>
                             <constraint firstItem="QnB-Bo-Yg4" firstAttribute="top" secondItem="JBe-J9-C45" secondAttribute="bottom" constant="1" id="P2t-2h-Oj2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="OQg-El-ysi" secondAttribute="trailing" constant="-16" id="W0L-I6-krz"/>
+                            <constraint firstItem="JBe-J9-C45" firstAttribute="top" secondItem="OQg-El-ysi" secondAttribute="bottom" constant="2" id="bCf-wm-TGr"/>
                             <constraint firstItem="JBe-J9-C45" firstAttribute="leading" secondItem="g0V-jL-TI9" secondAttribute="leadingMargin" constant="-16" id="bmi-Rl-fBZ"/>
                             <constraint firstItem="OQg-El-ysi" firstAttribute="top" secondItem="eaw-Xm-VpH" secondAttribute="bottom" constant="136" id="j8O-n8-pnb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JBe-J9-C45" secondAttribute="trailing" constant="-16" id="lFH-yr-J1c"/>
@@ -637,6 +644,11 @@
                             <constraint firstItem="JBe-J9-C45" firstAttribute="top" secondItem="OQg-El-ysi" secondAttribute="bottom" constant="1" id="ot0-04-cKD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rsx-D0-vFl" secondAttribute="trailing" constant="-16" id="yEp-ej-Y55"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="ot0-04-cKD"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="YGh-x8-U0f">
                         <nil key="title"/>
@@ -656,6 +668,7 @@
                         <outlet property="photosCollectionView" destination="QnB-Bo-Yg4" id="9Pb-oi-pgB"/>
                         <outlet property="titleTextField" destination="3Ph-Fx-Hwg" id="K8W-qb-g0h"/>
                         <outlet property="tourDetailView" destination="OQg-El-ysi" id="dWf-Pq-X1a"/>
+                        <outlet property="tourDetailViewHeightConstraint" destination="2tm-TN-ctL" id="sI3-CG-z8a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QaM-kb-dQE" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *photosCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *tourDetailView;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tourDetailViewHeightConstraint;
 
 @property UILabel *estimatedDistanceLabel;
 @property UILabel *estimatedTimeLabel;
@@ -33,6 +34,7 @@
 @property UILabel *ratingsLabel;
 @property SummaryTextView *summaryTextView;
 @property UIButton *moreButton;
+@property UIButton *addStopButton;
 
 @property NSArray *stops;
 @property NSMutableDictionary *photos;
@@ -123,7 +125,7 @@
     self.summaryTextView = [[SummaryTextView alloc] initWithFrame:CGRectMake(0, labelHeight*2 + labelMarginY, summaryWidth, summaryHeight)];
     //self.summaryTextView.text = @"Really super long tour description goes here.self.tourDetailView.layer.bounds.size.width";
     self.summaryTextView.text = self.tour.summary;
-    self.summaryTextView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.7];[[UIColor whiteColor] colorWithAlphaComponent:.7];
+    self.summaryTextView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0];
     self.summaryTextView.delegate = self;
 
     [self.tourDetailView addSubview:self.estimatedDistanceLabel];
@@ -132,7 +134,11 @@
     [self.tourDetailView addSubview:self.ratingsLabel];
     [self.tourDetailView addSubview:self.summaryTextView];
 
-    self.tourDetailView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.7];[[UIColor whiteColor] colorWithAlphaComponent:.7];
+    self.tourDetailView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.7];
+
+//    CGFloat addStopButton width = self.mapView.
+//    self.addStopButton = [UIButton alloc] initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
+
 }
 
 - (void)setupCollectionView {
