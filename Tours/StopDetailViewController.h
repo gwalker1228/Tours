@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BuildStopParentViewController.h"
+
 @class Stop;
 
-@interface StopDetailViewController : UIViewController
+@interface StopDetailViewController : BuildStopParentViewController
 
-@property Stop *stop;
+//@property Stop *stop;
 
 @end
