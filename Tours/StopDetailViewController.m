@@ -35,6 +35,10 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     [self.titleTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
+    // change to designables:
+    self.summaryTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.summaryTextView.layer.borderWidth = 0.5;
+    self.summaryTextView.layer.cornerRadius = 7;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
