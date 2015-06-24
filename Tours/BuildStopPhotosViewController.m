@@ -191,6 +191,11 @@
     }
 }
 
+- (IBAction)onSavePicturesButtonPressed:(UIBarButtonItem *)sender {
+
+    [self dismissCurrentViewController];
+
+}
 
 
 

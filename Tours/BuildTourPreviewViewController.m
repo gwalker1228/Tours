@@ -27,7 +27,6 @@
 @property NSArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property BOOL foundPhotosForStop;
-//@property int numberTimesDeselected;
 @property BOOL removeViewAfterNextSelection;
 
 @end
@@ -35,11 +34,11 @@
 @implementation BuildTourPreviewViewController
 
 -(void) viewDidLoad {
+
     [super viewDidLoad];
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
     self.stopAnnotations = [NSMutableArray new];
-
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -53,7 +52,7 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Stop"];
     [query whereKey:@"tour" equalTo:self.tour];
-//    [query orderByAscending:@"order"]; Need to add the order number in the stops
+    [query orderByAscending:@"index"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error){
 
         if (error == nil) {
@@ -64,7 +63,6 @@
             // error check
         }
     }];
-
 }
 
 -(void) findPhotosForTour {
@@ -91,10 +89,8 @@
 
         Stop *photoStop = photo.stop;
         [self.stopPhotos[photoStop.objectId] addObject:photo];
-
     }
 }
-
 
 -(void) placeStopAnnotationsOnMap {
 
@@ -106,6 +102,7 @@
         [self.stopAnnotations addObject:stopAnnotation];
         [self.mapView addAnnotation:stopAnnotation];
     }
+    [self.mapView showAnnotations:self.stopAnnotations animated:NO];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -119,7 +116,6 @@
 
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-
 
     if (self.removeViewAfterNextSelection) {
         [self.mapView removeAnnotations:self.stopAnnotations];
@@ -151,8 +147,6 @@
     stopView.summaryLabel.text = stop.summary;
     [viewAddedToPin addSubview:stopView];
 }
-
-
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 

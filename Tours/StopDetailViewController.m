@@ -35,8 +35,36 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     [self.titleTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
+    // change to designables:
+    self.summaryTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.summaryTextView.layer.borderWidth = 0.5;
+    self.summaryTextView.layer.cornerRadius = 7;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [self setup];
-    [self placeAnnotationViewOnMapForStopLocation];
+
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
+
+    if (!self.stop.location) {
+
+        CGSize addLocationButtonSize = self.mapView.bounds.size;
+        UIButton *addLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, addLocationButtonSize.width, addLocationButtonSize.height)];
+        [addLocationButton setTitle:@"Set Location" forState:UIControlStateNormal];
+        [addLocationButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
+
+        [addLocationButton addTarget:self action:@selector(setLocationSegue) forControlEvents:UIControlEventTouchUpInside];
+        [self.mapView addSubview:addLocationButton];
+    }
+    else {
+        [self placeAnnotationViewOnMapForStopLocation];
+
+    }
+}
+
+- (void)setLocationSegue {
+    [self performSegueWithIdentifier:@"setLocation" sender:self];
 }
 
 - (void)textFieldDidChange:(UITextField *)sender {

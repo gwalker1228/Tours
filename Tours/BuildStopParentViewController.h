@@ -16,4 +16,6 @@
 
 @property Stop *stop;
 
+-(void) dismissCurrentViewController;
+
 @end

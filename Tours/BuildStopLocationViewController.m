@@ -50,7 +50,15 @@
 //        NSLog(@"still finding user location");
         [self findUserLocation];
     }
-    [self dropPin];
+    NSLog(@"self.stoplocation: %@", [self.stop.location description]);
+
+//    CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:self.stop.location.latitude longitude:self.stop.location.longitude];
+//    StopPointAnnotation *stopAnnotation = [[StopPointAnnotation alloc] initWithLocation:stopLocation forStop:self.stop];
+//    stopAnnotation.title = @" ";
+//    [self.mapView addAnnotation:stopAnnotation];
+
+
+//    [self dropPin];
     [self zoomMapToSavedStopLocation];
 
 
@@ -85,12 +93,14 @@
 
     if (!self.pinDropped) {
         UIImage *pinImage = [UIImage imageNamed:@"redPin"];
+
         CGFloat pinWidth = 40;
         CGFloat pinHeight = 60;
 
         // create the imageView that defines centers the pin in the
-        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - pinWidth/2, self.view.center.y - pinHeight/2, pinWidth, pinHeight)];
+        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - pinWidth/2, self.view.center.y - pinHeight, pinWidth, pinHeight)];
 
+//        pin.hidden = YES;
 
 //        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.mapView.center.x, self.mapView.center.y, pinWidth, pinHeight)];
         pin.image = pinImage;
@@ -102,6 +112,7 @@
         self.pinDropped = YES;
     }
 }
+
 
 - (void) zoomMapToSavedStopLocation {
     if (self.stop.location) {
@@ -139,7 +150,7 @@
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
-    MKAnnotationView *pin = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
+    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
 
 //   pin.draggable = YES;
 //   StopPointAnnotation *stop = annotation;
@@ -155,8 +166,14 @@
     [self dropPin];
     CLLocationCoordinate2D mapCenter = mapView.centerCoordinate;
     self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
+    //NSLog(<#NSString *format, ...#>)
 }
 
+- (IBAction)onSaveButtonPressed:(UIBarButtonItem *)sender {
+
+    [self dismissCurrentViewController];
+
+}
 
 //- (void)viewDidLoad {
 //    [super viewDidLoad];
