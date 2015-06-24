@@ -39,13 +39,13 @@
                     <navigationItem key="navigationItem" id="tgu-Nw-ZQp">
                         <barButtonItem key="rightBarButtonItem" title="Add Stop" id="JUL-uf-xBS">
                             <connections>
-                                <segue destination="3Fq-GC-cEf" kind="presentation" identifier="addStop" id="6cP-eE-XqB"/>
+                                <segue destination="wC4-c2-rFs" kind="presentation" identifier="addStop" id="21Y-15-gkL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="yHe-L6-ezs" id="img-3c-dUo"/>
-                        <segue destination="3Fq-GC-cEf" kind="presentation" identifier="editStop" id="RIo-qV-Udd"/>
+                        <segue destination="wC4-c2-rFs" kind="presentation" identifier="editStop" id="6Jk-bb-Haa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9fN-IM-B4z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -111,7 +111,7 @@
                                 </connections>
                             </searchBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="IrP-Bp-Z6D">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <connections>
                                     <outlet property="delegate" destination="cfC-Ht-gzC" id="2Od-bu-6O3"/>
                                 </connections>
@@ -119,16 +119,28 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="IrP-Bp-Z6D" firstAttribute="top" secondItem="7xf-pu-4rY" secondAttribute="topMargin" id="20a-Ql-OoH"/>
                             <constraint firstItem="G5x-0w-HWR" firstAttribute="leading" secondItem="7xf-pu-4rY" secondAttribute="leadingMargin" constant="-16" id="6oE-lN-F64"/>
                             <constraint firstItem="IrP-Bp-Z6D" firstAttribute="leading" secondItem="7xf-pu-4rY" secondAttribute="leadingMargin" constant="-16" id="Af8-u0-4GF"/>
                             <constraint firstItem="G5x-0w-HWR" firstAttribute="top" secondItem="N4r-Cq-yLK" secondAttribute="bottom" id="IUp-cL-Ljn"/>
                             <constraint firstItem="D9v-r4-vAB" firstAttribute="top" secondItem="IrP-Bp-Z6D" secondAttribute="bottom" id="McJ-0t-Oqe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="IrP-Bp-Z6D" secondAttribute="trailing" constant="-16" id="i89-xj-gL6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="G5x-0w-HWR" secondAttribute="trailing" constant="-16" id="jZ7-YU-2N9"/>
-                            <constraint firstItem="IrP-Bp-Z6D" firstAttribute="top" secondItem="G5x-0w-HWR" secondAttribute="bottom" id="sSD-Et-CEt"/>
+                            <constraint firstItem="IrP-Bp-Z6D" firstAttribute="top" secondItem="G5x-0w-HWR" secondAttribute="bottom" constant="-108" id="sSD-Et-CEt"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="sSD-Et-CEt"/>
+                            </mask>
+                        </variation>
                     </view>
-                    <navigationItem key="navigationItem" id="Omk-2F-aIQ"/>
+                    <navigationItem key="navigationItem" id="Omk-2F-aIQ">
+                        <barButtonItem key="leftBarButtonItem" title="Save Location" id="chV-MI-f8W">
+                            <connections>
+                                <action selector="onSaveButtonPressed:" destination="cfC-Ht-gzC" id="mAp-hA-AfY"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="IrP-Bp-Z6D" id="ipz-5n-ODn"/>
                         <outlet property="searchBar" destination="G5x-0w-HWR" id="RKC-kq-G4B"/>
@@ -136,7 +148,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LrA-hY-zEM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1036" y="3720"/>
+            <point key="canvasLocation" x="-897" y="3729"/>
         </scene>
         <!--Build Stop General View Controller-->
         <scene sceneID="RIn-I7-CeH">
@@ -295,7 +307,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="raN-Y5-9to">
-                        <barButtonItem key="leftBarButtonItem" id="pHe-jd-L24"/>
+                        <barButtonItem key="leftBarButtonItem" title="Save Pictures" id="pxr-4c-3kn">
+                            <connections>
+                                <action selector="onSavePicturesButtonPressed:" destination="3nF-ig-TJQ" id="cX7-bY-bDh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="eZA-0N-PpQ" id="W15-3U-fJb"/>
@@ -306,7 +322,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TwG-Jt-rba" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-355" y="3720"/>
+            <point key="canvasLocation" x="-1209" y="4742"/>
         </scene>
         <!--Build Stop Image Picker View Controller-->
         <scene sceneID="oVr-OD-o3x">
@@ -411,7 +427,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4dH-Js-Qkf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-355" y="4417"/>
+            <point key="canvasLocation" x="-420" y="4798"/>
         </scene>
         <!--Build Stop Preview View Controller-->
         <scene sceneID="gAS-zT-eQ7">
@@ -447,7 +463,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u26-Oa-ez6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="315" y="3720"/>
+            <point key="canvasLocation" x="613" y="3768"/>
         </scene>
         <!--Stop Detail View Controller-->
         <scene sceneID="Nzy-AH-YMv">
@@ -461,8 +477,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DhB-cd-gY8">
-                                <rect key="frame" x="0.0" y="319" width="600" height="281"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DhB-cd-gY8">
+                                <rect key="frame" x="0.0" y="368" width="600" height="232"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ghU-gz-g3w">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -489,7 +505,7 @@
                                 <rect key="frame" x="16" y="110" width="568" height="73"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="73" id="Hd7-DJ-00a"/>
+                                    <constraint firstAttribute="height" constant="73" id="bvd-IC-jy4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -497,36 +513,42 @@
                                     <outlet property="delegate" destination="M0H-oP-OhK" id="mHq-2Y-AWh"/>
                                 </connections>
                             </textView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqV-Bx-Ig7">
-                                <rect key="frame" x="0.0" y="191" width="600" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="OFa-Cu-2kr"/>
-                                </constraints>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eqV-Bx-Ig7">
+                                <rect key="frame" x="0.0" y="204" width="600" height="120"/>
                             </mapView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Stop Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yti-rM-JtY">
                                 <rect key="frame" x="16" y="72" width="568" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="HKl-Ik-AKD"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="M0H-oP-OhK" id="RdC-qu-9bb"/>
                                 </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4I-BW-Rsx">
+                                <rect key="frame" x="464" y="327" width="120" height="33"/>
+                                <state key="normal" title="Add/Edit Pictures">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="6TL-O2-bZ8" kind="presentation" id="SX6-7A-btv"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="tsB-qQ-2fQ" firstAttribute="leading" secondItem="rHX-1e-csp" secondAttribute="leadingMargin" id="0ma-Sc-TIJ"/>
-                            <constraint firstItem="Yti-rM-JtY" firstAttribute="leading" secondItem="rHX-1e-csp" secondAttribute="leadingMargin" id="B9a-SK-fmc"/>
-                            <constraint firstItem="eqV-Bx-Ig7" firstAttribute="top" secondItem="tsB-qQ-2fQ" secondAttribute="bottom" constant="8" id="MIf-ID-7gg"/>
-                            <constraint firstItem="DhB-cd-gY8" firstAttribute="top" secondItem="eqV-Bx-Ig7" secondAttribute="bottom" constant="8" id="Ogk-Gi-ceF"/>
-                            <constraint firstItem="ZW5-RC-jXr" firstAttribute="top" secondItem="DhB-cd-gY8" secondAttribute="bottom" id="Prl-MN-Y1K"/>
-                            <constraint firstItem="eqV-Bx-Ig7" firstAttribute="trailing" secondItem="rHX-1e-csp" secondAttribute="trailingMargin" constant="16" id="Rpj-gD-mwR"/>
-                            <constraint firstItem="tsB-qQ-2fQ" firstAttribute="trailing" secondItem="rHX-1e-csp" secondAttribute="trailingMargin" id="VTF-OD-h4a"/>
-                            <constraint firstItem="eqV-Bx-Ig7" firstAttribute="leading" secondItem="rHX-1e-csp" secondAttribute="leadingMargin" constant="-16" id="XDl-im-jfH"/>
-                            <constraint firstItem="tsB-qQ-2fQ" firstAttribute="top" secondItem="Yti-rM-JtY" secondAttribute="bottom" constant="8" id="amG-Hg-NsU"/>
-                            <constraint firstItem="DhB-cd-gY8" firstAttribute="leading" secondItem="rHX-1e-csp" secondAttribute="leadingMargin" constant="-16" id="cQe-Eg-z3f"/>
-                            <constraint firstItem="Yti-rM-JtY" firstAttribute="top" secondItem="QTD-nN-AX2" secondAttribute="bottom" constant="8" id="dtQ-t8-czL"/>
-                            <constraint firstItem="DhB-cd-gY8" firstAttribute="trailing" secondItem="rHX-1e-csp" secondAttribute="trailingMargin" constant="16" id="teC-h3-HoJ"/>
-                            <constraint firstItem="Yti-rM-JtY" firstAttribute="trailing" secondItem="rHX-1e-csp" secondAttribute="trailingMargin" id="wgx-Vx-mdO"/>
+                            <constraint firstItem="tsB-qQ-2fQ" firstAttribute="leading" secondItem="rHX-1e-csp" secondAttribute="leadingMargin" id="2uJ-ds-Bv6"/>
+                            <constraint firstItem="Yti-rM-JtY" firstAttribute="trailing" secondItem="rHX-1e-csp" secondAttribute="trailingMargin" id="9Th-hb-ji3"/>
+                            <constraint firstItem="Yti-rM-JtY" firstAttribute="top" secondItem="QTD-nN-AX2" secondAttribute="bottom" constant="8" id="P9t-Un-rHR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="eqV-Bx-Ig7" secondAttribute="trailing" constant="-16" id="Xjp-Q0-g4l"/>
+                            <constraint firstItem="tsB-qQ-2fQ" firstAttribute="trailing" secondItem="rHX-1e-csp" secondAttribute="trailingMargin" id="b9g-Da-sDo"/>
+                            <constraint firstItem="f4I-BW-Rsx" firstAttribute="top" secondItem="eqV-Bx-Ig7" secondAttribute="bottom" constant="3" id="cwF-Mc-BMz"/>
+                            <constraint firstItem="eqV-Bx-Ig7" firstAttribute="leading" secondItem="rHX-1e-csp" secondAttribute="leadingMargin" constant="-16" id="hKi-Zg-kNX"/>
+                            <constraint firstItem="eqV-Bx-Ig7" firstAttribute="top" secondItem="tsB-qQ-2fQ" secondAttribute="bottom" constant="21" id="iZN-vM-Hcd"/>
+                            <constraint firstItem="Yti-rM-JtY" firstAttribute="leading" secondItem="rHX-1e-csp" secondAttribute="leadingMargin" id="uAu-Ci-bfr"/>
+                            <constraint firstItem="tsB-qQ-2fQ" firstAttribute="top" secondItem="Yti-rM-JtY" secondAttribute="bottom" constant="8" id="vxo-Qb-RmE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="kPJ-UV-9kh"/>
@@ -535,11 +557,12 @@
                         <outlet property="mapView" destination="eqV-Bx-Ig7" id="q4I-Bw-zkh"/>
                         <outlet property="summaryTextView" destination="tsB-qQ-2fQ" id="UoL-jT-Tax"/>
                         <outlet property="titleTextField" destination="Yti-rM-JtY" id="E94-i3-TqD"/>
+                        <segue destination="xlk-0c-2vc" kind="presentation" identifier="setLocation" id="zYc-DK-zzt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="98e-ry-NAO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1707" y="3720"/>
+            <point key="canvasLocation" x="-1758" y="3720"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="dD8-KI-L9E">
@@ -791,7 +814,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nlK-nx-bR0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-662" y="2221"/>
+            <point key="canvasLocation" x="-662" y="2211"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="3R9-dr-kTs">
@@ -1071,7 +1094,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zaH-Ri-U96" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1036" y="2962"/>
+            <point key="canvasLocation" x="-1045" y="3020"/>
         </scene>
         <!--General-->
         <scene sceneID="4fq-9j-n98">
@@ -1090,7 +1113,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R9Z-Z5-78J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1707" y="2962"/>
+            <point key="canvasLocation" x="-1758" y="2945"/>
         </scene>
         <!--Photos-->
         <scene sceneID="Dui-Ux-xQ3">
@@ -1109,7 +1132,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BSB-p0-bIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-355" y="2962"/>
+            <point key="canvasLocation" x="-1217" y="4457"/>
         </scene>
         <!--Preview-->
         <scene sceneID="0LO-hX-8ic">
@@ -1128,7 +1151,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jMY-9P-9Qr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="315" y="2962"/>
+            <point key="canvasLocation" x="619" y="3014"/>
         </scene>
         <!--Signup View Controller-->
         <scene sceneID="Mih-q7-q1r">
@@ -1343,7 +1366,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="bPE-Tc-wrt"/>
+        <segue reference="6Jk-bb-Haa"/>
         <segue reference="A50-g3-5YY"/>
-        <segue reference="RIo-qV-Udd"/>
     </inferredMetricsTieBreakers>
 </document>
