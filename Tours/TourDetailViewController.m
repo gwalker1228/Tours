@@ -45,9 +45,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
 
     self.titleTextField.text = self.tour.title ? : @"New Tour";
     self.tour.title = self.titleTextField.text;
+
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
     [self setupViews];
     [self loadStops];
 }
@@ -136,8 +142,16 @@
 
     self.tourDetailView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.7];
 
-//    CGFloat addStopButton width = self.mapView.
-//    self.addStopButton = [UIButton alloc] initWithFrame:CGRectMake(<#CGFloat x#>, <#CGFloat y#>, <#CGFloat width#>, <#CGFloat height#>)
+    CGFloat addStopButtonWidth = self.view.layer.bounds.size.width / 6;
+    NSLog(@"%f, %f.....%f, %f", self.mapView.layer.bounds.size.width, self.mapView.bounds.size.width, addStopButtonWidth, self.mapView.layer.bounds.size.width - addStopButtonWidth);
+
+
+    self.addStopButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - addStopButtonWidth, self.mapView.bounds.origin.y, addStopButtonWidth, self.mapView.layer.bounds.size.height)];
+    [self.addStopButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
+    self.addStopButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.addStopButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.addStopButton setTitle:@"Add\n/Edit\nStops" forState:UIControlStateNormal];
+    [self.mapView addSubview:self.addStopButton];
 
 }
 
