@@ -12,22 +12,17 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
+
     if (self) {
 
-        CGFloat photoMarginY = frame.size.height - frame.size.width / 2;
-        self.imageView = [[PFImageView alloc] initWithFrame:CGRectMake(0, photoMarginY, frame.size.width, frame.size.width)];
+        CGFloat photoWidth = frame.size.width - 12;
+        CGFloat photoMargin = (frame.size.height - photoWidth) / 2;
+        self.imageView = [[PFImageView alloc] initWithFrame:CGRectMake(photoMargin, photoMargin, photoWidth, photoWidth)];
         [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.contentView addSubview:self.imageView];
     }
     return self;
 }
-
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.imageView.frame = self.contentView.bounds;
-}
-
 
 
 @end

@@ -1,15 +1,7 @@
-//
-//  StopDetailViewController.m
-//  Tours
-//
-//  Created by Adriana Jimenez Mangas on 6/22/15.
-//  Copyright (c) 2015 Mark Porcella. All rights reserved.
-//
 
 #import <MapKit/MapKit.h>
 #import "StopDetailViewController.h"
 #import "StopPhotoCollectionViewCell.h"
-#import "BuildTourParentViewController.h"
 #import "Photo.h"
 #import "Stop.h"
 #import "StopPointAnnotation.h"
@@ -17,8 +9,6 @@
 static NSString *reuseIdentifier = @"PhotoCell";
 
 @interface StopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
-
-@property (nonatomic, getter=isEditing) BOOL editing;
 
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
@@ -37,33 +27,24 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"%@", NSStringFromClass([self class]));
 
     [self setInitialCollectionViewLayout];
 
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
 
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    Tour *tour = buildManager.tour;
+    [self.titleTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
-    PFQuery *stopsQuery = [Stop query];
-    [stopsQuery whereKey:@"tour" equalTo:tour];
+    [self setup];
+    [self placeAnnotationViewOnMapForStopLocation];
+}
 
-    [stopsQuery findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
+- (void)textFieldDidChange:(UITextField *)sender {
+    self.stop.title = [sender text];
+}
 
-        self.stop = stops.firstObject;
-        [self setup];
-        [self placeAnnotationViewOnMapForStopLocation];
-        NSLog(@"%@", self.stop.title);
-
-    }];
-
-
-//    self.titleTextField.text = self.stop.title;
-//    self.summaryTextView.text = self.stop.summary;
-//    self.titleTextField.delegate = self;
-//    self.summaryTextView.delegate = self;
+- (void)textViewDidChange:(UITextView *)sender {
+    self.stop.summary = [sender text];
 }
 
 
@@ -98,37 +79,8 @@ static NSString *reuseIdentifier = @"PhotoCell";
 - (void) zoomToRegionAroundAnnotation {
 
     CLLocationCoordinate2D stopCLLocationCoordinate2D = CLLocationCoordinate2DMake(self.stop.location.latitude + 0.002, self.stop.location.longitude);
-    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(stopCLLocationCoordinate2D, 100000, 100000);
+    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(stopCLLocationCoordinate2D, 10000, 10000);
     [self.mapView setRegion:coordinateRegion animated:NO];
-}
-
-
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [[self view] endEditing:YES];
-}
-
-//- (void)viewWillDisappear:(BOOL)animated {
-//    self.stop.title = self.titleTextField.text;
-//    self.stop.summary = self.summaryTextView.text;
-//}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [[self view] endEditing:YES];
-    return true;
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
- replacementText:(NSString *)text
-{
-
-    if ([text isEqualToString:@"\n"]) {
-
-        [textView resignFirstResponder];
-        return NO;
-    }
-
-    return YES;
 }
 
 
@@ -136,7 +88,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     [self.collectionView registerClass:[StopPhotoCollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
 
-    self.collectionView.backgroundColor = [UIColor darkGrayColor];
+    self.collectionView.backgroundColor = [UIColor blackColor];
     self.collectionView.layer.borderColor = [UIColor blackColor].CGColor;
     self.collectionView.layer.borderWidth = 1.0;
     CGFloat collectionWidth = (self.view.bounds.size.width / 3) - 1;
@@ -150,9 +102,12 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 }
 
+
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.photos.count;
 }
+
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 

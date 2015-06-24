@@ -11,7 +11,7 @@
 
 @class Stop;
 
-@interface StopPointAnnotation : MKPointAnnotation
+@interface StopPointAnnotation : MKPointAnnotation <MKAnnotation>
 
 @property Stop *stop;
 

@@ -19,7 +19,8 @@
 
     self.coordinate = location.coordinate;
     self.stop = stop;
-
+    self.title = stop.title;
+    
     return self;
 }
 
@@ -29,6 +30,7 @@
 
     self.coordinate = CLLocationCoordinate2DMake(stop.location.latitude, stop.location.longitude);
     self.stop = stop;
+    self.title = stop.title;
 
     return self;
 }
