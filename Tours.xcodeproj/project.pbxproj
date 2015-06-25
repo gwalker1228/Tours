@@ -57,7 +57,12 @@
 		BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10FF1B368032005D6F94 /* MapPreviewView.m */; };
 		BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */; };
 		BC3E11091B385D42005D6F94 /* BuildTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */; };
-		FAAC090E1B3911E10064D07B /* TourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC090D1B3911E10064D07B /* TourDetailViewController.m */; };
+		FA82C8B91B3C805100D95042 /* BrowseAllToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */; };
+		FA82C8BE1B3C838700D95042 /* BrowseTourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8BD1B3C838600D95042 /* BrowseTourDetailViewController.m */; };
+		FA82C8C11B3C9AE600D95042 /* BrowseTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C01B3C9AE600D95042 /* BrowseTourPreviewViewController.m */; };
+		FA82C8C41B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C31B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m */; };
+		FA82C8C71B3CBEFD00D95042 /* TourDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C61B3CBEFD00D95042 /* TourDetailView.m */; };
+		FAAC090E1B3911E10064D07B /* BuildTourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC090D1B3911E10064D07B /* BuildTourDetailViewController.m */; };
 		FAAC09111B39D6FD0064D07B /* TourPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC09101B39D6FD0064D07B /* TourPhotoCollectionViewCell.m */; };
 		FAAC09141B3A0A6B0064D07B /* SummaryTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC09131B3A0A6B0064D07B /* SummaryTextView.m */; };
 		FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD9BC591B30AF3D00A3997E /* BuildManager.m */; };
@@ -161,8 +166,18 @@
 		BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractPinAnnotationView.m; sourceTree = "<group>"; };
 		BC3E11071B385D42005D6F94 /* BuildTourPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourPreviewViewController.h; sourceTree = "<group>"; };
 		BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourPreviewViewController.m; sourceTree = "<group>"; };
-		FAAC090C1B3911E10064D07B /* TourDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourDetailViewController.h; sourceTree = "<group>"; };
-		FAAC090D1B3911E10064D07B /* TourDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourDetailViewController.m; sourceTree = "<group>"; };
+		FA82C8B71B3C805100D95042 /* BrowseAllToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseAllToursViewController.h; sourceTree = "<group>"; };
+		FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseAllToursViewController.m; sourceTree = "<group>"; };
+		FA82C8BC1B3C838600D95042 /* BrowseTourDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTourDetailViewController.h; sourceTree = "<group>"; };
+		FA82C8BD1B3C838600D95042 /* BrowseTourDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseTourDetailViewController.m; sourceTree = "<group>"; };
+		FA82C8BF1B3C9AE600D95042 /* BrowseTourPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTourPreviewViewController.h; sourceTree = "<group>"; };
+		FA82C8C01B3C9AE600D95042 /* BrowseTourPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseTourPreviewViewController.m; sourceTree = "<group>"; };
+		FA82C8C21B3CA52F00D95042 /* StopDetailMKPinAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopDetailMKPinAnnotationView.h; sourceTree = "<group>"; };
+		FA82C8C31B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDetailMKPinAnnotationView.m; sourceTree = "<group>"; };
+		FA82C8C51B3CBEFD00D95042 /* TourDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourDetailView.h; sourceTree = "<group>"; };
+		FA82C8C61B3CBEFD00D95042 /* TourDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourDetailView.m; sourceTree = "<group>"; };
+		FAAC090C1B3911E10064D07B /* BuildTourDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourDetailViewController.h; sourceTree = "<group>"; };
+		FAAC090D1B3911E10064D07B /* BuildTourDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourDetailViewController.m; sourceTree = "<group>"; };
 		FAAC090F1B39D6FD0064D07B /* TourPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		FAAC09101B39D6FD0064D07B /* TourPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		FAAC09121B3A0A6B0064D07B /* SummaryTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SummaryTextView.h; sourceTree = "<group>"; };
@@ -252,12 +267,22 @@
 		BC0E9C161B2E26CA000A8E2C /* Tours */ = {
 			isa = PBXGroup;
 			children = (
+				FA82C8C51B3CBEFD00D95042 /* TourDetailView.h */,
+				FA82C8C61B3CBEFD00D95042 /* TourDetailView.m */,
+				FA82C8C21B3CA52F00D95042 /* StopDetailMKPinAnnotationView.h */,
+				FA82C8C31B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m */,
+				FA82C8BF1B3C9AE600D95042 /* BrowseTourPreviewViewController.h */,
+				FA82C8C01B3C9AE600D95042 /* BrowseTourPreviewViewController.m */,
+				FA82C8B71B3C805100D95042 /* BrowseAllToursViewController.h */,
+				FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */,
 				FAAC09121B3A0A6B0064D07B /* SummaryTextView.h */,
 				FAAC09131B3A0A6B0064D07B /* SummaryTextView.m */,
 				FAAC090F1B39D6FD0064D07B /* TourPhotoCollectionViewCell.h */,
 				FAAC09101B39D6FD0064D07B /* TourPhotoCollectionViewCell.m */,
-				FAAC090C1B3911E10064D07B /* TourDetailViewController.h */,
-				FAAC090D1B3911E10064D07B /* TourDetailViewController.m */,
+				FAAC090C1B3911E10064D07B /* BuildTourDetailViewController.h */,
+				FAAC090D1B3911E10064D07B /* BuildTourDetailViewController.m */,
+				FA82C8BC1B3C838600D95042 /* BrowseTourDetailViewController.h */,
+				FA82C8BD1B3C838600D95042 /* BrowseTourDetailViewController.m */,
 				BC3E10FB1B3654CF005D6F94 /* CalloutView.h */,
 				BC3E10FC1B3654CF005D6F94 /* CalloutView.m */,
 				FAD9BC641B31F05200A3997E /* StopDetailView.h */,
@@ -534,6 +559,7 @@
 				BC0E9C901B2F46D7000A8E2C /* Photo.m in Sources */,
 				FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */,
 				BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */,
+				FA82C8C41B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m in Sources */,
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
 				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
@@ -546,15 +572,19 @@
 				BC0E9C8A1B2F46B7000A8E2C /* Tour.m in Sources */,
 				BC3E11091B385D42005D6F94 /* BuildTourPreviewViewController.m in Sources */,
 				007BE45D1B34A16D0076A6FF /* TourPageMasterViewController.m in Sources */,
+				FA82C8C71B3CBEFD00D95042 /* TourDetailView.m in Sources */,
 				BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */,
 				FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */,
 				007BE45A1B3482FF0076A6FF /* StopPageMasterViewController.m in Sources */,
+				FA82C8C11B3C9AE600D95042 /* BrowseTourPreviewViewController.m in Sources */,
 				FAAC09111B39D6FD0064D07B /* TourPhotoCollectionViewCell.m in Sources */,
 				BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */,
 				BC3E10FD1B3654CF005D6F94 /* CalloutView.m in Sources */,
 				BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */,
 				BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */,
 				BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */,
+				FA82C8B91B3C805100D95042 /* BrowseAllToursViewController.m in Sources */,
+				FA82C8BE1B3C838700D95042 /* BrowseTourDetailViewController.m in Sources */,
 				BC0E9C621B2E4F1E000A8E2C /* BuildTourParentViewController.m in Sources */,
 				BC0E9C591B2E3EE2000A8E2C /* BuildStopPreviewViewController.m in Sources */,
 				BC0E9C501B2E3E6A000A8E2C /* BuildStopGeneralViewController.m in Sources */,
@@ -563,7 +593,7 @@
 				FAE01D891B2F7A7700826536 /* StopPointAnnotation.m in Sources */,
 				FAAC09141B3A0A6B0064D07B /* SummaryTextView.m in Sources */,
 				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
-				FAAC090E1B3911E10064D07B /* TourDetailViewController.m in Sources */,
+				FAAC090E1B3911E10064D07B /* BuildTourDetailViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
 				BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */,
 				BC1E99461B39DFE70079EC99 /* RateView.m in Sources */,
