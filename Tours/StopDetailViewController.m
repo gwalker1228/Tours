@@ -40,6 +40,10 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     [self.titleTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapRecognizer];
+
     // change to designables:
     self.summaryTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.summaryTextView.layer.borderWidth = 0.5;
@@ -263,6 +267,12 @@ static NSString *reuseIdentifier = @"PhotoCell";
         [self.imageView removeFromSuperview];
         [self.blackView removeFromSuperview];
     }];
+}
+
+
+-(void)dismissKeyboard {
+    [self.view endEditing:YES];
+    //[self.titleTextField resignFirstResponder];
 }
 
 @end

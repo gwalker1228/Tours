@@ -186,7 +186,7 @@
 
         [stop deleteStopAndPhotosInBackground];
 
-        NSLog(@"self.stops.count = %lu", self.stops.count);
+        //NSLog(@"self.stops.count = %lu", self.stops.count);
         [self updateStopOrderIndexesFromIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:self.stops.count-1 inSection:0]];
 
         [tableView reloadData];

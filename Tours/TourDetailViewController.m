@@ -37,10 +37,12 @@
 
 @property NSArray *stops;
 @property NSMutableDictionary *photos;
+@property NSMutableArray *orderedAnnotations;
 @property float eta;
 @property CLLocationDistance totalDistance;
 
 @property BOOL didSetupViews;
+@property BOOL isEditingTitle;
 
 @end
 
@@ -48,6 +50,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -74,6 +80,7 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
         self.stops = stops;
+        NSLog(@"%@", stops);
         [self loadStopsOnMap];
         [self loadPhotos];
     }];
@@ -146,13 +153,18 @@
 
     [self setupEditStopsButton];
 
+    self.titleTextField.layer.cornerRadius = 5.0;
+    self.titleTextField.layer.borderColor = [UIColor clearColor].CGColor;
+    self.titleTextField.layer.borderWidth = 0.0;
+    [self.titleTextField setBackgroundColor:[UIColor clearColor]];
+
     self.didSetupViews = YES;
 }
 
 -(void)setupEditStopsButton {
 
     CGFloat editStopsButtonWidth = self.view.layer.bounds.size.width / 6;
-    NSLog(@"%f, %f", CGRectGetMinY(self.mapView.frame), CGRectGetMaxY(self.mapView.frame));
+    //NSLog(@"%f, %f", CGRectGetMinY(self.mapView.frame), CGRectGetMaxY(self.mapView.frame));
     self.editStopsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - editStopsButtonWidth, self.mapView.bounds.origin.y, editStopsButtonWidth, self.mapView.layer.bounds.size.height)];
     [self.editStopsButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
     self.editStopsButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -167,8 +179,8 @@
 
 -(void)updateViews {
 
-    self.estimatedDistanceLabel.text = [NSString stringWithFormat:@"Distance: %@", nil];
-    self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %@", nil];
+    self.estimatedDistanceLabel.text = [NSString stringWithFormat:@"Estimated Distance: "];
+    self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: "];
     self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"From Current Location: %@", nil];
     self.ratingsLabel.text = [NSString stringWithFormat:@"Average rating: %@", nil];
     self.summaryTextView.text = self.tour.summary ? : @"Write a brief description of the tour here.";
@@ -256,12 +268,14 @@
 - (void)loadStopsOnMap {
 
     [self.mapView removeAnnotations:self.mapView.annotations];
-    //[self.mapView removeOverlays:self.mapView.overlays];
+    [self.mapView removeOverlays:self.mapView.overlays];
+    self.orderedAnnotations = [NSMutableArray new];
 
     for (Stop *stop in self.stops) {
 
         StopPointAnnotation *stopPointAnnotation = [[StopPointAnnotation alloc] initWithStop:stop];
         [self.mapView addAnnotation:stopPointAnnotation];
+        [self.orderedAnnotations addObject:stopPointAnnotation];
     }
     [self.mapView showAnnotations:self.mapView.annotations animated:YES];
 
@@ -286,12 +300,12 @@
     StopPointAnnotation *annotation = view.annotation;
     Stop *stop = annotation.stop;
 
-    NSLog(@"%@", stop.title);
+    //NSLog(@"%@", stop.title);
 
     if ([self.photos[stop.objectId] count] > 0) {
 
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:[self.stops indexOfObject:stop]];
-        NSLog(@"%@", indexPath);
+        //NSLog(@"%@", indexPath);
         [self.photosCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
     }
         // self.stopTitle.text = stop.title;
@@ -331,8 +345,8 @@
 
     MKDirectionsRequest *request = [MKDirectionsRequest new];
 
-    MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.mapView.annotations[sourceIndex] coordinate] addressDictionary:nil];
-    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.mapView.annotations[destinationIndex] coordinate] addressDictionary:nil];
+    MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[sourceIndex] coordinate] addressDictionary:nil];
+    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[destinationIndex] coordinate] addressDictionary:nil];
     request.source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
     request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
 
@@ -363,8 +377,8 @@
 
     MKDirectionsRequest *request = [MKDirectionsRequest new];
 
-    MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.mapView.annotations[sourceIndex] coordinate] addressDictionary:nil];
-    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.mapView.annotations[destinationIndex] coordinate] addressDictionary:nil];
+    MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[sourceIndex] coordinate] addressDictionary:nil];
+    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[destinationIndex] coordinate] addressDictionary:nil];
     request.source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
     request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
 
@@ -429,14 +443,37 @@
 
 #pragma mark - UITextField Delegate methods
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.isEditingTitle = YES;
+    [self toggleTextFieldAppearance];
+}
+
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     //[self.view endEditing:YES];
+    self.isEditingTitle = NO;
+    [self toggleTextFieldAppearance];
+    self.tour.title = self.titleTextField.text;
+}
+
+-(void)textFieldDidChange:(UITextField *)textField {
     self.tour.title = self.titleTextField.text;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+
+-(void)toggleTextFieldAppearance {
+
+    if (self.isEditingTitle) {
+        [self.titleTextField setBackgroundColor:[UIColor whiteColor]];
+        self.titleTextField.layer.borderWidth = 1.0;
+    }
+    else {
+        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
+        self.titleTextField.layer.borderWidth = 0;
+    }
 }
 
 #pragma mark - SummaryTextView Delegate methods
@@ -447,6 +484,11 @@
 
 -(void)textViewDidEndEditing:(UITextView *)textView {
     [textView resignFirstResponder];
+}
+
+-(void)dismissKeyboard {
+    [self.view endEditing:YES];
+    [self.titleTextField resignFirstResponder];
 }
 //-(BOOL)textViewShouldEndEditing:(UITextView *)textView {
 //
