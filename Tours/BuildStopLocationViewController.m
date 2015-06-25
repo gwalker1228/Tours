@@ -171,8 +171,11 @@
 
 - (IBAction)onSaveButtonPressed:(UIBarButtonItem *)sender {
 
-    [self dismissCurrentViewController];
-
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    
+    [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 //- (void)viewDidLoad {

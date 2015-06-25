@@ -10,7 +10,7 @@
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 
-static CGFloat verticalSpaceInterval = 8.0;
+static CGFloat verticalSpaceInterval = 0.0;
 static CGFloat rightMarginIndent = 8.0;
 static CGFloat leftMarginIndent = 8.0;
 
@@ -35,11 +35,11 @@ static CGFloat leftMarginIndent = 8.0;
 
 - (void)createLabels {
 
-    CGFloat labelWidth = self.parentFrame.size.width - verticalSpaceInterval * 2;
+    CGFloat labelWidth = self.parentFrame.size.width - (rightMarginIndent + leftMarginIndent);
     CGFloat labelHeight = 30;
 
     CGFloat titleLabelX = rightMarginIndent;
-    CGFloat titleLabelY = leftMarginIndent;
+    CGFloat titleLabelY = verticalSpaceInterval;
 
     CGFloat descriptionLabelX = titleLabelX;
     CGFloat descriptionLabelY = titleLabelY + labelHeight + verticalSpaceInterval;
@@ -47,8 +47,8 @@ static CGFloat leftMarginIndent = 8.0;
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, labelWidth, labelHeight)];
     self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(descriptionLabelX, descriptionLabelY, labelWidth, labelHeight)];
 
-    self.titleLabel.backgroundColor = [UIColor blueColor];
-    self.summaryLabel.backgroundColor = [UIColor greenColor];
+//    self.titleLabel.backgroundColor = [UIColor blueColor];
+//    self.summaryLabel.backgroundColor = [UIColor greenColor];
 
     [self addSubview:self.titleLabel];
     [self addSubview:self.summaryLabel];
@@ -56,12 +56,12 @@ static CGFloat leftMarginIndent = 8.0;
 
 - (void)createCollectionView {
 
-    CGFloat collectionViewY = self.summaryLabel.layer.frame.origin.y + self.summaryLabel.layer.frame.size.height + verticalSpaceInterval;
+    CGFloat collectionViewY = self.summaryLabel.layer.frame.origin.y + self.summaryLabel.layer.frame.size.height;
     CGFloat cellWidth = (self.parentFrame.size.height - verticalSpaceInterval) - collectionViewY - 2;
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
 
-    flowLayout.sectionInset = UIEdgeInsetsMake(verticalSpaceInterval, 8.0, 8.0, 8.0);
+    flowLayout.sectionInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
     flowLayout.itemSize = CGSizeMake(cellWidth, cellWidth);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     [flowLayout setMinimumInteritemSpacing:1.0f];
@@ -69,7 +69,7 @@ static CGFloat leftMarginIndent = 8.0;
 
     self.collectionView = [[IndexedPhotoCollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[IndexedPhotoCollectionViewCell class] forCellWithReuseIdentifier:indexedPhotoCollectionViewCellID];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = [UIColor blackColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
 
     [self addSubview:self.collectionView];

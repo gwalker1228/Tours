@@ -15,9 +15,7 @@
 
     if (self) {
 
-        CGFloat photoWidth = frame.size.width - 12;
-        CGFloat photoMargin = (frame.size.height - photoWidth) / 2;
-        self.imageView = [[PFImageView alloc] initWithFrame:CGRectMake(photoMargin, photoMargin, photoWidth, photoWidth)];
+        self.imageView = [[PFImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.width)];
         [self.imageView setContentMode:UIViewContentModeScaleAspectFit];
         [self.contentView addSubview:self.imageView];
     }

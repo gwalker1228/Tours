@@ -10,6 +10,8 @@
 #import "BuildStopParentViewController.h"
 @class Stop;
 
-@interface BuildStopPhotosViewController : BuildStopParentViewController
+@interface BuildStopPhotosViewController : UIViewController
+
+@property Stop* stop;
 
 @end

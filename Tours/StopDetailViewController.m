@@ -2,6 +2,8 @@
 #import <MapKit/MapKit.h>
 #import "StopDetailViewController.h"
 #import "StopPhotoCollectionViewCell.h"
+#import "BuildStopLocationViewController.h"
+#import "BuildStopPhotosViewController.h"
 #import "Photo.h"
 #import "Stop.h"
 #import "StopPointAnnotation.h"
@@ -18,8 +20,11 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 @property UIImageView *imageView;
 @property UIView *blackView;
-
+@property UIButton *setLocationButton;
+@property UIButton *addLocationButton;
 @property NSArray *photos;
+
+@property BOOL didSetupSetLocationButton;
 
 @end
 
@@ -42,29 +47,87 @@ static NSString *reuseIdentifier = @"PhotoCell";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self setup];
+
+    [self updateViews];
 
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 
     if (!self.stop.location) {
 
-        CGSize addLocationButtonSize = self.mapView.bounds.size;
-        UIButton *addLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, addLocationButtonSize.width, addLocationButtonSize.height)];
-        [addLocationButton setTitle:@"Set Location" forState:UIControlStateNormal];
-        [addLocationButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
-
-        [addLocationButton addTarget:self action:@selector(setLocationSegue) forControlEvents:UIControlEventTouchUpInside];
-        [self.mapView addSubview:addLocationButton];
+        [self setupAddLocationButton];
     }
     else {
-        [self placeAnnotationViewOnMapForStopLocation];
+        if (!self.didSetupSetLocationButton) {
 
+            [self setupSetLocationButton];
+            self.didSetupSetLocationButton = YES;
+        }
+        [self placeAnnotationViewOnMapForStopLocation];
     }
 }
 
-- (void)setLocationSegue {
+- (void)setupAddLocationButton {
+
+    CGSize addLocationButtonSize = self.mapView.bounds.size;
+    self.addLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, addLocationButtonSize.width, addLocationButtonSize.height)];
+    [self.addLocationButton setTitle:@"Set Location" forState:UIControlStateNormal];
+    [self.addLocationButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
+
+    [self.addLocationButton addTarget:self action:@selector(performSetLocationSegue:) forControlEvents:UIControlEventTouchUpInside];
+    [self.mapView addSubview:self.addLocationButton];
+}
+
+
+- (void)setupSetLocationButton {
+
+    CGFloat setLocationButtonWidth = self.view.layer.bounds.size.width / 5;
+    NSLog(@"%f, %f", self.mapView.viewForBaselineLayout.bounds.size.width, self.mapView.viewForBaselineLayout.bounds.size.height);
+
+    CGFloat setLocationButtonHeight = CGRectGetMaxY(self.mapView.frame) - CGRectGetMinY(self.mapView.frame);
+
+    self.setLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - setLocationButtonWidth, self.mapView.bounds.origin.y, setLocationButtonWidth, setLocationButtonHeight)];
+    [self.setLocationButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
+    self.setLocationButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.setLocationButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.setLocationButton setTitle:@"Edit\nLocation" forState:UIControlStateNormal];
+
+    [self.setLocationButton addTarget:self action:@selector(performSetLocationSegue:) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.mapView addSubview:self.setLocationButton];
+}
+
+- (void)performSetLocationSegue:(UIButton *)sender {
+
+    if (sender == self.addLocationButton) {
+        [self.addLocationButton removeFromSuperview];
+    }
     [self performSegueWithIdentifier:@"setLocation" sender:self];
+}
+
+- (IBAction)onSaveButtonPressed:(UIBarButtonItem *)sender {
+
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+
+    [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    if ([segue.identifier isEqualToString:@"setLocation"]) {
+
+        BuildStopLocationViewController *destinationVC = (BuildStopLocationViewController *)[segue.destinationViewController topViewController];
+        destinationVC.stop = self.stop;
+    }
+    else if ([segue.identifier isEqualToString:@"editPhotos"]) {
+
+        BuildStopPhotosViewController *destinationVC = (BuildStopPhotosViewController *)[segue.destinationViewController topViewController];
+        destinationVC.stop = self.stop;
+    }
 }
 
 - (void)textFieldDidChange:(UITextField *)sender {
@@ -76,7 +139,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 }
 
 
-- (void)setup {
+- (void)updateViews {
 
     self.titleTextField.text = self.stop.title;
     self.summaryTextView.text = self.stop.summary;
@@ -94,6 +157,8 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 - (void)placeAnnotationViewOnMapForStopLocation {
 
+    [self.mapView removeAnnotations:self.mapView.annotations];
+
     CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:self.stop.location.latitude longitude:self.stop.location.longitude];
     StopPointAnnotation *stopAnnotation = [[StopPointAnnotation alloc] initWithLocation:stopLocation forStop:self.stop];
 
@@ -104,7 +169,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 }
 
 
-- (void) zoomToRegionAroundAnnotation {
+- (void)zoomToRegionAroundAnnotation {
 
     CLLocationCoordinate2D stopCLLocationCoordinate2D = CLLocationCoordinate2DMake(self.stop.location.latitude + 0.002, self.stop.location.longitude);
     MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(stopCLLocationCoordinate2D, 10000, 10000);
@@ -119,10 +184,11 @@ static NSString *reuseIdentifier = @"PhotoCell";
     self.collectionView.backgroundColor = [UIColor blackColor];
     self.collectionView.layer.borderColor = [UIColor blackColor].CGColor;
     self.collectionView.layer.borderWidth = 1.0;
-    CGFloat collectionWidth = (self.view.bounds.size.width / 3) - 1;
+    CGFloat collectionWidth = self.collectionView.layer.bounds.size.height; //(self.view.bounds.size.width / 3) - 1;
 
     /**** new size ****/
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flowLayout.itemSize = CGSizeMake(collectionWidth, collectionWidth);
     [flowLayout setMinimumInteritemSpacing:1.0f];
     [flowLayout setMinimumLineSpacing:1.0f];

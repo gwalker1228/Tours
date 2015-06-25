@@ -4,7 +4,8 @@
 #import "TourTableViewCell.h"
 #import "BuildManager.h"
 #import "Tour.h"
-#import "BuildTourParentViewController.h"
+//#import "BuildTourParentViewController.h"
+#import "TourDetailViewController.h"
 #import "User.h"
 
 @interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -54,8 +55,6 @@
 }
 
 
-
-
 - (void) fetchUserTours {
     PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
     [query whereKey:@"creator" equalTo:[PFUser currentUser]];
@@ -85,30 +84,29 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    TourDetailViewController *destinationVC = (TourDetailViewController *)[segue.destinationViewController topViewController];
 
-    if ([segue.identifier isEqualToString:@"EditTour"]) {
+    if ([segue.identifier isEqualToString:@"editTour"]) {
 
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        Tour *tour = [self.tours objectAtIndex:indexPath.row];
-        buildManager.tour = tour;
-        buildManager.tour.creator = [PFUser currentUser];
+        Tour *tour = self.tours[indexPath.row];
+        destinationVC.tour = tour;
 
-    } else {
+    }
+    else if ([segue.identifier isEqualToString:@"addTour"]) {
 
         Tour *tour = [Tour object];
-        buildManager.tour = tour;
-        buildManager.tour.creator = [PFUser currentUser];
+        destinationVC.tour = tour;
+        destinationVC.tour.creator = [User currentUser];
         [tour save];
     }
 }
 
-
-
-
-
-
-
-
-
 @end
+
+
+
+
+
+
+

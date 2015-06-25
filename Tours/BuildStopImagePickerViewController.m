@@ -36,24 +36,32 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+
     if (self.firstViewDisplay) {
+
         [self showSelectedImageAddOption];
         self.firstViewDisplay = NO;
     }
 }
 - (IBAction)onCancelButtonPressed:(UIButton *)sender {
+
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onSaveButtonPressed:(UIButton *)sender {
+
     self.saveButton.enabled = NO;
-    if (self.photo == nil) {
+
+    if (!self.photo) {
+
         NSString *imageTitle = self.imageTitleTextField.text;
         NSString *imageDescription = self.imageSummaryTextField.text;
-        [Photo photoWithImage:self.imageView.image stop:self.stop tour:self.tour title:imageTitle description:imageDescription orderNumber:self.orderNumber withCompletion:^(Photo *photo, NSError *error) {
+        [Photo photoWithImage:self.imageView.image stop:self.stop tour:self.stop.tour title:imageTitle description:imageDescription orderNumber:self.orderNumber withCompletion:^(Photo *photo, NSError *error) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
-    } else {
+    }
+    else {
+
         self.photo.title = self.imageTitleTextField.text;
         self.photo.summary = self.imageSummaryTextField.text;
         [self.photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -63,10 +71,13 @@
 }
 
 - (void) displayPhotoForEditingIfFromEditSegue {
+
     if (self.photo) {
+
         self.imageTitleTextField.text = self.photo.title;
         self.imageSummaryTextField.text = self.photo.summary;
         PFFile *imageFile = self.photo.image;
+
         [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
             if (!error) {
                 UIImage *image = [UIImage imageWithData:data];
@@ -78,6 +89,7 @@
 }
 
 - (void) showSelectedImageAddOption {
+
     if ([self.initialView isEqualToString:@"camera"] && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         [self showCameraPickerController];
     } else if ([self.initialView isEqualToString:@"photoLibrary"]) {
@@ -86,6 +98,7 @@
 }
 
 - (void) checkForCameraAvailableAndAlert {
+
     if ([self.initialView isEqualToString:@"camera"] && ![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Device has no camera please use image picker." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [myAlertView show];
@@ -93,6 +106,7 @@
 }
 
 - (void) showCameraPickerController {
+
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = YES;
@@ -119,9 +133,9 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-
-
-
-
-
 @end
+
+
+
+
+
