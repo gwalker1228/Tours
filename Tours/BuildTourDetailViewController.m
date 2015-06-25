@@ -1,12 +1,12 @@
 //
-//  TourDetailViewController.m
+//  BuildTourDetailViewController.m
 //  Tours
 //
 //  Created by Gretchen Walker on 6/22/15.
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
-#import "TourDetailViewController.h"
+#import "BuildTourDetailViewController.h"
 #import "TourPhotoCollectionViewCell.h"
 #import "BuildTourStopsViewController.h"
 #import "StopPointAnnotation.h"
@@ -17,7 +17,7 @@
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
 
-@interface TourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate>
+@interface BuildTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet PFImageView *coverPhotoImageView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -46,7 +46,7 @@
 
 @end
 
-@implementation TourDetailViewController
+@implementation BuildTourDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

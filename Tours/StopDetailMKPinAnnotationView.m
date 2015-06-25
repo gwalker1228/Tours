@@ -1,11 +1,12 @@
 //
-//  StopDetailView.m
+//  StopDetailCalloutViewController.m
 //  Tours
 //
-//  Created by Gretchen Walker on 6/17/15.
+//  Created by Gretchen Walker on 6/25/15.
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
+#import "StopDetailMKPinAnnotationView.h"
 #import "StopDetailView.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
@@ -14,13 +15,13 @@ static CGFloat verticalSpaceInterval = 0.0;
 static CGFloat rightMarginIndent = 8.0;
 static CGFloat leftMarginIndent = 8.0;
 
-@interface StopDetailView ()
+@interface StopDetailMKPinAnnotationView ()
 
 @property CGRect parentFrame;
 
 @end
 
-@implementation StopDetailView
+@implementation StopDetailMKPinAnnotationView
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -30,13 +31,17 @@ static CGFloat leftMarginIndent = 8.0;
     [self createLabels];
     [self createCollectionView];
 
+    //self.layer.borderColor = [UIColor whiteColor].CGColor;
+    //self.layer.borderWidth = 2.0f;
+    self.layer.cornerRadius = 5.0f;
+
     return self;
 }
 
 - (void)createLabels {
 
     CGFloat labelWidth = self.parentFrame.size.width - (rightMarginIndent + leftMarginIndent);
-    CGFloat labelHeight = self.parentFrame.size.height/5;
+    CGFloat labelHeight = self.parentFrame.size.height/6;
 
     CGFloat titleLabelX = rightMarginIndent;
     CGFloat titleLabelY = verticalSpaceInterval;
@@ -47,8 +52,8 @@ static CGFloat leftMarginIndent = 8.0;
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, labelWidth, labelHeight)];
     self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(descriptionLabelX, descriptionLabelY, labelWidth, labelHeight)];
 
-//    self.titleLabel.backgroundColor = [UIColor blueColor];
-//    self.summaryLabel.backgroundColor = [UIColor greenColor];
+    //    self.titleLabel.backgroundColor = [UIColor blueColor];
+    //    self.summaryLabel.backgroundColor = [UIColor greenColor];
 
     [self addSubview:self.titleLabel];
     [self addSubview:self.summaryLabel];
@@ -92,5 +97,30 @@ static CGFloat leftMarginIndent = 8.0;
     [self.collectionView reloadData];
 }
 
+- (UIView*)hitTest:(CGPoint)point withEvent:(UIEvent*)event
+{
+    UIView* hitView = [super hitTest:point withEvent:event];
+    if (hitView != nil)
+    {
+        [self.superview bringSubviewToFront:self];
+    }
+    return hitView;
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent*)event
+{
+    CGRect rect = self.bounds;
+    BOOL isInside = CGRectContainsPoint(rect, point);
+    if(!isInside)
+    {
+        for (UIView *view in self.subviews)
+        {
+            isInside = CGRectContainsPoint(view.frame, point);
+            if(isInside)
+                break;
+        }
+    }
+    return isInside;
+}
 
 @end
