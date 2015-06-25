@@ -8,15 +8,14 @@
 
 #import "TourDetailViewController.h"
 #import "TourPhotoCollectionViewCell.h"
+#import "BuildTourStopsViewController.h"
 #import "StopPointAnnotation.h"
 #import "SummaryTextView.h"
+#import "Tour.h"
 #import "Stop.h"
 #import "Photo.h"
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
-
-
-
 
 @interface TourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate>
 
@@ -34,10 +33,16 @@
 @property UILabel *ratingsLabel;
 @property SummaryTextView *summaryTextView;
 @property UIButton *moreButton;
-@property UIButton *addStopButton;
+@property UIButton *editStopsButton;
 
 @property NSArray *stops;
 @property NSMutableDictionary *photos;
+@property NSMutableArray *orderedAnnotations;
+@property float eta;
+@property CLLocationDistance totalDistance;
+
+@property BOOL didSetupViews;
+@property BOOL isEditingTitle;
 
 @end
 
@@ -45,6 +50,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,7 +63,12 @@
 
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
-    [self setupViews];
+
+    if (!self.didSetupViews) {
+        [self setupViews];
+    }
+
+    [self updateViews];
     [self loadStops];
 }
 
@@ -66,6 +80,7 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
         self.stops = stops;
+        NSLog(@"%@", stops);
         [self loadStopsOnMap];
         [self loadPhotos];
     }];
@@ -113,11 +128,6 @@
     self.distanceFromCurrentLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX , labelMarginY, labelWidth, labelHeight)];
     self.ratingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX, labelHeight + labelMarginY, labelWidth, labelHeight)];
 
-    self.estimatedDistanceLabel.text = [NSString stringWithFormat:@"Distance: %@", nil];
-    self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %@", nil];
-    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"From Current Location: %@", nil];
-    self.ratingsLabel.text = [NSString stringWithFormat:@"Average rating: %@", nil];
-
     NSArray *labels = @[self.estimatedDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingsLabel];
 
     for (UILabel *label in labels) {
@@ -130,7 +140,6 @@
 
     self.summaryTextView = [[SummaryTextView alloc] initWithFrame:CGRectMake(0, labelHeight*2 + labelMarginY, summaryWidth, summaryHeight)];
     //self.summaryTextView.text = @"Really super long tour description goes here.self.tourDetailView.layer.bounds.size.width";
-    self.summaryTextView.text = self.tour.summary;
     self.summaryTextView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0];
     self.summaryTextView.delegate = self;
 
@@ -142,17 +151,39 @@
 
     self.tourDetailView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.7];
 
-    CGFloat addStopButtonWidth = self.view.layer.bounds.size.width / 6;
-    NSLog(@"%f, %f.....%f, %f", self.mapView.layer.bounds.size.width, self.mapView.bounds.size.width, addStopButtonWidth, self.mapView.layer.bounds.size.width - addStopButtonWidth);
+    [self setupEditStopsButton];
 
+    self.titleTextField.layer.cornerRadius = 5.0;
+    self.titleTextField.layer.borderColor = [UIColor clearColor].CGColor;
+    self.titleTextField.layer.borderWidth = 0.0;
+    [self.titleTextField setBackgroundColor:[UIColor clearColor]];
 
-    self.addStopButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - addStopButtonWidth, self.mapView.bounds.origin.y, addStopButtonWidth, self.mapView.layer.bounds.size.height)];
-    [self.addStopButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
-    self.addStopButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.addStopButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.addStopButton setTitle:@"Add\n/Edit\nStops" forState:UIControlStateNormal];
-    [self.mapView addSubview:self.addStopButton];
+    self.didSetupViews = YES;
+}
 
+-(void)setupEditStopsButton {
+
+    CGFloat editStopsButtonWidth = self.view.layer.bounds.size.width / 6;
+    //NSLog(@"%f, %f", CGRectGetMinY(self.mapView.frame), CGRectGetMaxY(self.mapView.frame));
+    self.editStopsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - editStopsButtonWidth, self.mapView.bounds.origin.y, editStopsButtonWidth, self.mapView.layer.bounds.size.height)];
+    [self.editStopsButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
+    self.editStopsButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.editStopsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.editStopsButton setTitle:@"Add\n/Edit\nStops" forState:UIControlStateNormal];
+
+    [self.editStopsButton addTarget:self action:@selector(performEditStopsSegue:) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.mapView addSubview:self.editStopsButton];
+
+}
+
+-(void)updateViews {
+
+    self.estimatedDistanceLabel.text = [NSString stringWithFormat:@"Estimated Distance: "];
+    self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: "];
+    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"From Current Location: %@", nil];
+    self.ratingsLabel.text = [NSString stringWithFormat:@"Average rating: %@", nil];
+    self.summaryTextView.text = self.tour.summary ? : @"Write a brief description of the tour here.";
 }
 
 - (void)setupCollectionView {
@@ -162,15 +193,43 @@
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
 
     CGFloat cellWidth = self.photosCollectionView.layer.bounds.size.height;
-    flowLayout.itemSize = CGSizeMake(cellWidth, self.photosCollectionView.layer.bounds.size.height);
+    flowLayout.itemSize = CGSizeMake(cellWidth, cellWidth);
     //NSLog(@"Cell width is %f", cellWidth);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    flowLayout.minimumLineSpacing = 0;
-    flowLayout.minimumInteritemSpacing = 50;
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 30.0);
+    flowLayout.minimumLineSpacing = 1.0f;
+    flowLayout.minimumInteritemSpacing = 1.0f;
 
     [self.photosCollectionView setCollectionViewLayout:flowLayout];
+
+    self.photosCollectionView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.photosCollectionView.layer.borderWidth = 2.0f;
 }
+
+- (void)performEditStopsSegue:(UIButton *)sender {
+
+    [self performSegueWithIdentifier:@"editStops" sender:self];
+}
+
+- (IBAction)onSaveButtonPressed:(UIBarButtonItem *)sender {
+
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+
+    [self.tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    if ([segue.identifier isEqualToString:@"editStops"]) {
+
+        BuildTourStopsViewController *destinationVC = (BuildTourStopsViewController *)[segue.destinationViewController topViewController];
+        destinationVC.tour = self.tour;
+    }
+}
+
 
 #pragma mark - UICollectionView dataSource/delegate methods
 
@@ -208,12 +267,22 @@
 
 - (void)loadStopsOnMap {
 
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeOverlays:self.mapView.overlays];
+    self.orderedAnnotations = [NSMutableArray new];
+
     for (Stop *stop in self.stops) {
 
         StopPointAnnotation *stopPointAnnotation = [[StopPointAnnotation alloc] initWithStop:stop];
         [self.mapView addAnnotation:stopPointAnnotation];
+        [self.orderedAnnotations addObject:stopPointAnnotation];
     }
     [self.mapView showAnnotations:self.mapView.annotations animated:YES];
+
+    if (self.stops.count > 1) {
+        [self generatePolylineForDirectionsFromIndex:0 toIndex:1];
+        [self getEtaFromIndex:0 toIndex:1];
+    }
 }
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -231,24 +300,180 @@
     StopPointAnnotation *annotation = view.annotation;
     Stop *stop = annotation.stop;
 
-    NSLog(@"%@", stop.title);
+    //NSLog(@"%@", stop.title);
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:[self.stops indexOfObject:stop]];
-    NSLog(@"%@", indexPath);
-    [self.photosCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
-   // self.stopTitle.text = stop.title;
+    if ([self.photos[stop.objectId] count] > 0) {
+
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:[self.stops indexOfObject:stop]];
+        //NSLog(@"%@", indexPath);
+        [self.photosCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    }
+        // self.stopTitle.text = stop.title;
+}
+
+-(void)renderPolylineForRoute:(MKRoute *)route {
+
+    MKPolyline *polyline = [route polyline];
+    [self.mapView addOverlay:polyline];
+    [self.mapView setNeedsDisplay];
+}
+
+//-(void)generatePolylineForDirectionsBetweenStops:(MKMapItem *)mapItem {
+//
+//    MKDirectionsRequest *request = [MKDirectionsRequest new];
+//
+//    request.source = [MKMapItem mapItemForCurrentLocation];
+//    request.destination = mapItem;
+//    //NSLog(@"%@", request.destination.description);
+//
+//    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+//
+//    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+//
+//        NSArray *routes = response.routes;
+//        MKRoute *route = routes.firstObject;
+//        //[self.mapView setVisibleMapRect:polyline.boundingMapRect];
+////        for (MKRouteStep *step in route.steps) {
+////            [self.directions addObject:step];
+////
+////        }
+////        [self.tableView reloadData];
+//    }];
+//}
+
+-(void)generatePolylineForDirectionsFromIndex:(int)sourceIndex toIndex:(int)destinationIndex{
+
+    MKDirectionsRequest *request = [MKDirectionsRequest new];
+
+    MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[sourceIndex] coordinate] addressDictionary:nil];
+    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[destinationIndex] coordinate] addressDictionary:nil];
+    request.source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
+    request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
+
+    //request.transportType = MKDirectionsTransportTypeWalking;
+
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+
+    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+
+        NSArray *routes = response.routes;
+        MKRoute *route = routes.firstObject;
+
+        MKPolyline *polyline = [route polyline];
+        [self.mapView addOverlay:polyline];
+        [self.mapView setNeedsDisplay];
+
+        self.totalDistance += route.distance;
+        if (destinationIndex < self.stops.count - 1) {
+            [self generatePolylineForDirectionsFromIndex:destinationIndex toIndex:destinationIndex + 1];
+        }
+        else {
+            self.estimatedDistanceLabel.text = [NSString stringWithFormat:@"Estimated Distance: %.2g miles", self.totalDistance/1609.34];
+        }
+    }];
+}
+
+-(void)getEtaFromIndex:(int)sourceIndex toIndex:(int)destinationIndex{
+
+    MKDirectionsRequest *request = [MKDirectionsRequest new];
+
+    MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[sourceIndex] coordinate] addressDictionary:nil];
+    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[self.orderedAnnotations[destinationIndex] coordinate] addressDictionary:nil];
+    request.source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
+    request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
+
+    request.transportType = MKDirectionsTransportTypeWalking;
+
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+
+    [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
+
+        self.eta += response.expectedTravelTime;
+
+        if (destinationIndex < self.stops.count - 1) {
+            self.eta += 50;
+            [self getEtaFromIndex:destinationIndex toIndex:destinationIndex + 1];
+        }
+        else {
+            self.eta = floor(self.eta/60);
+            //NSLog(@"%f", self.eta);
+            self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", self.eta];
+        }
+    }];
+}
+
+
+//-(void)getDirectionsTo:(MKMapItem *)mapItem {
+//
+//    MKDirectionsRequest *request = [MKDirectionsRequest new];
+//
+//    request.source = [MKMapItem mapItemForCurrentLocation];
+//    request.destination = mapItem;
+//    //NSLog(@"%@", request.destination.description);
+//
+//    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+//
+//    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+//        NSArray *routes = response.routes;
+//        MKRoute *route = routes.firstObject;
+//
+//        MKPolyline *polyline = [route polyline];
+//        // NSLog(@"%lu", polyline.pointCount);
+//        [self.mapView addOverlay:polyline];
+//        //[self.mapView setVisibleMapRect:polyline.boundingMapRect];
+//
+//        [self.mapView setNeedsDisplay];
+//
+//        for (MKRouteStep *step in route.steps) {
+//            [self.directions addObject:step];
+//
+//        }
+//        [self.tableView reloadData];
+//    }];
+//}
+
+-(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+
+    polylineRenderer.strokeColor = [UIColor blueColor];
+    polylineRenderer.lineWidth = 4;
+    
+    return polylineRenderer;
 }
 
 #pragma mark - UITextField Delegate methods
 
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.isEditingTitle = YES;
+    [self toggleTextFieldAppearance];
+}
+
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     //[self.view endEditing:YES];
+    self.isEditingTitle = NO;
+    [self toggleTextFieldAppearance];
+    self.tour.title = self.titleTextField.text;
+}
+
+-(void)textFieldDidChange:(UITextField *)textField {
     self.tour.title = self.titleTextField.text;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+
+-(void)toggleTextFieldAppearance {
+
+    if (self.isEditingTitle) {
+        [self.titleTextField setBackgroundColor:[UIColor whiteColor]];
+        self.titleTextField.layer.borderWidth = 1.0;
+    }
+    else {
+        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
+        self.titleTextField.layer.borderWidth = 0;
+    }
 }
 
 #pragma mark - SummaryTextView Delegate methods
@@ -259,6 +484,11 @@
 
 -(void)textViewDidEndEditing:(UITextView *)textView {
     [textView resignFirstResponder];
+}
+
+-(void)dismissKeyboard {
+    [self.view endEditing:YES];
+    [self.titleTextField resignFirstResponder];
 }
 //-(BOOL)textViewShouldEndEditing:(UITextView *)textView {
 //

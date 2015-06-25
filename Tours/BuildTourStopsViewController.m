@@ -8,6 +8,7 @@
 
 #import "BuildTourStopsViewController.h"
 #import "BuildTourStopsTableViewCell.h"
+#import "StopDetailViewController.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "Stop.h"
@@ -19,6 +20,8 @@
 @interface BuildTourStopsViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *addStopButton;
+@property (weak, nonatomic) IBOutlet UIButton *editStopsButton;
 
 @property NSMutableArray *stops;
 @property NSMutableDictionary *stopPhotos;
@@ -32,15 +35,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    CGSize editButtonSize = CGSizeMake(100, 30);
-    CGPoint editButtonOrigin = CGPointMake(self.view.layer.bounds.size.width - editButtonSize.width - 8, 0);
-    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(editButtonOrigin.x, editButtonOrigin.y, editButtonSize.width, editButtonSize.height)];
-    [editButton setBackgroundColor:[UIColor redColor]];
-    [editButton setTitle:@"Edit Stops" forState:UIControlStateNormal];
-
-    [editButton addTarget:self action:@selector(onEditButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-
-    [self.view addSubview:editButton];
+    for (UIButton *button in @[self.addStopButton, self.editStopsButton]) {
+        button.layer.borderColor = [UIColor blackColor].CGColor;
+        button.layer.borderWidth = 1.0f;
+    }
+//    CGSize editButtonSize = CGSizeMake(100, 30);
+//    CGPoint editButtonOrigin = CGPointMake(self.view.layer.bounds.size.width - editButtonSize.width - 8, 0);
+//    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(editButtonOrigin.x, editButtonOrigin.y, editButtonSize.width, editButtonSize.height)];
+//    [editButton setBackgroundColor:[UIColor redColor]];
+//    [editButton setTitle:@"Edit Stops" forState:UIControlStateNormal];
+//
+//    [editButton addTarget:self action:@selector(onEditButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [self.view addSubview:editButton];
 
 }
 
@@ -104,12 +111,15 @@
     }];
 }
 
-- (void)onEditButtonPressed:(UIButton *)sender {
+- (IBAction)onEditButtonPressed:(UIButton *)sender {
 
     self.isEditing = !self.isEditing;
     [self.tableView setEditing:(self.isEditing) animated:YES];
 }
 
+- (IBAction)onBackButtonPressed:(UIBarButtonItem *)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - UITableViewDataSource & Delegate
 
@@ -142,9 +152,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    Stop *stop = self.stops[indexPath.row];
-    buildManager.stop = stop;
+//    BuildManager *buildManager = [BuildManager sharedBuildManager];
+//    Stop *stop = self.stops[indexPath.row];
+//    buildManager.stop = stop;
 
     [self performSegueWithIdentifier:@"editStop" sender:self];
 }
@@ -155,6 +165,12 @@
 
     [self.stops removeObjectAtIndex:sourceIndexPath.row];
     [self.stops insertObject:stop atIndex:destinationIndexPath.row];
+
+    if (sourceIndexPath.row > destinationIndexPath.row) {
+        NSIndexPath *temp = sourceIndexPath;
+        sourceIndexPath = destinationIndexPath;
+        destinationIndexPath = temp;
+    }
 
     [self updateStopOrderIndexesFromIndexPath:sourceIndexPath toIndexPath:destinationIndexPath];
 
@@ -170,6 +186,7 @@
 
         [stop deleteStopAndPhotosInBackground];
 
+        //NSLog(@"self.stops.count = %lu", self.stops.count);
         [self updateStopOrderIndexesFromIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:self.stops.count-1 inSection:0]];
 
         [tableView reloadData];
@@ -177,6 +194,8 @@
 }
 
 -(void) updateStopOrderIndexesFromIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+
+    NSLog(@"%@, %@", sourceIndexPath, destinationIndexPath);
 
     for (NSUInteger i = sourceIndexPath.row; i <= destinationIndexPath.row; i++) {
 
@@ -214,16 +233,22 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
+    StopDetailViewController *destinationVC = (StopDetailViewController *)[segue.destinationViewController topViewController];
+
     if ([segue.identifier isEqualToString:@"addStop"]) {
-        BuildManager *buildManager = [BuildManager sharedBuildManager];
+        //BuildManager *buildManager = [BuildManager sharedBuildManager];
 
         Stop *stop = [Stop object];
     
         stop.tour = self.tour;
         stop.orderIndex = self.stops.count;
-        buildManager.stop = stop;
+        destinationVC.stop = stop;
 
         [stop save];
+    }
+    else if ([segue.identifier isEqualToString:@"editStop"]) {
+
+        destinationVC.stop = self.stops[[self.tableView indexPathForSelectedRow].row];
     }
 }
 

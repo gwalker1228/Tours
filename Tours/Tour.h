@@ -8,11 +8,12 @@
 
 #import <Parse/Parse.h>
 #import <Parse/PFObject+Subclass.h>
+@class User;
 
 @interface Tour : PFObject <PFSubclassing>
 
 @property NSString *title;
 @property NSString *summary;
-@property PFUser *creator;
+@property User *creator;
 
 @end

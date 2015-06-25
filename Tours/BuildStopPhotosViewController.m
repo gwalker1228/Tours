@@ -40,11 +40,11 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"stop" equalTo:self.stop];
     [query orderByAscending:@"order"];
-    [query setLimit:10];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    //[query setLimit:10];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error) {
         if (!error) {
 
-            self.photos = [[[NSArray alloc] initWithArray:objects] mutableCopy];
+            self.photos = [[[NSArray alloc] initWithArray:photos] mutableCopy];
             [self.tableView reloadData];
         }
     }];
@@ -67,7 +67,6 @@
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
 
     }];
-
 
     [alertController addAction:takePictureAction];
     [alertController addAction:photoLibraryAction];
@@ -157,7 +156,6 @@
 
     BuildManager *buildManager = [BuildManager sharedBuildManager];
 
-
     vc.initialView = segue.identifier;
     vc.stop = self.stop;
     vc.tour = buildManager.tour;
@@ -193,8 +191,11 @@
 
 - (IBAction)onSavePicturesButtonPressed:(UIBarButtonItem *)sender {
 
-    [self dismissCurrentViewController];
+    self.navigationItem.leftBarButtonItem.enabled = NO;
 
+    [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 

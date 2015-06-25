@@ -7,6 +7,7 @@
 //
 
 #import "Tour.h"
+#import "User.h"
 
 @implementation Tour
 

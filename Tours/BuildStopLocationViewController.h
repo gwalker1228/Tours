@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
-#import "BuildStopParentViewController.h"
+#import "Stop.h"
+//#import "Tour.h"
 
-@interface BuildStopLocationViewController : BuildStopParentViewController
+@interface BuildStopLocationViewController : UIViewController
+
+@property Stop *stop;
 
 @end

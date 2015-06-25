@@ -30,7 +30,7 @@
 
     self.coordinate = CLLocationCoordinate2DMake(stop.location.latitude, stop.location.longitude);
     self.stop = stop;
-    self.title = stop.title;
+    self.title = [NSString stringWithFormat:@"%lu. %@", (unsigned long)stop.orderIndex + 1, stop.title];
 
     return self;
 }
