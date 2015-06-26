@@ -108,17 +108,22 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error) {
 
-        // CHANGE THIS TO PRESET COVER PHOTO INSTEAD OF FIRST PHOTO OF FIRST STOP
-        Photo *firstPhoto = photos.firstObject;
-        self.coverPhotoImageView.file = firstPhoto.image;
-        [self.coverPhotoImageView loadInBackground];
-
-        for (Photo *photo in photos) {
-
-            [self.photos[photo.stop.objectId] addObject:photo];
+        if (photos.count == 0) {
+            self.coverPhotoImageView.image = [UIImage imageNamed:@"placeholderCoverPhoto"];
         }
-       // NSLog(@"self.stops has %lu items. self.photos has %lu items. reloading collectionview data.", self.stops.count, self.photos.count);
-        [self.photosCollectionView reloadData];
+        else {
+            // CHANGE THIS TO PRESET COVER PHOTO INSTEAD OF FIRST PHOTO OF FIRST STOP
+            Photo *firstPhoto = photos.firstObject;
+            self.coverPhotoImageView.file = firstPhoto.image;
+            [self.coverPhotoImageView loadInBackground];
+
+            for (Photo *photo in photos) {
+
+                [self.photos[photo.stop.objectId] addObject:photo];
+            }
+            // NSLog(@"self.stops has %lu items. self.photos has %lu items. reloading collectionview data.", self.stops.count, self.photos.count);
+            [self.photosCollectionView reloadData];
+        }
     }];
 }
 
@@ -165,6 +170,8 @@
     self.titleTextField.layer.borderColor = [UIColor clearColor].CGColor;
     self.titleTextField.layer.borderWidth = 0.0;
     [self.titleTextField setBackgroundColor:[UIColor clearColor]];
+    [self.titleTextField setTextColor:[UIColor whiteColor]];
+    [self.titleTextField setFont:[UIFont fontWithName:@"AvenirNextCondensed=Medium" size:18]];
 
     self.didSetupViews = YES;
 }
@@ -479,7 +486,8 @@
 -(void)toggleTextFieldAppearance {
 
     if (self.isEditingTitle) {
-        [self.titleTextField setBackgroundColor:[UIColor whiteColor]];
+//        [self.titleTextField setBackgroundColor:[UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+        self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
         self.titleTextField.layer.borderWidth = 1.0;
     }
     else {

@@ -16,6 +16,7 @@
 #import "BuildTourStopsTableViewCell.h"
 #import "Photo.h"
 #import "Stop.h"
+#import "Tour.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "InteractPinAnnotationView.h"
@@ -50,7 +51,7 @@
     self.stopAnnotations = [NSMutableArray new];
     self.showingMap = YES;
 
-
+    self.title = self.tour.title;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -67,11 +68,11 @@
 
     if (self.showingMap) {
         [self.view bringSubviewToFront:self.tableView];
-        [sender setTitle:@"View Stops in Map"];
+        [sender setTitle:@"Map"];
     }
     else {
         [self.view bringSubviewToFront:self.mapView];
-        [sender setTitle:@"View Stops in List"];
+        [sender setTitle:@"List"];
     }
 
     self.showingMap = !self.showingMap;

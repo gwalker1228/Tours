@@ -31,6 +31,8 @@ static CGFloat leftMarginIndent = 8.0;
     [self createLabels];
     [self createCollectionView];
 
+    self.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
+
     return self;
 }
 
@@ -64,6 +66,11 @@ static CGFloat leftMarginIndent = 8.0;
 
     self.totalDistanceLabel.font = [UIFont systemFontOfSize:14.0];
     self.estimatedTimeLabel.font = [UIFont systemFontOfSize:14.0];
+
+    self.titleLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+    self.totalDistanceLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+    self.estimatedTimeLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+    self.summaryLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
 
     [self addSubview:self.titleLabel];
     [self addSubview:self.summaryLabel];
