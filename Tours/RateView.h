@@ -6,13 +6,14 @@
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 
 @class RateView;
 
-@protocol RateViewDelegate <NSObject>
+@protocol RateViewDelegate
 
--(void)rateView:(RateView *)rateView ratingDidChange:(float)rating;
+- (void)rateView:(RateView *)rateView ratingDidChange:(float)rating;
 
 @end
 
@@ -28,7 +29,6 @@
 @property (assign) int midMargin;
 @property (assign) int leftMargin;
 @property (assign) CGSize minImageSize;
-
 @property (assign) id <RateViewDelegate> delegate;
 
 @end

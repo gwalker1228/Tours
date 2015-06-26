@@ -1,5 +1,5 @@
 //
-//  TourDetailViewController.h
+//  BuildTourDetailViewController.h
 //  Tours
 //
 //  Created by Gretchen Walker on 6/22/15.
@@ -11,7 +11,7 @@
 
 @class Tour;
 
-@interface TourDetailViewController : UIViewController
+@interface BuildTourDetailViewController : UIViewController
 
 @property Tour *tour;
 

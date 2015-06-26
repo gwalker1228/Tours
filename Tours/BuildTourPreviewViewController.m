@@ -169,12 +169,8 @@
     return [self.photosForSelectedStop count];
 }
 
-
-
-
-
-
-
-
-
 @end
+
+
+
+

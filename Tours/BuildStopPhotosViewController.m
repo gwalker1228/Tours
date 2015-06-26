@@ -29,6 +29,12 @@
     [super viewDidLoad];
     self.inEditingMode = NO;
 
+    // NEED TO ADD OUTLETS AND CHANGE THE COLOR OF THE BUTTONS
+//    for (UIButton *button in @[self.addPictureButton, self.editPicturesButton]) {
+//        button.layer.borderColor = [UIColor blackColor].CGColor;
+//        button.layer.borderWidth = 1.0f;
+//    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -88,6 +94,11 @@
     cell.buildStopPhotoTitle.text = photo.title;
     cell.buildStopPhotoSummary.text = photo.summary;
 
+        for (UILabel *label in @[cell.buildStopPhotoTitle, cell.buildStopPhotoSummary]) {
+            label.layer.borderColor = [UIColor lightGrayColor].CGColor;
+            label.layer.cornerRadius = 7;
+            label.layer.borderWidth = 0.5f;
+        }
 
     PFFile *imageFile = photo.image;
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
@@ -101,6 +112,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.photos count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return 190;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return 190;
 }
 
 

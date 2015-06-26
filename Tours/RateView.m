@@ -11,25 +11,15 @@
 @implementation RateView
 
 
-//@synthesize notSelectedImage = _notSelectedImage;
-//@synthesize halfSelectedImage = _halfSelectedImage;
-//@synthesize fullSelectedImage = _fullSelectedImage;
-//@synthesize rating = _rating;
-//@synthesize editable = _editable;
-//@synthesize imageViews = _imageViews;
-//@synthesize maxRating = _maxRating;
-//@synthesize midMargin = _midMargin;
-//@synthesize leftMargin = _leftMargin;
-//@synthesize minImageSize = _minImageSize;
-//@synthesize delegate = _delegate;
-
 - (void)baseInit {
-    self.notSelectedImage = nil;
-    self.halfSelectedImage = nil;
-    self.fullSelectedImage = nil;
+
+    self.notSelectedImage = [UIImage imageNamed:@"starNotSelected"];
+    self.halfSelectedImage = [UIImage imageNamed:@"starHalfSelected"];
+    self.fullSelectedImage = [UIImage imageNamed:@"starSelected"];
+
     self.rating = 0;
     self.editable = NO;
-    self.imageViews = [[NSMutableArray alloc] init];
+
     self.maxRating = 5;
     self.midMargin = 5;
     self.leftMargin = 0;
@@ -60,7 +50,6 @@
     }
 }
 
-
 - (void)layoutSubviews {
     [super layoutSubviews];
 
@@ -75,15 +64,19 @@
         UIImageView *imageView = [self.imageViews objectAtIndex:i];
         CGRect imageFrame = CGRectMake(self.leftMargin + i*(self.midMargin+imageWidth), 0, imageWidth, imageHeight);
         imageView.frame = imageFrame;
+
     }
+
 }
 
 - (void)setMaxRating:(int)maxRating {
-    self.maxRating = maxRating;
+    _maxRating = maxRating;
+
+    self.imageViews = [[NSMutableArray alloc] init];
 
     // Remove old image views
     for(int i = 0; i < self.imageViews.count; ++i) {
-        UIImageView *imageView = (UIImageView *)[self.imageViews objectAtIndex:i];
+        UIImageView *imageView = (UIImageView *) [self.imageViews objectAtIndex:i];
         [imageView removeFromSuperview];
     }
     [self.imageViews removeAllObjects];
@@ -95,6 +88,9 @@
         [self.imageViews addObject:imageView];
         [self addSubview:imageView];
     }
+
+
+
 
     // Relayout and refresh
     [self setNeedsLayout];
@@ -149,15 +145,27 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-
     [self.delegate rateView:self ratingDidChange:self.rating];
 }
 
 
 
-
-
-
-
-
 @end
+
+//ADD TO IMPLEMENTING VIEW CONTROLLER
+
+//- (void)viewDidLoad {
+//    [super viewDidLoad];
+//
+//    CGRect rateViewFrame = CGRectMake(100, 200, 200, 100);
+//    self.rateView = [[RateView alloc] initWithFrame:rateViewFrame];
+//    [self.view addSubview:self.rateView];
+//    self.rateView.rating = 2; // set from Parse data
+//    self.rateView.editable = YES; // or no depending on if we're in a comment or just viewing
+//    self.rateView.delegate = self;
+//
+//}
+//
+//- (void)rateView:(RateView *)rateView ratingDidChange:(float)rating {
+//    self.statusLabel.text = [NSString stringWithFormat:@"Rating: %f", rating];
+//}

@@ -5,7 +5,7 @@
 #import "BuildManager.h"
 #import "Tour.h"
 //#import "BuildTourParentViewController.h"
-#import "TourDetailViewController.h"
+#import "BuildTourDetailViewController.h"
 #import "User.h"
 
 @interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -84,7 +84,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    TourDetailViewController *destinationVC = (TourDetailViewController *)[segue.destinationViewController topViewController];
+    BuildTourDetailViewController *destinationVC = (BuildTourDetailViewController *)[segue.destinationViewController topViewController];
 
     if ([segue.identifier isEqualToString:@"editTour"]) {
 

@@ -1,12 +1,12 @@
 //
-//  TourDetailViewController.m
+//  BuildTourDetailViewController.m
 //  Tours
 //
 //  Created by Gretchen Walker on 6/22/15.
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
-#import "TourDetailViewController.h"
+#import "BuildTourDetailViewController.h"
 #import "TourPhotoCollectionViewCell.h"
 #import "BuildTourStopsViewController.h"
 #import "StopPointAnnotation.h"
@@ -17,7 +17,7 @@
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
 
-@interface TourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate>
+@interface BuildTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet PFImageView *coverPhotoImageView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -46,7 +46,7 @@
 
 @end
 
-@implementation TourDetailViewController
+@implementation BuildTourDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -79,8 +79,15 @@
     [query orderByAscending:@"orderIndex"];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
-        self.stops = stops;
-        NSLog(@"%@", stops);
+
+        // dont' allow stops without locations to show up
+        NSMutableArray *mutableArray = [NSMutableArray new];
+        for (Stop *stop in stops) {
+            if (stop.location != nil) {
+                [mutableArray addObject:stop];
+            }
+        }
+        self.stops = [mutableArray copy];
         [self loadStopsOnMap];
         [self loadPhotos];
     }];
@@ -107,6 +114,7 @@
         [self.coverPhotoImageView loadInBackground];
 
         for (Photo *photo in photos) {
+
             [self.photos[photo.stop.objectId] addObject:photo];
         }
        // NSLog(@"self.stops has %lu items. self.photos has %lu items. reloading collectionview data.", self.stops.count, self.photos.count);
