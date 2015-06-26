@@ -31,7 +31,7 @@
 @property NSArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property StopDetailMKPinAnnotationView *currentPinAnnotationView;
-@property StopDetailMKPinAnnotationView *selectedAnnotationView;
+@property MKAnnotationView *selectedAnnotationView;
 
 @property BOOL foundPhotosForStop;
 @property BOOL removeViewAfterNextSelection;
@@ -212,6 +212,7 @@
 
     annotationView.canShowCallout = YES;
     annotationView.enabled = YES;
+
     return annotationView;
 }
 
@@ -261,6 +262,7 @@
         self.currentPinAnnotationView = stopView;
         self.selectedAnnotationView = view;
         //[view.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];
+
         [view addSubview:stopView];
     }
 }
