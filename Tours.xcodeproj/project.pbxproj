@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		0076CE341B38989800365B2F /* StopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CE331B38989800365B2F /* StopDetailViewController.m */; };
 		0076CE3A1B38DB9300365B2F /* StopPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CE391B38DB9300365B2F /* StopPhotoCollectionViewCell.m */; };
+		0076CF381B3C7B0B00365B2F /* DesignableButton1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF371B3C7B0B00365B2F /* DesignableButton1.m */; };
+		0076CF3F1B3C9E9700365B2F /* DesignableButton2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF3E1B3C9E9700365B2F /* DesignableButton2.m */; };
+		0076CF421B3C9F0800365B2F /* DesignableLabel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF411B3C9F0800365B2F /* DesignableLabel1.m */; };
+		0076CF4B1B3CA67300365B2F /* DesignableTextView1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF4A1B3CA67300365B2F /* DesignableTextView1.m */; };
+		0076CF4E1B3CAA3900365B2F /* DesignableSegmentedControl1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF4D1B3CAA3900365B2F /* DesignableSegmentedControl1.m */; };
+		0076CF541B3CB01100365B2F /* DesignableTextField1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF531B3CB01100365B2F /* DesignableTextField1.m */; };
+		0076CF5A1B3CFC0000365B2F /* ParentNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF591B3CFC0000365B2F /* ParentNavigationController.m */; };
 		007BE45A1B3482FF0076A6FF /* StopPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */; };
 		007BE45D1B34A16D0076A6FF /* TourPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE45C1B34A16D0076A6FF /* TourPageMasterViewController.m */; };
 		00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326301B322B7C00DE7E4E /* LoginViewController.m */; };
@@ -84,6 +91,20 @@
 		0076CE331B38989800365B2F /* StopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopDetailViewController.m; sourceTree = "<group>"; };
 		0076CE381B38DB9300365B2F /* StopPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		0076CE391B38DB9300365B2F /* StopPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPhotoCollectionViewCell.m; sourceTree = "<group>"; };
+		0076CF361B3C7B0B00365B2F /* DesignableButton1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableButton1.h; sourceTree = "<group>"; };
+		0076CF371B3C7B0B00365B2F /* DesignableButton1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableButton1.m; sourceTree = "<group>"; };
+		0076CF3D1B3C9E9700365B2F /* DesignableButton2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableButton2.h; sourceTree = "<group>"; };
+		0076CF3E1B3C9E9700365B2F /* DesignableButton2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableButton2.m; sourceTree = "<group>"; };
+		0076CF401B3C9F0800365B2F /* DesignableLabel1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableLabel1.h; sourceTree = "<group>"; };
+		0076CF411B3C9F0800365B2F /* DesignableLabel1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableLabel1.m; sourceTree = "<group>"; };
+		0076CF491B3CA67300365B2F /* DesignableTextView1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableTextView1.h; sourceTree = "<group>"; };
+		0076CF4A1B3CA67300365B2F /* DesignableTextView1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableTextView1.m; sourceTree = "<group>"; };
+		0076CF4C1B3CAA3900365B2F /* DesignableSegmentedControl1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableSegmentedControl1.h; sourceTree = "<group>"; };
+		0076CF4D1B3CAA3900365B2F /* DesignableSegmentedControl1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableSegmentedControl1.m; sourceTree = "<group>"; };
+		0076CF521B3CB01100365B2F /* DesignableTextField1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableTextField1.h; sourceTree = "<group>"; };
+		0076CF531B3CB01100365B2F /* DesignableTextField1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableTextField1.m; sourceTree = "<group>"; };
+		0076CF581B3CFC0000365B2F /* ParentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentNavigationController.h; sourceTree = "<group>"; };
+		0076CF591B3CFC0000365B2F /* ParentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentNavigationController.m; sourceTree = "<group>"; };
 		007BE4581B3482FF0076A6FF /* StopPageMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPageMasterViewController.h; sourceTree = "<group>"; };
 		007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPageMasterViewController.m; sourceTree = "<group>"; };
 		007BE45B1B34A16D0076A6FF /* TourPageMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourPageMasterViewController.h; sourceTree = "<group>"; };
@@ -219,6 +240,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0076CF3C1B3C9CD000365B2F /* Designables */ = {
+			isa = PBXGroup;
+			children = (
+				0076CF361B3C7B0B00365B2F /* DesignableButton1.h */,
+				0076CF371B3C7B0B00365B2F /* DesignableButton1.m */,
+				0076CF3D1B3C9E9700365B2F /* DesignableButton2.h */,
+				0076CF3E1B3C9E9700365B2F /* DesignableButton2.m */,
+				0076CF401B3C9F0800365B2F /* DesignableLabel1.h */,
+				0076CF411B3C9F0800365B2F /* DesignableLabel1.m */,
+				0076CF491B3CA67300365B2F /* DesignableTextView1.h */,
+				0076CF4A1B3CA67300365B2F /* DesignableTextView1.m */,
+				0076CF4C1B3CAA3900365B2F /* DesignableSegmentedControl1.h */,
+				0076CF4D1B3CAA3900365B2F /* DesignableSegmentedControl1.m */,
+				0076CF521B3CB01100365B2F /* DesignableTextField1.h */,
+				0076CF531B3CB01100365B2F /* DesignableTextField1.m */,
+				0076CF581B3CFC0000365B2F /* ParentNavigationController.h */,
+				0076CF591B3CFC0000365B2F /* ParentNavigationController.m */,
+			);
+			name = Designables;
+			sourceTree = "<group>";
+		};
 		00A326351B322BAE00DE7E4E /* Login&Signup */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +325,7 @@
 				BC0E9C211B2E26CA000A8E2C /* Main.storyboard */,
 				BC0E9C241B2E26CA000A8E2C /* Images.xcassets */,
 				BC0E9C261B2E26CA000A8E2C /* LaunchScreen.xib */,
+				0076CF3C1B3C9CD000365B2F /* Designables */,
 				BC0E9C171B2E26CA000A8E2C /* Supporting Files */,
 			);
 			path = Tours;
@@ -533,8 +576,11 @@
 				00A326381B322C1200DE7E4E /* User.m in Sources */,
 				BC0E9C901B2F46D7000A8E2C /* Photo.m in Sources */,
 				FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */,
+				0076CF4B1B3CA67300365B2F /* DesignableTextView1.m in Sources */,
 				BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */,
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
+				0076CF4E1B3CAA3900365B2F /* DesignableSegmentedControl1.m in Sources */,
+				0076CF5A1B3CFC0000365B2F /* ParentNavigationController.m in Sources */,
 				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				0076CE341B38989800365B2F /* StopDetailViewController.m in Sources */,
@@ -545,9 +591,11 @@
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
 				BC0E9C8A1B2F46B7000A8E2C /* Tour.m in Sources */,
 				BC3E11091B385D42005D6F94 /* BuildTourPreviewViewController.m in Sources */,
+				0076CF541B3CB01100365B2F /* DesignableTextField1.m in Sources */,
 				007BE45D1B34A16D0076A6FF /* TourPageMasterViewController.m in Sources */,
 				BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */,
 				FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */,
+				0076CF3F1B3C9E9700365B2F /* DesignableButton2.m in Sources */,
 				007BE45A1B3482FF0076A6FF /* StopPageMasterViewController.m in Sources */,
 				FAAC09111B39D6FD0064D07B /* TourPhotoCollectionViewCell.m in Sources */,
 				BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */,
@@ -566,8 +614,10 @@
 				FAAC090E1B3911E10064D07B /* TourDetailViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
 				BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */,
+				0076CF421B3C9F0800365B2F /* DesignableLabel1.m in Sources */,
 				BC1E99461B39DFE70079EC99 /* RateView.m in Sources */,
 				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,
+				0076CF381B3C7B0B00365B2F /* DesignableButton1.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
