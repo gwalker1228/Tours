@@ -18,6 +18,7 @@
 		0076CF5A1B3CFC0000365B2F /* ParentNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF591B3CFC0000365B2F /* ParentNavigationController.m */; };
 		007BE45A1B3482FF0076A6FF /* StopPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */; };
 		007BE45D1B34A16D0076A6FF /* TourPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE45C1B34A16D0076A6FF /* TourPageMasterViewController.m */; };
+		009AA9D41B3DE1F2002ADFD4 /* DesignableLabel2.m in Sources */ = {isa = PBXBuildFile; fileRef = 009AA9D31B3DE1F2002ADFD4 /* DesignableLabel2.m */; };
 		00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326301B322B7C00DE7E4E /* LoginViewController.m */; };
 		00A326341B322B9D00DE7E4E /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326331B322B9D00DE7E4E /* SignupViewController.m */; };
 		00A326381B322C1200DE7E4E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326371B322C1200DE7E4E /* User.m */; };
@@ -115,6 +116,8 @@
 		007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPageMasterViewController.m; sourceTree = "<group>"; };
 		007BE45B1B34A16D0076A6FF /* TourPageMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourPageMasterViewController.h; sourceTree = "<group>"; };
 		007BE45C1B34A16D0076A6FF /* TourPageMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourPageMasterViewController.m; sourceTree = "<group>"; };
+		009AA9D21B3DE1F2002ADFD4 /* DesignableLabel2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableLabel2.h; sourceTree = "<group>"; };
+		009AA9D31B3DE1F2002ADFD4 /* DesignableLabel2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableLabel2.m; sourceTree = "<group>"; };
 		00A3262F1B322B7C00DE7E4E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		00A326301B322B7C00DE7E4E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		00A326321B322B9D00DE7E4E /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
@@ -267,6 +270,8 @@
 				0076CF3E1B3C9E9700365B2F /* DesignableButton2.m */,
 				0076CF401B3C9F0800365B2F /* DesignableLabel1.h */,
 				0076CF411B3C9F0800365B2F /* DesignableLabel1.m */,
+				009AA9D21B3DE1F2002ADFD4 /* DesignableLabel2.h */,
+				009AA9D31B3DE1F2002ADFD4 /* DesignableLabel2.m */,
 				0076CF491B3CA67300365B2F /* DesignableTextView1.h */,
 				0076CF4A1B3CA67300365B2F /* DesignableTextView1.m */,
 				0076CF4C1B3CAA3900365B2F /* DesignableSegmentedControl1.h */,
@@ -608,6 +613,7 @@
 				FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */,
 				0076CF4B1B3CA67300365B2F /* DesignableTextView1.m in Sources */,
 				BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */,
+				009AA9D41B3DE1F2002ADFD4 /* DesignableLabel2.m in Sources */,
 				FA82C8C41B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m in Sources */,
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
 				0076CF4E1B3CAA3900365B2F /* DesignableSegmentedControl1.m in Sources */,

@@ -35,10 +35,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    for (UIButton *button in @[self.addStopButton, self.editStopsButton]) {
-        button.layer.borderColor = [UIColor blackColor].CGColor;
-        button.layer.borderWidth = 1.0f;
-    }
+//    for (UIButton *button in @[self.addStopButton, self.editStopsButton]) {
+//        button.layer.borderColor = [UIColor blackColor].CGColor;
+//        button.layer.borderWidth = 1.0f;
+//    }
 //    CGSize editButtonSize = CGSizeMake(100, 30);
 //    CGPoint editButtonOrigin = CGPointMake(self.view.layer.bounds.size.width - editButtonSize.width - 8, 0);
 //    UIButton *editButton = [[UIButton alloc] initWithFrame:CGRectMake(editButtonOrigin.x, editButtonOrigin.y, editButtonSize.width, editButtonSize.height)];
@@ -61,9 +61,9 @@
     PFQuery *query = [Stop query];
     [query whereKey:@"tour" equalTo:self.tour];
     [query orderByAscending:@"orderIndex"];
-    UIColor *lightGreenColor = [[UIColor alloc] initWithRed:209.0/255.0 green:219.0/255.0 blue:189.0/255.0 alpha:1];
-    self.editStopsButton.backgroundColor = lightGreenColor;
-    self.addStopButton.backgroundColor = lightGreenColor;
+//    UIColor *lightGreenColor = [[UIColor alloc] initWithRed:209.0/255.0 green:219.0/255.0 blue:189.0/255.0 alpha:1];
+//    self.editStopsButton.backgroundColor = lightGreenColor;
+//    self.addStopButton.backgroundColor = lightGreenColor;
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
 //        self.stops = [stops mutableCopy];
 
