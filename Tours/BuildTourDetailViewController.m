@@ -79,8 +79,15 @@
     [query orderByAscending:@"orderIndex"];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
-        self.stops = stops;
-        NSLog(@"%@", stops);
+
+        // dont' allow stops without locations to show up
+        NSMutableArray *mutableArray = [NSMutableArray new];
+        for (Stop *stop in stops) {
+            if (stop.location != nil) {
+                [mutableArray addObject:stop];
+            }
+        }
+        self.stops = [mutableArray copy];
         [self loadStopsOnMap];
         [self loadPhotos];
     }];
@@ -107,6 +114,7 @@
         [self.coverPhotoImageView loadInBackground];
 
         for (Photo *photo in photos) {
+
             [self.photos[photo.stop.objectId] addObject:photo];
         }
        // NSLog(@"self.stops has %lu items. self.photos has %lu items. reloading collectionview data.", self.stops.count, self.photos.count);

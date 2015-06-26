@@ -57,12 +57,25 @@
 
 -(void)loadStops {
 
+    NSLog(@"loading stops");
     PFQuery *query = [Stop query];
     [query whereKey:@"tour" equalTo:self.tour];
     [query orderByAscending:@"orderIndex"];
-
+    UIColor *lightGreenColor = [[UIColor alloc] initWithRed:209.0/255.0 green:219.0/255.0 blue:189.0/255.0 alpha:1];
+    self.editStopsButton.backgroundColor = lightGreenColor;
+    self.addStopButton.backgroundColor = lightGreenColor;
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
-        self.stops = [stops mutableCopy];
+//        self.stops = [stops mutableCopy];
+
+            // don't allow stops without location to show up
+        NSMutableArray *mutableArray = [NSMutableArray new];
+        for (Stop *stop in stops) {
+            if (stop.location != nil) {
+                [mutableArray addObject:stop];
+            }
+        }
+        self.stops = mutableArray;
+
         [self loadPhotos];
     }];
 }
@@ -112,8 +125,26 @@
 
 - (IBAction)onEditButtonPressed:(UIButton *)sender {
 
-    self.isEditing = !self.isEditing;
-    [self.tableView setEditing:(self.isEditing) animated:YES];
+    if (self.isEditing) {
+
+        self.isEditing = NO;
+        [sender setTitle:@"Reorder/Delete Stops" forState:UIControlStateNormal];
+        UIColor *lightGreenColor = [[UIColor alloc] initWithRed:209.0/255.0 green:219.0/255.0 blue:189.0/255.0 alpha:1];
+        sender.backgroundColor = lightGreenColor;
+        [sender setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.tableView setEditing:(self.isEditing) animated:YES];
+
+    } else {
+
+        self.isEditing = YES;
+        [self.tableView setEditing:(self.isEditing) animated:NO];
+        UIColor *darKBlueColor = [[UIColor alloc] initWithRed:25.0/255.0 green:52.0/255.0 blue:65.0/255.0 alpha:1];
+        sender.backgroundColor = darKBlueColor;
+        UIColor *lightColor = [[UIColor alloc] initWithRed:252.0/255.0 green:255.0/255.0 blue:245.0/255.0 alpha:1];
+        [sender setTitleColor:lightColor forState:UIControlStateNormal];
+        [sender setTitle:@"Save Order" forState:UIControlStateNormal];
+        
+    }
 }
 
 - (IBAction)onBackButtonPressed:(UIBarButtonItem *)sender {
@@ -133,10 +164,19 @@
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
 
     Stop *stop = self.stops[indexPath.row];
-
-    cell.title = stop.title;
-    cell.summary = stop.summary;
+    cell.title = [NSString stringWithFormat:@"%d. %@", (int)indexPath.row + 1, stop.title];
+//    UIFont *currentFont = cell.title;
+//    UIFont *newFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Bold",currentFont.fontName] size:currentFont.pointSize];
+//    cell.title.
+    cell.summary =  stop.summary;
     return cell;
+}
+
+
+-(void)boldFontForLabel:(UILabel *)label{
+    UIFont *currentFont = label.font;
+    UIFont *newFont = [UIFont fontWithName:[NSString stringWithFormat:@"%@-Bold",currentFont.fontName] size:currentFont.pointSize];
+    label.font = newFont;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

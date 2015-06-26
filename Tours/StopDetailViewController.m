@@ -34,6 +34,11 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     [self setInitialCollectionViewLayout];
 
+    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(onCancelButtonPressed)];
+
+    self.navigationItem.rightBarButtonItem = cancelBarButton;
+
+
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
 
@@ -52,22 +57,32 @@ static NSString *reuseIdentifier = @"PhotoCell";
 - (void)viewWillAppear:(BOOL)animated {
 
     [self updateViews];
-
+    [self checkIfLocationSetAndEnableSaveButton];
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 
+
+}
+
+-(void) checkIfLocationSetAndEnableSaveButton {
     if (!self.stop.location) {
 
+        self.navigationItem.leftBarButtonItem.enabled = NO;
+        [self.navigationItem.leftBarButtonItem setTitle:@"Set Location to Save"];
         [self setupAddLocationButton];
-    }
-    else {
+    } else {
+
         if (!self.didSetupSetLocationButton) {
 
             [self setupSetLocationButton];
             self.didSetupSetLocationButton = YES;
         }
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        [self.navigationItem.leftBarButtonItem setTitle:@"Save Stop"];
         [self placeAnnotationViewOnMapForStopLocation];
     }
+
+
 }
 
 - (void)setupAddLocationButton {
@@ -117,6 +132,12 @@ static NSString *reuseIdentifier = @"PhotoCell";
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         }
     }];
+}
+
+- (IBAction)onCancelButtonPressed {
+
+
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
