@@ -14,7 +14,6 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
-
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 

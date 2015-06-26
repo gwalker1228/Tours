@@ -119,7 +119,6 @@
             Stop *photoStop = photo.stop; // get photo's stop
             [self.stopPhotos[photoStop.objectId] addObject:photo]; // add photo to that stop's photo array in photoStops dictionary
         }
-
         [self.tableView reloadData];
     }];
 }
@@ -160,7 +159,6 @@
 
     if (cell == nil) {
         cell = [[BuildTourStopsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BuildTourStopsTableViewCellIdentifier size:CGSizeMake(self.tableView.bounds.size.width, tableCellHeight)];
-
     }
 
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
@@ -258,15 +256,13 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     IndexedPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:indexedPhotoCollectionViewCellID forIndexPath:indexPath];
-    NSNumber *tableViewCellnumber = [NSNumber numberWithLong:[(IndexedPhotoCollectionView *)collectionView indexPath].row];
-    NSInteger tableViewCellInt = [tableViewCellnumber integerValue];
 
-    Stop *stop = self.stops[tableViewCellInt];
+    Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
     Photo *photo = self.stopPhotos[stop.objectId][indexPath.row];
 
-    cell.imageView.image = [UIImage imageNamed:@"redPin"]; // placeholder image
     cell.imageView.file = photo.image;
     [cell.imageView loadInBackground];
+
     return cell;
 }
 
@@ -293,3 +289,7 @@
 }
 
 @end
+
+
+
+

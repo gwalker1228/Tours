@@ -11,6 +11,7 @@
 
 @class Stop;
 @class Tour;
+@class User;
 
 @interface Photo : PFObject <PFSubclassing>
 
@@ -20,6 +21,7 @@
 @property NSNumber *order;
 @property Stop *stop;
 @property Tour *tour;
+@property User *creator;
 
 + (void) photoWithImage:(UIImage *)image stop:(Stop *)stop tour:(Tour *)tour title:(NSString *)title description:(NSString *)description orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete;
 

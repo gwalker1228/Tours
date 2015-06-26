@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+@class IndexedPhotoCollectionView;
 
 @interface TourDetailView : UIView
+
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *summaryLabel;
+@property (nonatomic, strong) IndexedPhotoCollectionView *collectionView;
+
+- (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
 @end

@@ -12,6 +12,8 @@
 #import "StopPointAnnotation.h"
 #import "StopDetailMKPinAnnotationView.h"
 #import "StopDetailMKPinAnnotationView.h"
+#import "BrowseStopDetailViewController.h"
+#import "BuildTourStopsTableViewCell.h"
 #import "Photo.h"
 #import "Stop.h"
 #import "IndexedPhotoCollectionView.h"
@@ -19,41 +21,62 @@
 #import "InteractPinAnnotationView.h"
 #import <ParseUI/ParseUI.h>
 
-@interface BrowseTourPreviewViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface BrowseTourPreviewViewController () <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property NSArray *photosForSelectedStop;
 @property NSMutableArray *stopAnnotations;
 @property NSArray *photos;
 @property NSArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property StopDetailMKPinAnnotationView *currentPinAnnotationView;
+
 @property BOOL foundPhotosForStop;
 @property BOOL removeViewAfterNextSelection;
+@property BOOL showingMap;
 
 @end
 
 @implementation BrowseTourPreviewViewController
 
--(void) viewDidLoad {
+-(void)viewDidLoad {
 
     [super viewDidLoad];
+
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
     self.stopAnnotations = [NSMutableArray new];
+    self.showingMap = YES;
+
     [self findStopsForTour];
 }
 
--(void) viewWillAppear:(BOOL)animated {
+-(void)viewWillAppear:(BOOL)animated {
 
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
-    
+
+    [self.tableView reloadData];
     self.foundPhotosForStop = NO;
     self.removeViewAfterNextSelection = NO;
 }
 
--(void) findStopsForTour {
+- (IBAction)onToggleViewPressed:(UIBarButtonItem *)sender {
+
+    if (self.showingMap) {
+        [self.view bringSubviewToFront:self.tableView];
+        [sender setTitle:@"View Stops in Map"];
+    }
+    else {
+        [self.view bringSubviewToFront:self.mapView];
+        [sender setTitle:@"View Stops in List"];
+    }
+
+    self.showingMap = !self.showingMap;
+}
+
+-(void)findStopsForTour {
 
     PFQuery *query = [PFQuery queryWithClassName:@"Stop"];
     [query whereKey:@"tour" equalTo:self.tour];
@@ -70,7 +93,7 @@
     }];
 }
 
--(void) findPhotosForTour {
+-(void)findPhotosForTour {
 
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     [query whereKey:@"tour" equalTo:self.tour];
@@ -78,11 +101,12 @@
 
         self.photos = photos;
         [self makeDictionaryOfPhotoArrays];
+        [self.tableView reloadData];
     }];
 
 }
 
--(void) makeDictionaryOfPhotoArrays {
+-(void)makeDictionaryOfPhotoArrays {
 
     self.stopPhotos = [NSMutableDictionary new];
 
@@ -91,11 +115,62 @@
     }
 
     for (Photo *photo in self.photos) {
-
         Stop *photoStop = photo.stop;
         [self.stopPhotos[photoStop.objectId] addObject:photo];
     }
 }
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    BrowseStopDetailViewController *destinationVC = segue.destinationViewController;
+
+    if ([segue.identifier isEqualToString:@"browseStop"]) {
+
+        destinationVC.stop = self.stops[[self.tableView indexPathForSelectedRow].row];
+    }
+}
+
+
+#pragma mark - UITableViewDataSource & Delegate
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    BuildTourStopsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BuildTourStopsTableViewCellIdentifier];
+
+    if (cell == nil) {
+        cell = [[BuildTourStopsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BuildTourStopsTableViewCellIdentifier size:CGSizeMake(self.tableView.bounds.size.width, tableCellHeight)];
+    }
+
+    [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
+
+    Stop *stop = self.stops[indexPath.row];
+
+    cell.title = stop.title;
+    cell.summary = stop.summary;
+
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return tableCellHeight;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    return self.stops.count;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    //    BuildManager *buildManager = [BuildManager sharedBuildManager];
+    //    Stop *stop = self.stops[indexPath.row];
+    //    buildManager.stop = stop;
+
+    [self performSegueWithIdentifier:@"browseStop" sender:self];
+}
+
+#pragma mark - MapView methods
 
 -(void) placeStopAnnotationsOnMap {
 
@@ -212,25 +287,37 @@
     return polylineRenderer;
 }
 
+#pragma mark - UICollectionView DataSource/Delegate methods
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     IndexedPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:indexedPhotoCollectionViewCellID forIndexPath:indexPath];
 
-    Photo *photo = [self.photosForSelectedStop objectAtIndex:indexPath.row];
+    Photo *photo;
 
+    if (self.showingMap) {
+        photo = self.photosForSelectedStop[indexPath.row];
+    }
+    else {
+        Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+        photo = self.stopPhotos[stop.objectId][indexPath.row];
+    }
 
-    cell.imageView.image = [UIImage imageNamed:@"redPin"];
     cell.imageView.file = photo.image;
-    [cell.imageView.file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+    [cell.imageView loadInBackground];
 
-        cell.imageView.image = [UIImage imageWithData:data];
-    }];
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-    return [self.photosForSelectedStop count];
+
+    if (self.showingMap) {
+        return self.photosForSelectedStop.count;
+    }
+    else {
+        Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+        return [self.stopPhotos[stop.objectId] count];
+    }
 }
 
 @end
