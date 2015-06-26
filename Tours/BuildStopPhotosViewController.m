@@ -94,11 +94,11 @@
     cell.buildStopPhotoTitle.text = photo.title;
     cell.buildStopPhotoSummary.text = photo.summary;
 
-        for (UILabel *label in @[cell.buildStopPhotoTitle, cell.buildStopPhotoSummary]) {
-            label.layer.borderColor = [UIColor lightGrayColor].CGColor;
-            label.layer.cornerRadius = 7;
-            label.layer.borderWidth = 0.5f;
-        }
+//        for (UILabel *label in @[cell.buildStopPhotoTitle, cell.buildStopPhotoSummary]) {
+//            label.layer.borderColor = [UIColor lightGrayColor].CGColor;
+//            label.layer.cornerRadius = 7;
+//            label.layer.borderWidth = 0.5f;
+//        }
 
     PFFile *imageFile = photo.image;
     [imageFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {

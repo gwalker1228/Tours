@@ -28,6 +28,9 @@
     self.navigationBar.tintColor = color1;
 
     self.navigationBar.barStyle = UIBarStyleBlackOpaque;
+
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes: @{NSFontAttributeName:[UIFont fontWithName:@"AvenirNextCondensed-Medium" size:16]} forState:UIControlStateNormal];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:23]}];
 }
 
 
