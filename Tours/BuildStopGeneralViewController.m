@@ -24,6 +24,15 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+
+    NSLog(@"This is the correct page");
+
+    if (self.stop.location != nil) {
+        NSLog(@"location is set");
+    }
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [[self view] endEditing:YES];
 }
