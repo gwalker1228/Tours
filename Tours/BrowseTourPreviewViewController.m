@@ -31,6 +31,7 @@
 @property NSArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property StopDetailMKPinAnnotationView *currentPinAnnotationView;
+@property MKAnnotationView *selectedAnnotationView;
 
 @property BOOL foundPhotosForStop;
 @property BOOL removeViewAfterNextSelection;
@@ -49,15 +50,15 @@
     self.stopAnnotations = [NSMutableArray new];
     self.showingMap = YES;
 
-    [self findStopsForTour];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
 
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
-
-    [self.tableView reloadData];
+    [self loadStops];
+    //[self.tableView reloadData];
     self.foundPhotosForStop = NO;
     self.removeViewAfterNextSelection = NO;
 }
@@ -76,37 +77,24 @@
     self.showingMap = !self.showingMap;
 }
 
--(void)findStopsForTour {
+-(void)loadStops {
 
-    PFQuery *query = [PFQuery queryWithClassName:@"Stop"];
+    PFQuery *query = [Stop query];
     [query whereKey:@"tour" equalTo:self.tour];
     [query orderByAscending:@"index"];
+
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error){
 
-        if (error == nil) {
+        if (!error) {
             self.stops = stops;
-            [self placeStopAnnotationsOnMap];
-            [self findPhotosForTour];
+            [self loadPhotos];
         } else {
             // error check
         }
     }];
 }
 
--(void)findPhotosForTour {
-
-    PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
-    [query whereKey:@"tour" equalTo:self.tour];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error) {
-
-        self.photos = photos;
-        [self makeDictionaryOfPhotoArrays];
-        [self.tableView reloadData];
-    }];
-
-}
-
--(void)makeDictionaryOfPhotoArrays {
+-(void)loadPhotos {
 
     self.stopPhotos = [NSMutableDictionary new];
 
@@ -114,11 +102,37 @@
         self.stopPhotos[stop.objectId] = [NSMutableArray new];
     }
 
-    for (Photo *photo in self.photos) {
-        Stop *photoStop = photo.stop;
-        [self.stopPhotos[photoStop.objectId] addObject:photo];
-    }
+    PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
+    [query whereKey:@"tour" equalTo:self.tour];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error) {
+
+        self.photos = photos;
+
+        for (Photo *photo in self.photos) {
+
+            Stop *photoStop = photo.stop;
+            [self.stopPhotos[photoStop.objectId] addObject:photo];
+        }
+
+        [self placeStopAnnotationsOnMap];
+        [self.tableView reloadData];
+    }];
+
 }
+
+//-(void)makeDictionaryOfPhotoArrays {
+//
+//    //self.stopPhotos = [NSMutableDictionary new];
+//
+//    for (Stop *stop in self.stops) {
+//        self.stopPhotos[stop.objectId] = [NSMutableArray new];
+//    }
+//
+//    for (Photo *photo in self.photos) {
+//        Stop *photoStop = photo.stop;
+//        [self.stopPhotos[photoStop.objectId] addObject:photo];
+//    }
+//}
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -198,49 +212,59 @@
 
     annotationView.canShowCallout = YES;
     annotationView.enabled = YES;
+
     return annotationView;
 }
 
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
 
-    if (self.currentPinAnnotationView) {
+    if ([(StopDetailMKPinAnnotationView *)view isEqual:self.selectedAnnotationView]) {
         [self.currentPinAnnotationView removeFromSuperview];
+        self.selectedAnnotationView = nil;
+        [self.mapView deselectAnnotation:view.annotation animated:NO];
     }
-//    if (self.removeViewAfterNextSelection) {
-//        [self.mapView removeAnnotations:self.stopAnnotations];
-//        [self.mapView addAnnotations:self.stopAnnotations];
-//        self.removeViewAfterNextSelection = NO;
-//        return;
-//    }
+    else {
+        if (self.currentPinAnnotationView) {
+            [self.currentPinAnnotationView removeFromSuperview];
+        }
+        //    if (self.removeViewAfterNextSelection) {
+        //        [self.mapView removeAnnotations:self.stopAnnotations];
+        //        [self.mapView addAnnotations:self.stopAnnotations];
+        //        self.removeViewAfterNextSelection = NO;
+        //        return;
+        //    }
 
-//    CGRect viewAddedToPinFrame = CGRectMake(0, 0, 200, 200);
-//    UIView *viewAddedToPin = [[UIView alloc] initWithFrame:viewAddedToPinFrame];
-//
-//    viewAddedToPin.backgroundColor = [UIColor whiteColor];
-//    [view addSubview:viewAddedToPin];
-//
-    StopPointAnnotation *stopPointAnnotation = view.annotation;
-    Stop *stop = stopPointAnnotation.stop;
-//
-    [self.mapView deselectAnnotation:stopPointAnnotation animated:NO];
-//    self.removeViewAfterNextSelection = YES;
-//
-//
-    self.photosForSelectedStop = [self.stopPhotos objectForKey:stop.objectId];
-//
-    CGRect stopViewFrame = CGRectMake(0, 0, 200, 150);
-    StopDetailMKPinAnnotationView *stopView = [[StopDetailMKPinAnnotationView alloc] initWithFrame:stopViewFrame];
-    stopView.backgroundColor = [UIColor whiteColor];
-    addSubview:stopView.center = CGPointMake(view.bounds.size.width*0.5f, -stopView.bounds.size.height*0.5f);
+        //    CGRect viewAddedToPinFrame = CGRectMake(0, 0, 200, 200);
+        //    UIView *viewAddedToPin = [[UIView alloc] initWithFrame:viewAddedToPinFrame];
+        //
+        //    viewAddedToPin.backgroundColor = [UIColor whiteColor];
+        //    [view addSubview:viewAddedToPin];
+        //
+        StopPointAnnotation *stopPointAnnotation = view.annotation;
+        Stop *stop = stopPointAnnotation.stop;
+        //
+        [self.mapView deselectAnnotation:stopPointAnnotation animated:NO];
+        //    self.removeViewAfterNextSelection = YES;
+        //
+        //
+        self.photosForSelectedStop = [self.stopPhotos objectForKey:stop.objectId];
+        //
+        CGRect stopViewFrame = CGRectMake(0, 0, 200, 150);
+        StopDetailMKPinAnnotationView *stopView = [[StopDetailMKPinAnnotationView alloc] initWithFrame:stopViewFrame];
+        stopView.backgroundColor = [UIColor whiteColor];
+        addSubview:stopView.center = CGPointMake(view.bounds.size.width*0.5f, -stopView.bounds.size.height*0.5f);
 
-    [stopView setCollectionViewDataSourceDelegate:self indexPath:nil];
-    stopView.titleLabel.text = stop.title;
-    stopView.summaryLabel.text = stop.summary;
+        [stopView setCollectionViewDataSourceDelegate:self indexPath:nil];
+        stopView.titleLabel.text = stop.title;
+        stopView.summaryLabel.text = stop.summary;
+        
+        self.currentPinAnnotationView = stopView;
+        self.selectedAnnotationView = view;
+        //[view.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];
 
-    self.currentPinAnnotationView = stopView;
-    //[view.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];
-    [view addSubview:stopView];
+        [view addSubview:stopView];
+    }
 }
 
 -(void)renderPolylineForRoute:(MKRoute *)route {
@@ -295,14 +319,18 @@
 
     Photo *photo;
 
-    if (self.showingMap) {
+    // if indexpath property is nil, collectionView is in callout accessory
+    if (![(IndexedPhotoCollectionView *)collectionView indexPath]) {
         photo = self.photosForSelectedStop[indexPath.row];
     }
+
+    // else, collectionView is in tableViewCell
     else {
         Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
         photo = self.stopPhotos[stop.objectId][indexPath.row];
     }
 
+    cell.imageView.image = [UIImage imageNamed:@"blackSquare"];
     cell.imageView.file = photo.image;
     [cell.imageView loadInBackground];
 
@@ -311,7 +339,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
-    if (self.showingMap) {
+    if (![(IndexedPhotoCollectionView *)collectionView indexPath]) {
         return self.photosForSelectedStop.count;
     }
     else {

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *summaryLabel;
 @property (nonatomic, strong) IndexedPhotoCollectionView *collectionView;
+@property BOOL subviewOfTableViewCell;
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
