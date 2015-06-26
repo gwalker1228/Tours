@@ -9,6 +9,7 @@
 #import "Photo.h"
 #import "Stop.h"
 #import "Tour.h"
+#import "User.h"
 
 @implementation Photo
 
@@ -18,7 +19,7 @@
 @dynamic order;
 @dynamic stop;
 @dynamic tour;
-
+@dynamic creator;
 
 + (NSString * __nonnull)parseClassName {
     return @"Photo";
@@ -41,6 +42,7 @@
     photo.title = title;
     photo.summary = summary;
     photo.order = order;
+    photo.creator = [User currentUser];
 
     return photo;
 }

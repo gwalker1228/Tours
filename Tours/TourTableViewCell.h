@@ -7,7 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TourDetailView.h"
+
+@class IndexedPhotoCollectionView;
+
+
+static CGFloat tableCellHeight = 200;
+static NSString *TourTableViewCellIdentifier = @"TourTableViewCell";
+//static CGFloat tableCellHeight = 200;
 
 @interface TourTableViewCell : UITableViewCell
+
+@property float superviewWidth;
+@property float superviewHeight;
+
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *summary;
+
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier size:(CGSize)size;
+
+- (void)setTitle:(NSString *)title summary:(NSString *)summary;
+
+- (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
 @end

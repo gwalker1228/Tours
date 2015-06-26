@@ -2,17 +2,21 @@
 
 #import "MyToursViewController.h"
 #import "TourTableViewCell.h"
-#import "BuildManager.h"
-#import "Tour.h"
 //#import "BuildTourParentViewController.h"
+#import "IndexedPhotoCollectionView.h"
+#import "IndexedPhotoCollectionViewCell.h"
+#import "Tour.h"
+#import "Photo.h"
+#import "Stop.h"
 #import "BuildTourDetailViewController.h"
 #import "User.h"
 
-@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property NSArray *tours;
+@property NSMutableDictionary *tourPhotos;
 
 @end
 
@@ -29,7 +33,7 @@
     if (![User currentUser]) {
         [self presentLogInViewController];
     } else {
-        [self fetchUserTours];
+        [self loadUserTours];
     }
 }
 
@@ -55,31 +59,46 @@
 }
 
 
-- (void) fetchUserTours {
-    PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
-    [query whereKey:@"creator" equalTo:[PFUser currentUser]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+- (void)loadUserTours {
+
+    PFQuery *query = [Tour query];
+    [query whereKey:@"creator" equalTo:[User currentUser]];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *tours, NSError *error) {
         if (!error) {
 
-            self.tours = [[[NSArray alloc] initWithArray:objects] mutableCopy];
-            [self.tableView reloadData];
+            self.tours = tours;
+            [self loadPhotos];
         } else {
             //error check
         }
     }];
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    TourTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    Tour *tour = [self.tours objectAtIndex:indexPath.row];
-    cell.textLabel.text = tour.title;
-    cell.detailTextLabel.text = tour.summary;
-    return cell;
-}
+-(void)loadPhotos {
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    self.tourPhotos = [NSMutableDictionary new];
 
-    return [self.tours count];
+    for (Tour *tour in self.tours) {
+        self.tourPhotos[tour.objectId] = [NSMutableArray new];
+    }
+
+    // Query parse for the first photo of every stop
+    PFQuery *query = [Photo query];
+    [query whereKey:@"creator" equalTo:[User currentUser]];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
+
+        // For each photo related to tour, add to appropriate array in photoStops dictionary, based on the photo's associated stop
+        NSLog(@"%@", photos);
+        for (Photo *photo in photos) {
+
+            Tour *photoTour = photo.tour; // get photo's tour
+            [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
+        }
+        //        NSLog(@"%@", self.tourPhotos);
+        [self.tableView reloadData];
+    }];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -101,6 +120,62 @@
         [tour save];
     }
 }
+
+#pragma mark - UITableView Delegate/DataSource methods
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    TourTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TourTableViewCellIdentifier];
+
+    if (cell == nil) {
+        cell = [[TourTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TourTableViewCellIdentifier size:CGSizeMake(self.tableView.bounds.size.width, tableCellHeight)];
+    }
+
+    [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
+
+    Tour *tour = [self.tours objectAtIndex:indexPath.row];
+
+    cell.title = tour.title;
+    cell.summary = tour.summary;
+
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    return self.tours.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return tableCellHeight;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    [self performSegueWithIdentifier:@"editTour" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+}
+
+#pragma mark - UICollectionView Delegate/DataSource methods
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
+    Tour *tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+
+    return [self.tourPhotos[tour.objectId] count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    IndexedPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:indexedPhotoCollectionViewCellID forIndexPath:indexPath];
+
+    Tour* tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
+
+    cell.imageView.file = photo.image;
+    [cell.imageView loadInBackground];
+
+    return cell;
+}
+
 
 @end
 

@@ -8,7 +8,9 @@
 
 #import <Parse/Parse.h>
 #import <Parse/PFObject+Subclass.h>
+
 @class Tour;
+@class User;
 
 @interface Stop : PFObject <PFSubclassing>
 
@@ -17,6 +19,7 @@
 @property PFGeoPoint *location;
 @property NSUInteger orderIndex;
 @property Tour *tour;
+@property User *creator;
 
 + (void) stopWithTour:(Tour *)tour withCompletion:(void(^)(Stop *stop, NSError *error))complete;
 + (void) stopWithTour:(Tour *)tour orderIndex:(int)index withCompletion:(void(^)(Stop *stop, NSError *error))complete;

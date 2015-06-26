@@ -9,6 +9,7 @@
 #import "Stop.h"
 #import "Tour.h"
 #import "Photo.h"
+#import "User.h"
 
 @implementation Stop
 
@@ -17,6 +18,7 @@
 @dynamic location;
 @dynamic orderIndex;
 @dynamic tour;
+@dynamic creator;
 
 + (NSString * __nonnull)parseClassName {
     return @"Stop";
@@ -25,6 +27,7 @@
 + (instancetype) objectWithTour:(Tour *)tour {
     Stop *stop = [super object];
     stop.tour = tour;
+    stop.creator = [User currentUser];
     return stop;
 }
 
@@ -32,6 +35,7 @@
     Stop *stop = [super object];
     stop.orderIndex = index;
     stop.tour = tour;
+    stop.creator = [User currentUser];
     return stop;
 }
 
