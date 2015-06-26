@@ -31,6 +31,7 @@
 @property NSArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property StopDetailMKPinAnnotationView *currentPinAnnotationView;
+@property StopDetailMKPinAnnotationView *selectedAnnotationView;
 
 @property BOOL foundPhotosForStop;
 @property BOOL removeViewAfterNextSelection;
@@ -217,43 +218,51 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
 
-    if (self.currentPinAnnotationView) {
+    if ([(StopDetailMKPinAnnotationView *)view isEqual:self.selectedAnnotationView]) {
         [self.currentPinAnnotationView removeFromSuperview];
+        self.selectedAnnotationView = nil;
+        [self.mapView deselectAnnotation:view.annotation animated:NO];
     }
-//    if (self.removeViewAfterNextSelection) {
-//        [self.mapView removeAnnotations:self.stopAnnotations];
-//        [self.mapView addAnnotations:self.stopAnnotations];
-//        self.removeViewAfterNextSelection = NO;
-//        return;
-//    }
+    else {
+        if (self.currentPinAnnotationView) {
+            [self.currentPinAnnotationView removeFromSuperview];
+        }
+        //    if (self.removeViewAfterNextSelection) {
+        //        [self.mapView removeAnnotations:self.stopAnnotations];
+        //        [self.mapView addAnnotations:self.stopAnnotations];
+        //        self.removeViewAfterNextSelection = NO;
+        //        return;
+        //    }
 
-//    CGRect viewAddedToPinFrame = CGRectMake(0, 0, 200, 200);
-//    UIView *viewAddedToPin = [[UIView alloc] initWithFrame:viewAddedToPinFrame];
-//
-//    viewAddedToPin.backgroundColor = [UIColor whiteColor];
-//    [view addSubview:viewAddedToPin];
-//
-    StopPointAnnotation *stopPointAnnotation = view.annotation;
-    Stop *stop = stopPointAnnotation.stop;
-//
-    [self.mapView deselectAnnotation:stopPointAnnotation animated:NO];
-//    self.removeViewAfterNextSelection = YES;
-//
-//
-    self.photosForSelectedStop = [self.stopPhotos objectForKey:stop.objectId];
-//
-    CGRect stopViewFrame = CGRectMake(0, 0, 200, 150);
-    StopDetailMKPinAnnotationView *stopView = [[StopDetailMKPinAnnotationView alloc] initWithFrame:stopViewFrame];
-    stopView.backgroundColor = [UIColor whiteColor];
-    addSubview:stopView.center = CGPointMake(view.bounds.size.width*0.5f, -stopView.bounds.size.height*0.5f);
+        //    CGRect viewAddedToPinFrame = CGRectMake(0, 0, 200, 200);
+        //    UIView *viewAddedToPin = [[UIView alloc] initWithFrame:viewAddedToPinFrame];
+        //
+        //    viewAddedToPin.backgroundColor = [UIColor whiteColor];
+        //    [view addSubview:viewAddedToPin];
+        //
+        StopPointAnnotation *stopPointAnnotation = view.annotation;
+        Stop *stop = stopPointAnnotation.stop;
+        //
+        [self.mapView deselectAnnotation:stopPointAnnotation animated:NO];
+        //    self.removeViewAfterNextSelection = YES;
+        //
+        //
+        self.photosForSelectedStop = [self.stopPhotos objectForKey:stop.objectId];
+        //
+        CGRect stopViewFrame = CGRectMake(0, 0, 200, 150);
+        StopDetailMKPinAnnotationView *stopView = [[StopDetailMKPinAnnotationView alloc] initWithFrame:stopViewFrame];
+        stopView.backgroundColor = [UIColor whiteColor];
+        addSubview:stopView.center = CGPointMake(view.bounds.size.width*0.5f, -stopView.bounds.size.height*0.5f);
 
-    [stopView setCollectionViewDataSourceDelegate:self indexPath:nil];
-    stopView.titleLabel.text = stop.title;
-    stopView.summaryLabel.text = stop.summary;
-
-    self.currentPinAnnotationView = stopView;
-    //[view.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];
-    [view addSubview:stopView];
+        [stopView setCollectionViewDataSourceDelegate:self indexPath:nil];
+        stopView.titleLabel.text = stop.title;
+        stopView.summaryLabel.text = stop.summary;
+        
+        self.currentPinAnnotationView = stopView;
+        self.selectedAnnotationView = view;
+        //[view.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];
+        [view addSubview:stopView];
+    }
 }
 
 -(void)renderPolylineForRoute:(MKRoute *)route {
