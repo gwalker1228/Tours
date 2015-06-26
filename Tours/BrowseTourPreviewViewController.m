@@ -258,7 +258,7 @@
         [stopView setCollectionViewDataSourceDelegate:self indexPath:nil];
         stopView.titleLabel.text = stop.title;
         stopView.summaryLabel.text = stop.summary;
-        
+
         self.currentPinAnnotationView = stopView;
         self.selectedAnnotationView = view;
         //[view.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];

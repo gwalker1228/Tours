@@ -15,5 +15,8 @@
 @property NSString *title;
 @property NSString *summary;
 @property User *creator;
+@property float totalDistance;
+@property float estimatedTime;
+@property float averageRating;
 
 @end

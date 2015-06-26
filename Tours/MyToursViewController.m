@@ -136,6 +136,8 @@
 
     cell.title = tour.title;
     cell.summary = tour.summary;
+    cell.totalDistance = tour.totalDistance;
+    cell.estimatedTime = tour.estimatedTime;
 
     return cell;
 }

@@ -52,6 +52,15 @@
     self.mainView.summaryLabel.text = summary;
 }
 
+- (void)setTotalDistance:(float)totalDistance {
+    _totalDistance = totalDistance;
+    self.mainView.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2g mi", totalDistance];
+}
+
+- (void)setEstimatedTime:(float)estimatedTime {
+    _estimatedTime = estimatedTime;
+    self.mainView.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", estimatedTime];
+}
 
 - (void)setTitle:(NSString *)title summary:(NSString *)summary {
     self.mainView.titleLabel.text = title;

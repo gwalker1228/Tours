@@ -31,6 +31,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.title = @"All Tours";
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -69,7 +71,7 @@
 //        for (int i = 0; i < (tours.count < 20 ? tours.count : 20); i++) {
 //            [self.tours addObject:tours[i]];
 //        }
-        NSLog(@"%@", self.tours);
+        //NSLog(@"%@", self.tours);
         [self loadPhotos];
     }];
 }
@@ -89,7 +91,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
 
         // For each photo related to tour, add to appropriate array in photoStops dictionary, based on the photo's associated stop
-        NSLog(@"%@", photos);
+        //NSLog(@"%@", photos);
         for (Photo *photo in photos) {
 
             Tour *photoTour = photo.tour; // get photo's tour
@@ -126,6 +128,8 @@
 
     cell.title = tour.title;
     cell.summary = tour.summary;
+    cell.totalDistance = tour.totalDistance;
+    cell.estimatedTime = tour.estimatedTime;
 
     return cell;
 }

@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tourDetailViewHeightConstraint;
 
-@property UILabel *estimatedDistanceLabel;
+@property UILabel *totalDistanceLabel;
 @property UILabel *estimatedTimeLabel;
 @property UILabel *distanceFromCurrentLocationLabel;
 @property UILabel *ratingsLabel;
@@ -131,12 +131,12 @@
     CGFloat labelWidth = self.view.bounds.size.width / 2 - labelMarginX;
     CGFloat labelHeight = 20;
 
-    self.estimatedDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelMarginX, labelMarginY, labelWidth, labelHeight)];
+    self.totalDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelMarginX, labelMarginY, labelWidth, labelHeight)];
     self.estimatedTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelMarginX, labelHeight + labelMarginY, labelWidth, labelHeight)];
     self.distanceFromCurrentLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX , labelMarginY, labelWidth, labelHeight)];
     self.ratingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX, labelHeight + labelMarginY, labelWidth, labelHeight)];
 
-    NSArray *labels = @[self.estimatedDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingsLabel];
+    NSArray *labels = @[self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingsLabel];
 
     for (UILabel *label in labels) {
         [label setFont:[UIFont systemFontOfSize:12]];
@@ -151,7 +151,7 @@
     self.summaryTextView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0];
     self.summaryTextView.delegate = self;
 
-    [self.tourDetailView addSubview:self.estimatedDistanceLabel];
+    [self.tourDetailView addSubview:self.totalDistanceLabel];
     [self.tourDetailView addSubview:self.estimatedTimeLabel];
     [self.tourDetailView addSubview:self.distanceFromCurrentLocationLabel];
     [self.tourDetailView addSubview:self.ratingsLabel];
@@ -187,10 +187,10 @@
 
 -(void)updateViews {
 
-    self.estimatedDistanceLabel.text = [NSString stringWithFormat:@"Estimated Distance: "];
-    self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: "];
-    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"From Current Location: %@", nil];
-    self.ratingsLabel.text = [NSString stringWithFormat:@"Average rating: %@", nil];
+    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Estimated Distance: %.2g", self.tour.totalDistance] : @"Estimated Distance:";
+    self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Estimated Time: %.2g", self.tour.estimatedTime] : @"Estimated Time:";
+    self.distanceFromCurrentLocationLabel.text = @"From Current Location: N/A";
+    self.ratingsLabel.text = self.tour.averageRating ? [NSString stringWithFormat:@"Average Rating: %g", self.tour.averageRating] : @"Average Rating: N/A";
     self.summaryTextView.text = self.tour.summary ? : @"Write a brief description of the tour here.";
 }
 
@@ -289,6 +289,7 @@
 
     if (self.stops.count > 1) {
         [self generatePolylineForDirectionsFromIndex:0 toIndex:1];
+        NSLog(@"Heeeeey");
         [self getEtaFromIndex:0 toIndex:1];
     }
 }
@@ -376,7 +377,9 @@
             [self generatePolylineForDirectionsFromIndex:destinationIndex toIndex:destinationIndex + 1];
         }
         else {
-            self.estimatedDistanceLabel.text = [NSString stringWithFormat:@"Estimated Distance: %.2g miles", self.totalDistance/1609.34];
+            float distanceInMiles = self.totalDistance/1609.34;
+            self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2g miles", distanceInMiles];
+            self.tour.totalDistance = distanceInMiles;
         }
     }];
 }
@@ -390,22 +393,23 @@
     request.source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
     request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
 
-    request.transportType = MKDirectionsTransportTypeWalking;
-
+   // request.transportType = MKDirectionsTransportTypeDriving;
+    NSLog(@"hello");
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 
     [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
 
         self.eta += response.expectedTravelTime;
-
+        NSLog(@"%f", self.eta);
         if (destinationIndex < self.stops.count - 1) {
             self.eta += 50;
             [self getEtaFromIndex:destinationIndex toIndex:destinationIndex + 1];
         }
         else {
             self.eta = floor(self.eta/60);
-            //NSLog(@"%f", self.eta);
+            NSLog(@"%f", self.eta);
             self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", self.eta];
+            self.tour.estimatedTime = self.eta;
         }
     }];
 }

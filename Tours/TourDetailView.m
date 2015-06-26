@@ -37,22 +37,38 @@ static CGFloat leftMarginIndent = 8.0;
 - (void)createLabels {
 
     CGFloat labelWidth = self.parentFrame.size.width - (rightMarginIndent + leftMarginIndent);
-    CGFloat labelHeight = self.parentFrame.size.height/5;
+    CGFloat labelHeight = self.parentFrame.size.height/6;
+
+    CGFloat detailLabelWidth = labelWidth / 2;
+    CGFloat detailLabelHeight = labelHeight / 2.5 + 4;
 
     CGFloat titleLabelX = rightMarginIndent;
     CGFloat titleLabelY = verticalSpaceInterval;
 
-    CGFloat descriptionLabelX = titleLabelX;
-    CGFloat descriptionLabelY = titleLabelY + labelHeight + verticalSpaceInterval;
+    CGFloat totalDistanceLabelX = titleLabelX;
+    CGFloat totalDistanceLabelY = titleLabelY + labelHeight + verticalSpaceInterval;
+
+    CGFloat estimatedTimeLabelX = titleLabelX;
+    CGFloat estimatedTimeLabelY = totalDistanceLabelY + detailLabelHeight + verticalSpaceInterval;
+
+    CGFloat summaryLabelX = titleLabelX;
+    CGFloat summaryLabelY = estimatedTimeLabelY + detailLabelHeight + verticalSpaceInterval;
+
 
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, labelWidth, labelHeight)];
-    self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(descriptionLabelX, descriptionLabelY, labelWidth, labelHeight)];
-
+    self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(summaryLabelX, summaryLabelY, labelWidth, labelHeight)];
+    self.totalDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(totalDistanceLabelX, totalDistanceLabelY, detailLabelWidth, detailLabelHeight)];
+    self.estimatedTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(estimatedTimeLabelX, estimatedTimeLabelY, detailLabelWidth, detailLabelHeight)];
     //    self.titleLabel.backgroundColor = [UIColor blueColor];
     //    self.summaryLabel.backgroundColor = [UIColor greenColor];
 
+    self.totalDistanceLabel.font = [UIFont systemFontOfSize:14.0];
+    self.estimatedTimeLabel.font = [UIFont systemFontOfSize:14.0];
+
     [self addSubview:self.titleLabel];
     [self addSubview:self.summaryLabel];
+    [self addSubview:self.totalDistanceLabel];
+    [self addSubview:self.estimatedTimeLabel];
 }
 
 - (void)createCollectionView {
