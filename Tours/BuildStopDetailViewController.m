@@ -1,6 +1,6 @@
 
 #import <MapKit/MapKit.h>
-#import "StopDetailViewController.h"
+#import "BuildStopDetailViewController.h"
 #import "StopPhotoCollectionViewCell.h"
 #import "BuildStopLocationViewController.h"
 #import "BuildStopPhotosViewController.h"
@@ -10,7 +10,7 @@
 
 static NSString *reuseIdentifier = @"PhotoCell";
 
-@interface StopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
+@interface BuildStopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
@@ -27,7 +27,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 @end
 
-@implementation StopDetailViewController
+@implementation BuildStopDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

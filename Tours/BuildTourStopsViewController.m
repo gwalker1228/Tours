@@ -8,7 +8,7 @@
 
 #import "BuildTourStopsViewController.h"
 #import "BuildTourStopsTableViewCell.h"
-#import "StopDetailViewController.h"
+#import "BuildStopDetailViewController.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "Stop.h"
@@ -269,7 +269,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    StopDetailViewController *destinationVC = (StopDetailViewController *)[segue.destinationViewController topViewController];
+    BuildStopDetailViewController *destinationVC = (BuildStopDetailViewController *)[segue.destinationViewController topViewController];
 
     if ([segue.identifier isEqualToString:@"addStop"]) {
         //BuildManager *buildManager = [BuildManager sharedBuildManager];

@@ -497,10 +497,10 @@
             </objects>
             <point key="canvasLocation" x="-2199" y="5544"/>
         </scene>
-        <!--Stop Detail View Controller-->
+        <!--Build Stop Detail View Controller-->
         <scene sceneID="Nzy-AH-YMv">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="M0H-oP-OhK" customClass="StopDetailViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="M0H-oP-OhK" customClass="BuildStopDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QTD-nN-AX2"/>
                         <viewControllerLayoutGuide type="bottom" id="ZW5-RC-jXr"/>

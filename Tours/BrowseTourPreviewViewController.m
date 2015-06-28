@@ -121,21 +121,6 @@
 
 }
 
-//-(void)makeDictionaryOfPhotoArrays {
-//
-//    //self.stopPhotos = [NSMutableDictionary new];
-//
-//    for (Stop *stop in self.stops) {
-//        self.stopPhotos[stop.objectId] = [NSMutableArray new];
-//    }
-//
-//    for (Photo *photo in self.photos) {
-//        Stop *photoStop = photo.stop;
-//        [self.stopPhotos[photoStop.objectId] addObject:photo];
-//    }
-//}
-
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     BrowseStopDetailViewController *destinationVC = segue.destinationViewController;
@@ -229,19 +214,7 @@
         if (self.currentPinAnnotationView) {
             [self.currentPinAnnotationView removeFromSuperview];
         }
-        //    if (self.removeViewAfterNextSelection) {
-        //        [self.mapView removeAnnotations:self.stopAnnotations];
-        //        [self.mapView addAnnotations:self.stopAnnotations];
-        //        self.removeViewAfterNextSelection = NO;
-        //        return;
-        //    }
 
-        //    CGRect viewAddedToPinFrame = CGRectMake(0, 0, 200, 200);
-        //    UIView *viewAddedToPin = [[UIView alloc] initWithFrame:viewAddedToPinFrame];
-        //
-        //    viewAddedToPin.backgroundColor = [UIColor whiteColor];
-        //    [view addSubview:viewAddedToPin];
-        //
         StopPointAnnotation *stopPointAnnotation = view.annotation;
         Stop *stop = stopPointAnnotation.stop;
         //

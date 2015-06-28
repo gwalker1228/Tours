@@ -64,7 +64,7 @@
 -(void)loadTours {
 
     PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
-
+    [query orderByAscending:@"totalDistance"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *tours, NSError *error) {
 
         self.tours = tours;

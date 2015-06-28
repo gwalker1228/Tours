@@ -80,7 +80,7 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
 
-        // dont' allow stops without locations to show up
+        // don't allow stops without locations to show up
         NSMutableArray *mutableArray = [NSMutableArray new];
         for (Stop *stop in stops) {
             if (stop.location != nil) {

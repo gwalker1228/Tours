@@ -11,7 +11,7 @@
 
 @class Stop;
 
-@interface StopDetailViewController : UIViewController
+@interface BuildStopDetailViewController : UIViewController
 
 @property Stop *stop;
 
