@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class Photo;
+
 @interface PhotoPopup : UIView
 
 + (void)popupWithImage:(UIImage *)image inView:(UIView *)view;
++ (void)popupWithImage:(UIImage *)image photo:(Photo *)photo inView:(UIView *)view;
 
 @end

@@ -186,7 +186,10 @@
 
     IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+    Tour* tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view];
 }
 
 @end
