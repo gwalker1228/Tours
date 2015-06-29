@@ -28,7 +28,7 @@ static NSString *TourTableViewCellIdentifier = @"TourTableViewCell";
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier size:(CGSize)size;
 
-- (void)setTitle:(NSString *)title summary:(NSString *)summary;
+//- (void)setTitle:(NSString *)title summary:(NSString *)summary;
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 
