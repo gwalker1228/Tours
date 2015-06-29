@@ -1,4 +1,4 @@
-//
+ //
 //  BrowseTourDetailViewController.m
 //  Tours
 //
@@ -8,6 +8,7 @@
 
 #import "BrowseTourDetailViewController.h"
 #import "TourPhotoCollectionViewCell.h"
+#import "ReviewViewController.h"
 #import "BrowseTourPreviewViewController.h"
 #import "StopPointAnnotation.h"
 #import "SummaryTextView.h"
@@ -171,6 +172,9 @@
     [self.mapView addSubview:self.editStopsButton];
 
 }
+- (IBAction)onReviewsButtonPressed:(UIButton *)sender {
+    NSLog(@"Review button pressed");
+}
 
 -(void)updateViews {
 
@@ -222,7 +226,12 @@
 
         BrowseTourPreviewViewController *destinationVC = segue.destinationViewController;
         destinationVC.tour = self.tour;
+    } else if ([segue.identifier isEqualToString:@"reviews"]) {
+
+        ReviewViewController *destinationVC = segue.destinationViewController;
+        destinationVC.tour = self.tour;
     }
+
 }
 
 

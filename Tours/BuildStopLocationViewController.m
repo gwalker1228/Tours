@@ -50,7 +50,7 @@
 //        NSLog(@"still finding user location");
         [self findUserLocation];
     }
-    NSLog(@"self.stoplocation: %@", [self.stop.location description]);
+//    NSLog(@"self.stoplocation: %@", [self.stop.location description]);
 
 //    CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:self.stop.location.latitude longitude:self.stop.location.longitude];
 //    StopPointAnnotation *stopAnnotation = [[StopPointAnnotation alloc] initWithLocation:stopLocation forStop:self.stop];

@@ -8,6 +8,7 @@
 
 #import <Parse/Parse.h>
 #import <Parse/PFObject+Subclass.h>
+
 @class User;
 
 @interface Tour : PFObject <PFSubclassing>
@@ -18,5 +19,7 @@
 @property float totalDistance;
 @property float estimatedTime;
 @property float averageRating;
+
+
 
 @end
