@@ -189,7 +189,7 @@
     Tour* tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
     Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
 
-    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view];
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
 }
 
 @end

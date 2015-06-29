@@ -9,6 +9,7 @@
 #import "BuildTourDetailViewController.h"
 #import "TourPhotoCollectionViewCell.h"
 #import "BuildTourStopsViewController.h"
+#import "BuildStopImagePickerViewController.h"
 #import "StopPointAnnotation.h"
 #import "SummaryTextView.h"
 #import "Tour.h"
@@ -18,7 +19,7 @@
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
 
-@interface BuildTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate>
+@interface BuildTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate, PhotoPopupDelegate>
 
 @property (weak, nonatomic) IBOutlet PFImageView *coverPhotoImageView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -57,6 +58,8 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapRecognizer];
+
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -284,11 +287,19 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TourPhotoCollectionViewCell *cell = (TourPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+
+    Stop *stop = self.stops[indexPath.section];
+    Photo *photo = self.photos[stop.objectId][indexPath.row];
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:YES delegate:self];
 }
 
+#pragma mark - PhotoPopupDelegate
 
+-(void)photoPopup:(PhotoPopup *)photoPopup editPhotoButtonPressed:(Photo *)photo {
+    //segue
+    NSLog(@"pressed edit photo button");
+}
 
 #pragma mark - MapKit methods
 
@@ -526,6 +537,7 @@
 //
 //    return YES;
 //}
+
 @end
 
 
