@@ -14,6 +14,7 @@
 #import "Tour.h"
 #import "Stop.h"
 #import "Photo.h"
+#import "PhotoPopup.h"
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
 
@@ -283,48 +284,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TourPhotoCollectionViewCell *cell = (TourPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-
-    self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.imageView.image = cell.imageView.image;
-    self.imageView.frame = CGRectMake(self.view.center.x, self.view.center.y, 0, 0);
-
-    CGFloat imageSize = self.view.bounds.size.width;
-    CGFloat originx = self.view.center.x - (imageSize / 2);
-    CGFloat originy = self.view.center.y - (imageSize / 2);
-
-    self.blackView = [[UIView alloc] initWithFrame:self.view.bounds];
-    self.blackView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.7];
-    [self.view addSubview:self.blackView];
-
-    [UIView animateWithDuration:.5 animations:^{
-
-        [self.view addSubview:self.imageView];
-        self.imageView.frame = CGRectMake(originx, originy, imageSize, imageSize);
-        [self.view bringSubviewToFront:self.imageView];
-
-    } completion:^(BOOL finished) {
-
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] init];
-        [tap addTarget:self action:@selector(onViewTapped)];
-
-        [self.imageView addGestureRecognizer:tap];
-        [self.blackView addGestureRecognizer:tap];
-    }];
-}
-
-
-- (void)onViewTapped {
-
-    [UIView animateWithDuration:0.1 animations:^{
-
-        self.imageView.frame = CGRectMake(self.view.center.x, self.view.center.y, 1, 1);
-        self.blackView.frame = CGRectMake(self.view.center.x, self.view.center.y, 1, 1);
-
-    } completion:^(BOOL finished) {
-
-        [self.imageView removeFromSuperview];
-        [self.blackView removeFromSuperview];
-    }];
+    
+    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
 }
 
 

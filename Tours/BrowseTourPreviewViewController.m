@@ -17,6 +17,7 @@
 #import "Photo.h"
 #import "Stop.h"
 #import "Tour.h"
+#import "PhotoPopup.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "InteractPinAnnotationView.h"
@@ -375,6 +376,13 @@
         Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
         return [self.stopPhotos[stop.objectId] count];
     }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+
+    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "Stop.h"
 #import "Photo.h"
 #import "Tour.h"
+#import "PhotoPopup.h"
 #import <ParseUI/ParseUI.h>
 
 
@@ -266,6 +267,13 @@
     [cell.imageView loadInBackground];
 
     return cell;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+
+    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view.superview];
 }
 
 
