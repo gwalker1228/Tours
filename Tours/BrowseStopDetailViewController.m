@@ -140,8 +140,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    StopPhotoCollectionViewCell *cell = [[StopPhotoCollectionViewCell alloc] init];
-    cell = (StopPhotoCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+    StopPhotoCollectionViewCell *cell = (StopPhotoCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
 
     self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.imageView.image = cell.imageView.image;
