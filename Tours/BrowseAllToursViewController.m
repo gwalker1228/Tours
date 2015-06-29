@@ -39,6 +39,11 @@
     self.searchBar.delegate = self;
 
     self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapRecognizer];
+    [self.navigationController.view addGestureRecognizer:tapRecognizer];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -240,6 +245,20 @@
         self.filteredTours = self.tours;
     }
     [self.tableView reloadData];
+}
+
+-(void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+
+    //reload tours based on index change
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+-(void)dismissKeyboard {
+    [self.view endEditing:YES];
+    [self.searchBar resignFirstResponder];
 }
 
 
