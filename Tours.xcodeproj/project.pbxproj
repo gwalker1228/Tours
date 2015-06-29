@@ -65,6 +65,9 @@
 		BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10FF1B368032005D6F94 /* MapPreviewView.m */; };
 		BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */; };
 		BC3E11091B385D42005D6F94 /* BuildTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */; };
+		BC54EE4F1B40C595009D41E6 /* ReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC54EE4E1B40C595009D41E6 /* ReviewViewController.m */; };
+		BC54EE521B40C6F8009D41E6 /* RatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC54EE511B40C6F8009D41E6 /* RatingTableViewCell.m */; };
+		BC54EE5A1B40F63F009D41E6 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = BC54EE591B40F63F009D41E6 /* Review.m */; };
 		FA1DF3AE1B41B229003C4225 /* PhotoPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1DF3AD1B41B229003C4225 /* PhotoPopup.m */; };
 		FA82C8B91B3C805100D95042 /* BrowseAllToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */; };
 		FA82C8BE1B3C838700D95042 /* BrowseTourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8BD1B3C838600D95042 /* BrowseTourDetailViewController.m */; };
@@ -192,6 +195,12 @@
 		BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractPinAnnotationView.m; sourceTree = "<group>"; };
 		BC3E11071B385D42005D6F94 /* BuildTourPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourPreviewViewController.h; sourceTree = "<group>"; };
 		BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourPreviewViewController.m; sourceTree = "<group>"; };
+		BC54EE4D1B40C595009D41E6 /* ReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewViewController.h; sourceTree = "<group>"; };
+		BC54EE4E1B40C595009D41E6 /* ReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewViewController.m; sourceTree = "<group>"; };
+		BC54EE501B40C6F8009D41E6 /* RatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingTableViewCell.h; sourceTree = "<group>"; };
+		BC54EE511B40C6F8009D41E6 /* RatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingTableViewCell.m; sourceTree = "<group>"; };
+		BC54EE581B40F63F009D41E6 /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Review.h; sourceTree = "<group>"; };
+		BC54EE591B40F63F009D41E6 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
 		FA1DF3AC1B41B229003C4225 /* PhotoPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPopup.h; sourceTree = "<group>"; };
 		FA1DF3AD1B41B229003C4225 /* PhotoPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPopup.m; sourceTree = "<group>"; };
 		FA82C8B71B3C805100D95042 /* BrowseAllToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseAllToursViewController.h; sourceTree = "<group>"; };
@@ -437,6 +446,7 @@
 			children = (
 				BC0E9C911B2F46E2000A8E2C /* Headers */,
 				00A326371B322C1200DE7E4E /* User.m */,
+				BC54EE591B40F63F009D41E6 /* Review.m */,
 				BC0E9C891B2F46B7000A8E2C /* Tour.m */,
 				BC0E9C8C1B2F46C9000A8E2C /* Stop.m */,
 				BC0E9C8F1B2F46D7000A8E2C /* Photo.m */,
@@ -449,6 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				00A326361B322C1200DE7E4E /* User.h */,
+				BC54EE581B40F63F009D41E6 /* Review.h */,
 				BC0E9C881B2F46B7000A8E2C /* Tour.h */,
 				BC0E9C8B1B2F46C9000A8E2C /* Stop.h */,
 				BC0E9C8E1B2F46D7000A8E2C /* Photo.h */,
@@ -462,6 +473,7 @@
 			children = (
 				FA82C8CC1B40907F00D95042 /* Headers */,
 				FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */,
+				BC54EE4E1B40C595009D41E6 /* ReviewViewController.m */,
 				FA82C8BD1B3C838600D95042 /* BrowseTourDetailViewController.m */,
 				FA82C8C01B3C9AE600D95042 /* BrowseTourPreviewViewController.m */,
 				FA82C8C91B3D13D100D95042 /* BrowseStopDetailViewController.m */,
@@ -472,6 +484,7 @@
 		FA82C8CC1B40907F00D95042 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				BC54EE4D1B40C595009D41E6 /* ReviewViewController.h */,
 				FA82C8B71B3C805100D95042 /* BrowseAllToursViewController.h */,
 				FA82C8BC1B3C838600D95042 /* BrowseTourDetailViewController.h */,
 				FA82C8BF1B3C9AE600D95042 /* BrowseTourPreviewViewController.h */,
@@ -557,6 +570,7 @@
 				FA82C8D21B40962900D95042 /* Headers */,
 				BC3E10F91B31E904005D6F94 /* TourTableViewCell.m */,
 				FAD9BC5C1B30E11100A3997E /* BuildTourStopsTableViewCell.m */,
+				BC54EE511B40C6F8009D41E6 /* RatingTableViewCell.m */,
 			);
 			name = TableViewCells;
 			sourceTree = "<group>";
@@ -564,6 +578,7 @@
 		FA82C8D21B40962900D95042 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				BC54EE501B40C6F8009D41E6 /* RatingTableViewCell.h */,
 				BC3E10F81B31E904005D6F94 /* TourTableViewCell.h */,
 				FAD9BC5B1B30E11100A3997E /* BuildTourStopsTableViewCell.h */,
 			);
@@ -642,7 +657,7 @@
 				TargetAttributes = {
 					BC0E9C131B2E26CA000A8E2C = {
 						CreatedOnToolsVersion = 6.3.2;
-						DevelopmentTeam = C66TGD93EX;
+						DevelopmentTeam = FVC7E8T2RT;
 					};
 					BC0E9C2C1B2E26CA000A8E2C = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -704,11 +719,13 @@
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
 				0076CF4E1B3CAA3900365B2F /* DesignableSegmentedControl1.m in Sources */,
 				0076CF5A1B3CFC0000365B2F /* ParentNavigationController.m in Sources */,
+				BC54EE4F1B40C595009D41E6 /* ReviewViewController.m in Sources */,
 				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				0076CE341B38989800365B2F /* BuildStopDetailViewController.m in Sources */,
 				FAD9BC631B30F1C700A3997E /* IndexedPhotoCollectionViewCell.m in Sources */,
 				FAD9BC601B30E1C600A3997E /* IndexedPhotoCollectionView.m in Sources */,
+				BC54EE521B40C6F8009D41E6 /* RatingTableViewCell.m in Sources */,
 				00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */,
 				0076CE3A1B38DB9300365B2F /* StopPhotoCollectionViewCell.m in Sources */,
 				BC0E9C1D1B2E26CA000A8E2C /* AppDelegate.m in Sources */,
@@ -727,6 +744,7 @@
 				FAAC09111B39D6FD0064D07B /* TourPhotoCollectionViewCell.m in Sources */,
 				BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */,
 				BC3E10FD1B3654CF005D6F94 /* CalloutView.m in Sources */,
+				BC54EE5A1B40F63F009D41E6 /* Review.m in Sources */,
 				BC0E9CA21B2F83CD000A8E2C /* BuildStopImagePickerViewController.m in Sources */,
 				BC0E9C561B2E3E9C000A8E2C /* BuildStopPhotosViewController.m in Sources */,
 				BC0E9C1A1B2E26CA000A8E2C /* main.m in Sources */,

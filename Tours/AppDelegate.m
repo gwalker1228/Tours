@@ -11,6 +11,7 @@
 #import "Tour.h"
 #import "Stop.h"
 #import "Photo.h"
+#import "Review.h"
 
 
 @interface AppDelegate ()
@@ -29,6 +30,8 @@
     [Tour registerSubclass];
     [Stop registerSubclass];
     [Photo registerSubclass];
+    [Review registerSubclass];
+
 
     // Initialize Parse.
     [Parse setApplicationId:@"utT2GUSlYKCwDjiPcGHetnMW7MlDSEj3vpljW3ZI"

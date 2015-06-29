@@ -89,9 +89,6 @@
         [self addSubview:imageView];
     }
 
-
-
-
     // Relayout and refresh
     [self setNeedsLayout];
     [self refresh];
