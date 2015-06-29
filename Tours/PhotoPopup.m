@@ -12,7 +12,6 @@
 
 @property UIImageView *imageView;
 @property UIView *blackView;
-//@property UIView *superview;
 
 @end
 
@@ -23,7 +22,6 @@
 
     PhotoPopup *popup = [[PhotoPopup alloc] initWithFrame:view.frame];
 
-    //self = [super initWithFrame:view.frame];
     popup.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     popup.imageView.image = image;
     popup.imageView.frame = CGRectMake(view.center.x, view.center.y, 0, 0);
@@ -34,8 +32,10 @@
 
     popup.blackView = [[UIView alloc] initWithFrame:view.bounds];
     popup.blackView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.7];
+
     [popup addSubview:popup.blackView];
     [view addSubview:popup];
+
     [UIView animateWithDuration:.5 animations:^{
 
         [popup addSubview:popup.imageView];
@@ -50,8 +50,6 @@
         [popup.imageView addGestureRecognizer:tap];
         [popup.blackView addGestureRecognizer:tap];
     }];
-
-   // return self;
 }
 
 - (void)onViewTapped {
@@ -68,29 +66,5 @@
         [self removeFromSuperview];
     }];
 }
-
-
-
-//- (instancetype)initWithFrame:(CGRect)frame
-//{
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//
-//        self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-//        self.imageView.image = cell.imageView.image;
-//        self.imageView.frame = CGRectMake(self.view.center.x, self.view.center.y, 0, 0);
-//
-//        CGFloat imageSize = self.view.bounds.size.width;
-//        CGFloat originx = self.view.center.x - (imageSize / 2);
-//        CGFloat originy = self.view.center.y - (imageSize / 2);
-//
-//        self.blackView = [[UIView alloc] initWithFrame:self.view.bounds];
-//        self.blackView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.7];
-//        [self.view addSubview:self.blackView];
-//
-//
-//    }
-//    return self;
-//}
 
 @end
