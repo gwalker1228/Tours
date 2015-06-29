@@ -65,6 +65,7 @@
 		BC3E11001B368032005D6F94 /* MapPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E10FF1B368032005D6F94 /* MapPreviewView.m */; };
 		BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */; };
 		BC3E11091B385D42005D6F94 /* BuildTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */; };
+		FA1DF3AE1B41B229003C4225 /* PhotoPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1DF3AD1B41B229003C4225 /* PhotoPopup.m */; };
 		FA82C8B91B3C805100D95042 /* BrowseAllToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */; };
 		FA82C8BE1B3C838700D95042 /* BrowseTourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8BD1B3C838600D95042 /* BrowseTourDetailViewController.m */; };
 		FA82C8C11B3C9AE600D95042 /* BrowseTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C01B3C9AE600D95042 /* BrowseTourPreviewViewController.m */; };
@@ -191,6 +192,8 @@
 		BC3E11021B370781005D6F94 /* InteractPinAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InteractPinAnnotationView.m; sourceTree = "<group>"; };
 		BC3E11071B385D42005D6F94 /* BuildTourPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourPreviewViewController.h; sourceTree = "<group>"; };
 		BC3E11081B385D42005D6F94 /* BuildTourPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourPreviewViewController.m; sourceTree = "<group>"; };
+		FA1DF3AC1B41B229003C4225 /* PhotoPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPopup.h; sourceTree = "<group>"; };
+		FA1DF3AD1B41B229003C4225 /* PhotoPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPopup.m; sourceTree = "<group>"; };
 		FA82C8B71B3C805100D95042 /* BrowseAllToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseAllToursViewController.h; sourceTree = "<group>"; };
 		FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseAllToursViewController.m; sourceTree = "<group>"; };
 		FA82C8BC1B3C838600D95042 /* BrowseTourDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTourDetailViewController.h; sourceTree = "<group>"; };
@@ -522,6 +525,8 @@
 		FA82C8CF1B4093C100D95042 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FA1DF3AC1B41B229003C4225 /* PhotoPopup.h */,
+				FA1DF3AD1B41B229003C4225 /* PhotoPopup.m */,
 				FA82C8D41B40965800D95042 /* Headers */,
 				FA82C8D11B40960D00D95042 /* TableViewCells */,
 				FA82C8D01B4095CB00D95042 /* CollectionViews */,
@@ -712,6 +717,7 @@
 				0076CF541B3CB01100365B2F /* DesignableTextField1.m in Sources */,
 				007BE45D1B34A16D0076A6FF /* TourPageMasterViewController.m in Sources */,
 				FA82C8C71B3CBEFD00D95042 /* TourDetailView.m in Sources */,
+				FA1DF3AE1B41B229003C4225 /* PhotoPopup.m in Sources */,
 				FA82C8CA1B3D13D100D95042 /* BrowseStopDetailViewController.m in Sources */,
 				BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */,
 				FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */,
