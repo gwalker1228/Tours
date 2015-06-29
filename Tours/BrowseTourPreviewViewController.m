@@ -22,7 +22,7 @@
 #import "InteractPinAnnotationView.h"
 #import <ParseUI/ParseUI.h>
 
-@interface BrowseTourPreviewViewController () <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface BrowseTourPreviewViewController () <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -33,6 +33,8 @@
 @property NSMutableDictionary *stopPhotos;
 @property StopDetailMKPinAnnotationView *currentPinAnnotationView;
 @property MKAnnotationView *selectedAnnotationView;
+
+@property CLLocationManager *locationManager;
 
 @property BOOL foundPhotosForStop;
 @property BOOL removeViewAfterNextSelection;
@@ -51,7 +53,14 @@
     self.stopAnnotations = [NSMutableArray new];
     self.showingMap = YES;
 
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    [self.locationManager requestWhenInUseAuthorization];
+
     self.title = self.tour.title;
+
+    self.mapView.showsUserLocation = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -191,6 +200,8 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
+    if (annotation == mapView.userLocation) return nil;
+
     StopDetailMKPinAnnotationView *annotationView = [[StopDetailMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
 
     CGRect stopViewFrame = CGRectMake(0, 0, 200, 150);
@@ -263,16 +274,43 @@
 
     [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
 
+        if (!error) {
+            NSArray *routes = response.routes;
+            MKRoute *route = routes.firstObject;
+
+            MKPolyline *polyline = [route polyline];
+            [self.mapView addOverlay:polyline];
+            [self.mapView setNeedsDisplay];
+        }
+        
+        if (destinationIndex < self.stops.count - 1) {
+            [self generatePolylineForDirectionsFromIndex:destinationIndex toIndex:destinationIndex + 1];
+        }
+
+    }];
+}
+
+-(void)getDirectionsFromCurrentLocationToAnnotationView:(StopDetailMKPinAnnotationView *)view {
+
+    MKDirectionsRequest *request = [MKDirectionsRequest new];
+
+    request.source = [MKMapItem mapItemForCurrentLocation];
+    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[view.annotation coordinate] addressDictionary:nil];
+    request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
+
+    //request.transportType = MKDirectionsTransportTypeWalking;
+
+    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+
+    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+
         NSArray *routes = response.routes;
         MKRoute *route = routes.firstObject;
 
         MKPolyline *polyline = [route polyline];
+
         [self.mapView addOverlay:polyline];
         [self.mapView setNeedsDisplay];
-
-        if (destinationIndex < self.stops.count - 1) {
-            [self generatePolylineForDirectionsFromIndex:destinationIndex toIndex:destinationIndex + 1];
-        }
     }];
 }
 
@@ -284,6 +322,23 @@
 
     return polylineRenderer;
 }
+
+#pragma mark - CLLocationManager
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"%@", error);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+
+    for (CLLocation *location in locations) {
+        if (location.verticalAccuracy < 1000 && location.horizontalAccuracy < 1000) {
+            [self.locationManager stopUpdatingLocation];
+            break;
+        }
+    }
+}
+
 
 #pragma mark - UICollectionView DataSource/Delegate methods
 

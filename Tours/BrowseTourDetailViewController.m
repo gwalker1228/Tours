@@ -401,20 +401,24 @@
 
     [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
 
-        NSArray *routes = response.routes;
-        MKRoute *route = routes.firstObject;
+        if (!error) {
+            NSArray *routes = response.routes;
+            MKRoute *route = routes.firstObject;
 
-        MKPolyline *polyline = [route polyline];
-        [self.mapView addOverlay:polyline];
-        [self.mapView setNeedsDisplay];
+            MKPolyline *polyline = [route polyline];
+            [self.mapView addOverlay:polyline];
+            [self.mapView setNeedsDisplay];
 
-        self.totalDistance += route.distance;
+            self.totalDistance += route.distance;
+        }
+        
         if (destinationIndex < self.stops.count - 1) {
             [self generatePolylineForDirectionsFromIndex:destinationIndex toIndex:destinationIndex + 1];
         }
         else {
             self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2g miles", self.totalDistance/1609.34];
         }
+
     }];
 }
 
