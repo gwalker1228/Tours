@@ -25,6 +25,7 @@
 @property UIView *blackView;
 
 @property NSArray *tours;
+@property NSArray *filteredTours;
 @property NSMutableDictionary *tourPhotos;
 
 @end
@@ -35,6 +36,7 @@
     [super viewDidLoad];
 
     self.title = @"All Tours";
+    self.searchBar.delegate = self;
 
     self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
 }
@@ -72,6 +74,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *tours, NSError *error) {
 
         self.tours = tours;
+        self.filteredTours = tours;
 //        for (int i = 0; i < (tours.count < 20 ? tours.count : 20); i++) {
 //            [self.tours addObject:tours[i]];
 //        }
@@ -84,7 +87,7 @@
 
     self.tourPhotos = [NSMutableDictionary new];
 
-    for (Tour *tour in self.tours) {
+    for (Tour *tour in self.filteredTours) {
         self.tourPhotos[tour.objectId] = [NSMutableArray new];
     }
 
@@ -113,7 +116,7 @@
     if ([segue.identifier isEqualToString:@"browseTour"]) {
 
         BrowseTourDetailViewController *destinationVC = segue.destinationViewController;
-        destinationVC.tour = self.tours[[self.tableView indexPathForCell:sender].row];
+        destinationVC.tour = self.filteredTours[[self.tableView indexPathForCell:sender].row];
     }
 }
 
@@ -128,7 +131,7 @@
 
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
 
-    Tour *tour = self.tours[indexPath.row];
+    Tour *tour = self.filteredTours[indexPath.row];
 
     cell.title = tour.title;
     cell.summary = tour.summary;
@@ -141,7 +144,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
 //    NSLog(@"%lu", self.tours.count);
-    return self.tours.count;
+    return self.filteredTours.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -157,7 +160,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
-    Tour *tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Tour *tour = self.filteredTours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
 
     return [self.tourPhotos[tour.objectId] count];
 }
@@ -166,7 +169,7 @@
 
     IndexedPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:indexedPhotoCollectionViewCellID forIndexPath:indexPath];
 
-    Tour* tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Tour* tour = self.filteredTours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
     Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
 
     cell.imageView.file = photo.image;
@@ -220,6 +223,23 @@
         [self.imageView removeFromSuperview];
         [self.blackView removeFromSuperview];
     }];
+}
+
+
+#pragma mark - UISearchBar Delegate methods
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length > 0) {
+        NSIndexSet *indexes = [self.tours indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [[[obj title] lowercaseString] containsString:[searchText lowercaseString]];
+        }];
+
+        self.filteredTours = [self.tours objectsAtIndexes:indexes];
+    }
+    else {
+        self.filteredTours = self.tours;
+    }
+    [self.tableView reloadData];
 }
 
 
