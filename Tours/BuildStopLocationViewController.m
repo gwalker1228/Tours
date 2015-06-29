@@ -174,6 +174,9 @@
     self.navigationItem.leftBarButtonItem.enabled = NO;
     
     [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+
+        NSLog(@"testLocation: %@", self.stop.location);     // TO DELETE!
+        NSLog(@"testCenter: (%f %f) (60, 40)", self.view.center.x - 40/2, self.view.center.y - 60);     // TO DELETE!
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }];
 }
