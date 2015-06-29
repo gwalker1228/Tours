@@ -35,6 +35,8 @@
     [super viewDidLoad];
 
     self.title = @"All Tours";
+
+    self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
 }
 
 -(void)viewWillAppear:(BOOL)animated {

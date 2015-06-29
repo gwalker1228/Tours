@@ -27,13 +27,15 @@
 @property NSMutableDictionary *stopPhotos;
 @property BOOL isEditing;
 
-
 @end
 
 @implementation BuildTourStopsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
+    self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
 
 //    for (UIButton *button in @[self.addStopButton, self.editStopsButton]) {
 //        button.layer.borderColor = [UIColor blackColor].CGColor;
