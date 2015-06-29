@@ -186,7 +186,6 @@
 
     IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-
     [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
 }
 
