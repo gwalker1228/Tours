@@ -8,8 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class Photo;
+@class PhotoPopup;
+
+@protocol PhotoPopupDelegate <NSObject>
+
+-(void)photoPopup:(PhotoPopup *)photoPopup editPhotoButtonPressed:(Photo *)photo;
+
+@end
+
 @interface PhotoPopup : UIView
 
+@property id<PhotoPopupDelegate> delegate;
+
 + (void)popupWithImage:(UIImage *)image inView:(UIView *)view;
++ (void)popupWithImage:(UIImage *)image photo:(Photo *)photo inView:(UIView *)view editable:(BOOL)editable delegate:(id<PhotoPopupDelegate>)delegate;
 
 @end

@@ -69,6 +69,7 @@
 		BC54EE521B40C6F8009D41E6 /* RatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC54EE511B40C6F8009D41E6 /* RatingTableViewCell.m */; };
 		BC54EE5A1B40F63F009D41E6 /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = BC54EE591B40F63F009D41E6 /* Review.m */; };
 		FA1DF3AE1B41B229003C4225 /* PhotoPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1DF3AD1B41B229003C4225 /* PhotoPopup.m */; };
+		FA1DF3B11B41EE49003C4225 /* PhotoFlag.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1DF3B01B41EE49003C4225 /* PhotoFlag.m */; };
 		FA82C8B91B3C805100D95042 /* BrowseAllToursViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */; };
 		FA82C8BE1B3C838700D95042 /* BrowseTourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8BD1B3C838600D95042 /* BrowseTourDetailViewController.m */; };
 		FA82C8C11B3C9AE600D95042 /* BrowseTourPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C01B3C9AE600D95042 /* BrowseTourPreviewViewController.m */; };
@@ -203,6 +204,8 @@
 		BC54EE591B40F63F009D41E6 /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Review.m; sourceTree = "<group>"; };
 		FA1DF3AC1B41B229003C4225 /* PhotoPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPopup.h; sourceTree = "<group>"; };
 		FA1DF3AD1B41B229003C4225 /* PhotoPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPopup.m; sourceTree = "<group>"; };
+		FA1DF3AF1B41EE49003C4225 /* PhotoFlag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoFlag.h; sourceTree = "<group>"; };
+		FA1DF3B01B41EE49003C4225 /* PhotoFlag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoFlag.m; sourceTree = "<group>"; };
 		FA82C8B71B3C805100D95042 /* BrowseAllToursViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseAllToursViewController.h; sourceTree = "<group>"; };
 		FA82C8B81B3C805100D95042 /* BrowseAllToursViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseAllToursViewController.m; sourceTree = "<group>"; };
 		FA82C8BC1B3C838600D95042 /* BrowseTourDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseTourDetailViewController.h; sourceTree = "<group>"; };
@@ -451,6 +454,7 @@
 				BC0E9C8C1B2F46C9000A8E2C /* Stop.m */,
 				BC0E9C8F1B2F46D7000A8E2C /* Photo.m */,
 				FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */,
+				FA1DF3B01B41EE49003C4225 /* PhotoFlag.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -464,6 +468,7 @@
 				BC0E9C8B1B2F46C9000A8E2C /* Stop.h */,
 				BC0E9C8E1B2F46D7000A8E2C /* Photo.h */,
 				FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */,
+				FA1DF3AF1B41EE49003C4225 /* PhotoFlag.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -760,6 +765,7 @@
 				BC0E9C531B2E3E7E000A8E2C /* BuildStopLocationViewController.m in Sources */,
 				FAAC090E1B3911E10064D07B /* BuildTourDetailViewController.m in Sources */,
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
+				FA1DF3B11B41EE49003C4225 /* PhotoFlag.m in Sources */,
 				BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */,
 				0076CF421B3C9F0800365B2F /* DesignableLabel1.m in Sources */,
 				BC1E99461B39DFE70079EC99 /* RateView.m in Sources */,

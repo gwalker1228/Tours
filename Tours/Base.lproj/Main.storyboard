@@ -1169,7 +1169,7 @@
                                 <segue destination="0rt-gg-cnz" kind="show" identifier="myTours" id="AMA-5M-rue"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Logout" id="Crc-Jf-COP">
+                        <barButtonItem key="rightBarButtonItem" id="Crc-Jf-COP">
                             <connections>
                                 <action selector="onLogoutButtonPressed:" destination="fzV-la-rEw" id="fgK-U4-5BH"/>
                             </connections>
@@ -1543,7 +1543,7 @@
                                                         </state>
                                                         <connections>
                                                             <action selector="onReviewsButtonPressed:" destination="dk4-NU-tXF" eventType="touchUpInside" id="cC3-lR-hLN"/>
-                                                            <segue destination="jzr-5v-FSI" kind="presentation" identifier="reviews" id="jHg-ne-Nsc"/>
+                                                            <segue destination="3re-fc-YPs" kind="presentation" identifier="reviews" id="FYv-Sp-9FO"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -1656,15 +1656,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bHg-dy-t2w">
-                                <rect key="frame" x="0.0" y="244" width="600" height="356"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="85" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bHg-dy-t2w">
+                                <rect key="frame" x="0.0" y="244" width="600" height="416"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="BWC-Ng-ejq" customClass="RatingTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="85" id="BWC-Ng-ejq" customClass="RatingTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BWC-Ng-ejq" id="NTb-g6-GBp">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" contentMode="left" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hBO-m5-ypd">
+                                                    <rect key="frame" x="8" y="28" width="584" height="32"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hBO-m5-ypd" firstAttribute="top" secondItem="NTb-g6-GBp" secondAttribute="topMargin" constant="20" id="7MP-UO-GOZ"/>
+                                                <constraint firstItem="hBO-m5-ypd" firstAttribute="leading" secondItem="NTb-g6-GBp" secondAttribute="leadingMargin" id="7yu-xB-Kcv"/>
+                                                <constraint firstItem="hBO-m5-ypd" firstAttribute="trailing" secondItem="NTb-g6-GBp" secondAttribute="trailingMargin" id="p2B-3Z-fJn"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="hBO-m5-ypd" secondAttribute="bottom" constant="16" id="whw-JA-NQi"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="reviewSummary" destination="hBO-m5-ypd" id="0o4-Fm-Je6"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -1678,7 +1695,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Shn-Os-hrh">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Shn-Os-hrh">
                                 <rect key="frame" x="550" y="206" width="34" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="1Vd-ad-HKL"/>
@@ -1691,6 +1708,19 @@
                                     <action selector="onSaveButtonPressed:" destination="oNs-n9-toJ" eventType="touchUpInside" id="M1a-6N-JEd"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enz-gN-cPi">
+                                <rect key="frame" x="550" y="168" width="40" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="C3x-5x-ydk"/>
+                                    <constraint firstAttribute="height" constant="30" id="MGh-nc-0VS"/>
+                                </constraints>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onLoginButtonPressed:" destination="oNs-n9-toJ" eventType="touchUpInside" id="Gaj-7C-Ypx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1699,8 +1729,10 @@
                             <constraint firstAttribute="bottomMargin" secondItem="bHg-dy-t2w" secondAttribute="bottom" id="NRd-nx-XQl"/>
                             <constraint firstItem="bHg-dy-t2w" firstAttribute="top" secondItem="cag-tA-NiU" secondAttribute="bottom" constant="180" id="X1W-jt-0UZ"/>
                             <constraint firstItem="Shn-Os-hrh" firstAttribute="trailing" secondItem="Y2w-Jy-9g3" secondAttribute="trailingMargin" id="YHr-uV-zqL"/>
+                            <constraint firstItem="Shn-Os-hrh" firstAttribute="top" secondItem="enz-gN-cPi" secondAttribute="bottom" constant="8" id="YOt-O4-DDM"/>
                             <constraint firstItem="7DR-F1-ddc" firstAttribute="leading" secondItem="Y2w-Jy-9g3" secondAttribute="leadingMargin" constant="-16" id="b7Z-XL-B8M"/>
                             <constraint firstItem="Shn-Os-hrh" firstAttribute="leading" secondItem="7DR-F1-ddc" secondAttribute="trailing" constant="8" id="eih-H5-Ars"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="enz-gN-cPi" secondAttribute="trailing" constant="-6" id="kwn-ms-gLd"/>
                             <constraint firstItem="bHg-dy-t2w" firstAttribute="leading" secondItem="Y2w-Jy-9g3" secondAttribute="leadingMargin" constant="-16" id="lRD-VM-Oaw"/>
                             <constraint firstItem="bHg-dy-t2w" firstAttribute="trailing" secondItem="Y2w-Jy-9g3" secondAttribute="trailingMargin" constant="16" id="mXa-NG-K4E"/>
                             <constraint firstItem="bHg-dy-t2w" firstAttribute="top" secondItem="Shn-Os-hrh" secondAttribute="bottom" constant="8" id="r4b-BW-dXO"/>
@@ -1714,6 +1746,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="loginButton" destination="enz-gN-cPi" id="ocv-rQ-4ee"/>
                         <outlet property="reviewTextField" destination="7DR-F1-ddc" id="V58-Eh-ZO0"/>
                         <outlet property="saveButton" destination="Shn-Os-hrh" id="A16-Hd-EKa"/>
                         <outlet property="tableView" destination="bHg-dy-t2w" id="NDl-rb-bzR"/>
@@ -1721,7 +1754,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G5x-hO-9aq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2629" y="-1486"/>
+            <point key="canvasLocation" x="3483" y="-1524"/>
         </scene>
         <!--Browse Tour Preview View Controller-->
         <scene sceneID="6un-aA-YWC">
@@ -1914,22 +1947,22 @@
             <point key="canvasLocation" x="2956" y="22"/>
         </scene>
         <!--Parent Navigation Controller-->
-        <scene sceneID="Ybi-Ya-W44">
+        <scene sceneID="tbL-mh-yv7">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jzr-5v-FSI" customClass="ParentNavigationController" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3re-fc-YPs" customClass="ParentNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sa6-zD-QI8">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uC7-Fj-75c">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="oNs-n9-toJ" kind="relationship" relationship="rootViewController" id="cTI-Z7-6k5"/>
+                        <segue destination="oNs-n9-toJ" kind="relationship" relationship="rootViewController" id="hJ1-6K-90f"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2U9-gX-4Fc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="THl-xC-hI3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2629" y="-2191"/>
+            <point key="canvasLocation" x="2745" y="-1524"/>
         </scene>
     </scenes>
     <resources>

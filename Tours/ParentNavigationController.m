@@ -7,7 +7,6 @@
 //
 
 #import "ParentNavigationController.h"
-#import "Tour.h"
 
 
 @interface ParentNavigationController ()

@@ -229,7 +229,8 @@
         destinationVC.tour = self.tour;
     } else if ([segue.identifier isEqualToString:@"reviews"]) {
 
-        ReviewViewController *destinationVC = segue.destinationViewController;
+
+        ReviewViewController *destinationVC =  (ReviewViewController *)[segue.destinationViewController topViewController];
         destinationVC.tour = self.tour;
     }
 

@@ -12,7 +12,7 @@
 #import "Stop.h"
 #import "Photo.h"
 #import "Review.h"
-
+#import "PhotoFlag.h"
 
 @interface AppDelegate ()
 
@@ -31,7 +31,7 @@
     [Stop registerSubclass];
     [Photo registerSubclass];
     [Review registerSubclass];
-
+    [PhotoFlag registerSubclass];
 
     // Initialize Parse.
     [Parse setApplicationId:@"utT2GUSlYKCwDjiPcGHetnMW7MlDSEj3vpljW3ZI"
