@@ -25,6 +25,8 @@ static NSString *TourTableViewCellIdentifier = @"TourTableViewCell";
 @property (nonatomic) NSString *summary;
 @property (nonatomic) float totalDistance;
 @property (nonatomic) float estimatedTime;
+@property (nonatomic) NSString *distanceFromCurrentLocation;
+@property (nonatomic) float rating;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier size:(CGSize)size;
 
