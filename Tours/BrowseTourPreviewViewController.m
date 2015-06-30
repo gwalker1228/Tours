@@ -62,6 +62,7 @@
     self.title = self.tour.title;
 
     self.mapView.showsUserLocation = YES;
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -98,6 +99,8 @@
 
         if (!error) {
             self.stops = stops;
+            NSLog(@"%@ %@ %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), self.stops); // TO DELETE
+
             [self loadPhotos];
         } else {
             // error check

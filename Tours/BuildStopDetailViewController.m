@@ -137,7 +137,9 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 - (IBAction)onCancelButtonPressed {
 
-
+    if (!self.stop.location) {
+        [self.stop delete];
+    }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 

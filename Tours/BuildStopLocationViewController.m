@@ -30,6 +30,7 @@
 
 @property StopPointAnnotation *stopPointAnnotation;
 @property BOOL pinDropped;
+@property BOOL pinViewDropped;
 
 @end
 
@@ -46,10 +47,7 @@
     self.mapView.pitchEnabled = YES; // doesn't seem to do much. The reference makes it sound like this is auto set based on the camera
     self.mapView.showsBuildings = YES;
 
-    if (self.stop.location == nil) {
-//        NSLog(@"still finding user location");
-        [self findUserLocation];
-    }
+
 //    NSLog(@"self.stoplocation: %@", [self.stop.location description]);
 
 //    CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:self.stop.location.latitude longitude:self.stop.location.longitude];
@@ -59,13 +57,39 @@
 
 
 //    [self dropPin];
-    [self zoomMapToSavedStopLocation];
+
+
 
 
 //    MKMapCamera *camera = [MKMapCamera new];
 //    camera.centerCoordinate = self.mapView.centerCoordinate;
 //    [self.mapView setCamera:camera];
 }
+
+
+-(void)viewDidLayoutSubviews {
+    NSLog(@"did layout subviews");
+//    [self dropPin];
+
+    if (!self.pinViewDropped) {
+        if (self.stop.location == nil) {
+            //        NSLog(@"still finding user location");
+            [self findUserLocation];
+        }
+        else {
+            [self zoomMapToSavedStopLocation];
+            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+            annotation.coordinate = CLLocationCoordinate2DMake(self.stop.location.latitude, self.stop.location.longitude);
+            [self.mapView addAnnotation:annotation];
+            self.pinViewDropped = YES;
+            CGPoint p = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.mapView];
+            NSLog(@"use this %@", NSStringFromCGPoint(p));
+            [self dropPin];
+        }
+    }
+
+}
+
 
 - (void) findUserLocation {
     if (nil == self.clLocationManager) {
@@ -85,6 +109,17 @@
         MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 100000, 10000);
         [self.mapView setRegion:coordinateRegion animated:NO];
         [self.clLocationManager stopUpdatingLocation];
+
+        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        annotation.coordinate = CLLocationCoordinate2DMake(self.mapView.centerCoordinate.latitude, self.mapView.centerCoordinate.longitude);
+        [self.mapView addAnnotation:annotation];
+        self.pinViewDropped = YES;
+        CGPoint p = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.mapView];
+        NSLog(@"use this %@", NSStringFromCGPoint(p));
+        CLLocationCoordinate2D mapCenter = self.mapView.centerCoordinate;
+        self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
+        [self dropPin];
+
     }
 }
 
@@ -98,7 +133,12 @@
         CGFloat pinHeight = 60;
 
         // create the imageView that defines centers the pin in the
-        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - pinWidth/2, self.view.center.y - pinHeight, pinWidth, pinHeight)];
+        //UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - pinWidth/2, self.view.center.y - pinHeight, pinWidth, pinHeight)];
+
+        CGPoint p = [self.mapView convertCoordinate:[[self.mapView.annotations firstObject] coordinate] toPointToView:self.mapView];
+
+//        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.center.x - pinWidth/2, self.view.center.y - pinHeight, pinWidth, pinHeight)];
+        UIImageView *pin = [[UIImageView alloc] initWithFrame:CGRectMake(p.x - pinWidth/2, p.y - pinHeight, pinWidth, pinHeight)];
 
 //        pin.hidden = YES;
 
@@ -108,7 +148,11 @@
         pin.userInteractionEnabled = NO;
 
 //        [self.view addSubview:pin];
-        [self.view addSubview:pin];
+        [self.mapView addSubview:pin];
+//        [self.view addSubview:pin];
+        NSLog(@"Real!! viewCenter:%@ pinCenterRep:(%f, %f)", NSStringFromCGPoint(self.view.center), CGRectGetMidX(pin.frame), CGRectGetMaxY(pin.frame));
+        NSLog(@"Size: %@", NSStringFromCGSize(pin.frame.size));
+
         self.pinDropped = YES;
     }
 }
@@ -150,7 +194,7 @@
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
-    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
+    MKAnnotationView *pin = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
 
 //   pin.draggable = YES;
 //   StopPointAnnotation *stop = annotation;
@@ -160,13 +204,15 @@
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
 //    NSLog(@"%f, %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
-//    if (!self.pinDropped) {
+    if (self.pinViewDropped) {
 //        [self dropPin];
-//    }
-    [self dropPin];
-    CLLocationCoordinate2D mapCenter = mapView.centerCoordinate;
-    self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
-    //NSLog(<#NSString *format, ...#>)
+        CLLocationCoordinate2D mapCenter = mapView.centerCoordinate;
+        self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
+        NSLog(@"%@ mapCenter:(%f, %f) and (%f, %f)", NSStringFromSelector(_cmd), mapCenter.latitude, mapCenter.longitude, mapView.frame.size.width, mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height/2);  // TO DELETE
+
+    }
+   // [self dropPin];
+
 }
 
 - (IBAction)onSaveButtonPressed:(UIBarButtonItem *)sender {
@@ -175,8 +221,7 @@
     
     [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 
-        NSLog(@"testLocation: %@", self.stop.location);     // TO DELETE!
-        NSLog(@"testCenter: (%f %f) (60, 40)", self.view.center.x - 40/2, self.view.center.y - 60);     // TO DELETE!
+        NSLog(@"savingLocation: %@", self.stop.location);     // TO DELETE!
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }];
 }

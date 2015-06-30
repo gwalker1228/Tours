@@ -82,7 +82,7 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
         self.stops = stops;
-        NSLog(@"%@", stops);
+        NSLog(@"%@ -> %@", NSStringFromSelector(_cmd), stops);
         [self loadStopsOnMap];
         [self loadPhotos];
     }];
