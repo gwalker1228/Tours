@@ -192,6 +192,23 @@
     [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
 }
 
+- (void) validateTourForPublishing:(Tour *)tour {
+
+    PFQuery *query = [PFQuery queryWithClassName:@"Stop"];
+    [query whereKey:@"tour" equalTo:tour];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
+        if (error == nil) {
+            //count the array etc.  Go back to this, getting a crash somehwere else
+        }
+    }];
+
+
+
+
+
+}
+
+
 @end
 
 
