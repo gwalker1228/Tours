@@ -39,7 +39,6 @@
 
 @property BOOL foundPhotosForStop;
 @property BOOL removeViewAfterNextSelection;
-@property BOOL showingMap;
 
 @end
 
@@ -52,14 +51,13 @@
     self.mapView.delegate = self;
     self.mapView.mapType = MKMapTypeHybrid;
     self.stopAnnotations = [NSMutableArray new];
-    self.showingMap = YES;
 
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
     [self.locationManager requestWhenInUseAuthorization];
 
-    self.title = self.tour.title;
+    //self.title = self.tour.title;
 
     self.mapView.showsUserLocation = YES;
 
@@ -75,19 +73,42 @@
     self.removeViewAfterNextSelection = NO;
 }
 
-- (IBAction)onToggleViewPressed:(UIBarButtonItem *)sender {
 
-    if (self.showingMap) {
-        [self.view bringSubviewToFront:self.tableView];
-        [sender setTitle:@"Map"];
+- (IBAction)onSegmentedControlPressed:(UISegmentedControl *)sender {
+    if (sender.selectedSegmentIndex == 1) {
+
+        [UIView animateWithDuration:1.0 animations:^{
+            self.mapView.alpha = 0.0;
+
+            [UIView animateWithDuration:0.0 animations:^{
+                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.tableView cache:YES];
+
+            } completion:^(BOOL finished) {
+                [self.view bringSubviewToFront:self.tableView];
+            }];
+        } completion:^(BOOL finished) {
+            self.mapView.alpha = 1.0;
+        }];
     }
     else {
-        [self.view bringSubviewToFront:self.mapView];
-        [sender setTitle:@"List"];
+        [UIView animateWithDuration:1.0 animations:^{
+            self.tableView.alpha = 0.0;
+
+            [UIView animateWithDuration:0.0 animations:^{
+                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.mapView cache:YES];
+
+            } completion:^(BOOL finished) {
+                [self.view bringSubviewToFront:self.mapView];
+            }];
+        } completion:^(BOOL finished) {
+            self.tableView.alpha = 1.0;
+        }];
     }
 
-    self.showingMap = !self.showingMap;
 }
+
+
+
 
 -(void)loadStops {
 
