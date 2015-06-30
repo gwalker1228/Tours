@@ -12,6 +12,5 @@
 
 @interface ParentNavigationController : UINavigationController
 
-@property Tour *tour;  // The BrowseTourDetailVC wasn't able to pass the Tour through to the ReviewVC unless I added this property
 
 @end

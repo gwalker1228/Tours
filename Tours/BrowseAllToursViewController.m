@@ -47,11 +47,26 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    if (![User currentUser]) {
-        [self presentLogInViewController];
+
+    [self loadTours];
+        if (![User currentUser]) {
+            
+            [self.navigationItem.rightBarButtonItem setTitle:@"Login"];
     } else {
-        [self loadTours];
+
+        [self.navigationItem.rightBarButtonItem setTitle:@"Logout"];
     }
+}
+
+- (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
+
+    if ([self.navigationItem.rightBarButtonItem.title isEqualToString:@"Logout"]) {
+        [self.navigationItem.rightBarButtonItem setTitle:@"Login"];
+        [User logOut];
+    } else {
+        [self presentLogInViewController];
+    }
+
 }
 
 -(void)presentLogInViewController {
@@ -65,13 +80,6 @@
         [self.parentViewController presentViewController:navigationLoginVC animated:YES completion:nil];
     });
 }
-
-- (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
-    NSLog(@"See you soon, %@", [User currentUser].username);
-    [User logOut];
-    [self presentLogInViewController];
-}
-
 -(void)loadTours {
 
     PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
