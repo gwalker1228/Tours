@@ -17,9 +17,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property NSArray *tours;
-@property NSMutableDictionary *tourPhotos;
+@property NSMutableDictionary *tourPhotos; // all photos displayed on page, key -> tourID : value = [array of photos for that tour]
 @property UIImageView *imageView;
 @property UIView *blackView;
+@property NSMutableDictionary *validationErrors;
 
 @end
 
@@ -94,13 +95,13 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
 
         // For each photo related to tour, add to appropriate array in photoStops dictionary, based on the photo's associated stop
-        NSLog(@"%@", photos);
+
         for (Photo *photo in photos) {
 
             Tour *photoTour = photo.tour; // get photo's tour
             [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
         }
-        //        NSLog(@"%@", self.tourPhotos);
+
         [self.tableView reloadData];
     }];
 }
@@ -193,21 +194,88 @@
     [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
 }
 
+
+
 - (void) validateTourForPublishing:(Tour *)tour {
 
+        // We need to get the stops for each tour because we don't do this prior to validation
     PFQuery *query = [PFQuery queryWithClassName:@"Stop"];
     [query whereKey:@"tour" equalTo:tour];
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
+
         if (error == nil) {
-            //count the array etc.  Go back to this, getting a crash somehwere else
+            if (stops.count < 2) {
+                self.validationErrors[@"objectMinimum"] = @"Please have at least two stops in your tour in order to publish";
+            }
         }
+
+        [self ensureSelectedTour:tour hasAPhotoAssociatedWithEachStop:stops];
     }];
+}
 
+- (void) ensureSelectedTour:(Tour *)tour hasAPhotoAssociatedWithEachStop:(NSArray *)stops {
 
+//    NSMutableArray *stopsWithNoPhotos = [NSMutableArray new];
+    self.validationErrors[@"stopsWithNoPhotos"] = [NSMutableArray new];
 
+    // Create a dictionary with key of the stopId and a mutableArray as the value to add photos to
+    NSMutableDictionary *stopPhotos = [NSMutableDictionary new];
+    for (Stop *stop in stops) {
+        stopPhotos[stop.objectId] = [NSMutableArray new];
+    }
 
+    // We build tourPhotos to display the photos for each tour in each cell's respective collection view
+    // Pulling the selected stop's photos out to compare to each stop
+    NSMutableArray *photosForStop = self.tourPhotos[tour.objectId];
+
+    // add the photo objects to the objectId key associated with each stop
+    for (Photo *photo in photosForStop) {
+
+        Stop *stop = photo.stop;
+        stopPhotos[stop.objectId] = photo;
+    }
+
+    // count the number of photos just added and ensure it's greater than one
+    for (Stop *stop in stops) {
+        NSMutableArray *array = stopPhotos[stop.objectId];
+        if (array.count < 1) {
+            [self.validationErrors[@"stopsWithNoPhotos"] addObject:stop];
+        }
+    }
+        // Do the rest of the simple checks,
+        //could have done it in the previous loop, but for understandability separating it..
+    [self ensureRemainingValidationsForStops:stops];
 
 }
+
+-(void) ensureRemainingValidationsForStops:(NSArray *)stops {
+
+    self.validationErrors[@"stopsWithNoTitle"] = [NSMutableArray new];
+    self.validationErrors[@"stopsWithNoLocation"] = [NSMutableArray new];
+    self.validationErrors[@"stopsWithNoSummary"] = [NSMutableArray new];
+
+    for (Stop *stop in stops) {
+        if ([stop.title isEqualToString:@""]) {
+            [self.validationErrors[@"stopsWithNoTitle"] addObject:stop];
+        }
+
+        if (stop.location == nil) {
+            [self.validationErrors[@"stopsWithNoLocation"] addObject:stop];
+        }
+
+        if ([stop.summary isEqualToString:@""]) {
+            [self.validationErrors[@"stopsWithNoSummary"] addObject:stop];
+        }
+    }
+
+}
+
+
+
+
+
+
+
 
 
 @end
