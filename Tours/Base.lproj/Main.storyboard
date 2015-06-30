@@ -1040,7 +1040,13 @@
                             <constraint firstAttribute="centerY" secondItem="qEl-3W-uL3" secondAttribute="centerY" id="vSZ-xF-olg"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="tJH-Lf-Ijq"/>
+                    <navigationItem key="navigationItem" id="tJH-Lf-Ijq">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="xQu-lz-NFU">
+                            <connections>
+                                <action selector="onCancelButtonPressed:" destination="67I-Df-k3X" id="83C-z6-5eM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="passwordTextField" destination="gai-IY-aXz" id="dvZ-br-XvZ"/>
                         <outlet property="usernameTextField" destination="Jdh-F4-xlg" id="yK6-D9-YpQ"/>

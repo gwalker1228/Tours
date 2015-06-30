@@ -87,6 +87,7 @@
                 [self.view bringSubviewToFront:self.tableView];
             }];
         } completion:^(BOOL finished) {
+
             self.mapView.alpha = 1.0;
         }];
     }
