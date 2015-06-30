@@ -54,12 +54,23 @@
 
 - (void)setTotalDistance:(float)totalDistance {
     _totalDistance = totalDistance;
-    self.mainView.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2g mi", totalDistance];
+    self.mainView.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2f mi", totalDistance];
 }
 
 - (void)setEstimatedTime:(float)estimatedTime {
     _estimatedTime = estimatedTime;
     self.mainView.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", estimatedTime];
+}
+
+
+- (void)setDistanceFromCurrentLocation:(NSString *)distanceFromCurrentLocation {
+    _distanceFromCurrentLocation = distanceFromCurrentLocation;
+    self.mainView.distanceFromCurrentLocationLabel.text = distanceFromCurrentLocation ? [NSString stringWithFormat:@"%@ from you", distanceFromCurrentLocation] : @"";
+}
+
+- (void)setRating:(float)rating {
+    _rating = rating;
+    self.mainView.ratingLabel.text = [NSString stringWithFormat:@"Average Rating: %g", rating];
 }
 
 - (void)setTitle:(NSString *)title summary:(NSString *)summary {

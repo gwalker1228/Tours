@@ -15,6 +15,9 @@
 @property (nonatomic, strong) UILabel *summaryLabel;
 @property (nonatomic, strong) UILabel *totalDistanceLabel;
 @property (nonatomic, strong) UILabel *estimatedTimeLabel;
+@property (nonatomic, strong) UILabel *distanceFromCurrentLocationLabel;
+@property (nonatomic, strong) UILabel *ratingLabel;
+
 @property (nonatomic, strong) IndexedPhotoCollectionView *collectionView;
 
 
