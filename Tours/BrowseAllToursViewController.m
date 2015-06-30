@@ -195,6 +195,7 @@
     cell.totalDistance = tour.totalDistance;
     cell.estimatedTime = tour.estimatedTime;
     cell.distanceFromCurrentLocation = self.distancesFromCurrentLocation[tour.objectId];
+    cell.rating = tour.averageRating;
 
     return cell;
 }

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class IndexedPhotoCollectionView;
+@class RateView;
 
 @interface TourDetailView : UIView
 
@@ -17,6 +19,7 @@
 @property (nonatomic, strong) UILabel *estimatedTimeLabel;
 @property (nonatomic, strong) UILabel *distanceFromCurrentLocationLabel;
 @property (nonatomic, strong) UILabel *ratingLabel;
+@property (nonatomic, strong) RateView *ratingView;
 
 @property (nonatomic, strong) IndexedPhotoCollectionView *collectionView;
 

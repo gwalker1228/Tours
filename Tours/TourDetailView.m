@@ -9,6 +9,7 @@
 #import "TourDetailView.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
+#import "RateView.h"
 
 static CGFloat verticalSpaceInterval = 0.0;
 static CGFloat rightMarginIndent = 8.0;
@@ -61,13 +62,21 @@ static CGFloat leftMarginIndent = 8.0;
 
     CGFloat ratingLabelX = estimatedTimeLabelX + detailLabelWidth;
     CGFloat ratingLabelY = estimatedTimeLabelY;
+    CGFloat ratingLabelWidth = detailLabelWidth / 2;
+
+    CGFloat ratingViewX = ratingLabelX + ratingLabelWidth;
+    CGFloat ratingViewY = ratingLabelY;
+    CGFloat ratingViewWidth = detailLabelWidth - ratingLabelWidth;
 
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, labelWidth, labelHeight)];
     self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(summaryLabelX, summaryLabelY, labelWidth, labelHeight)];
     self.totalDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(totalDistanceLabelX, totalDistanceLabelY, detailLabelWidth, detailLabelHeight)];
     self.estimatedTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(estimatedTimeLabelX, estimatedTimeLabelY, detailLabelWidth, detailLabelHeight)];
     self.distanceFromCurrentLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(distanceFromCurrentLocationLabelX, distanceFromCurrentLocationLabelY, detailLabelWidth, detailLabelHeight)];
-    self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(ratingLabelX, ratingLabelY, detailLabelWidth, detailLabelHeight)];
+    self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(ratingLabelX, ratingLabelY, ratingLabelWidth, detailLabelHeight)];
+    self.ratingView = [[RateView alloc] initWithFrame:CGRectMake(ratingViewX, ratingViewY, ratingViewWidth, detailLabelHeight)];
+
+    self.ratingView.editable = NO;
 
     NSArray *labels = @[self.titleLabel, self.summaryLabel, self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingLabel];
 
@@ -78,6 +87,7 @@ static CGFloat leftMarginIndent = 8.0;
         label.textColor = textColor;
         [self addSubview:label];
     }
+    [self addSubview:self.ratingView];
 
     self.totalDistanceLabel.font = detailLabelFont;
     self.estimatedTimeLabel.font = detailLabelFont;

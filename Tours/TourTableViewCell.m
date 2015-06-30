@@ -9,6 +9,7 @@
 #import "TourTableViewCell.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
+#import "RateView.h"
 
 @interface TourTableViewCell ()
 
@@ -70,7 +71,9 @@
 
 - (void)setRating:(float)rating {
     _rating = rating;
-    self.mainView.ratingLabel.text = [NSString stringWithFormat:@"Average Rating: %g", rating];
+
+    self.mainView.ratingLabel.text = @"Avg. Rating: ";
+    self.mainView.ratingView.rating = rating;
 }
 
 - (void)setTitle:(NSString *)title summary:(NSString *)summary {

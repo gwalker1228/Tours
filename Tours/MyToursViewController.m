@@ -142,6 +142,7 @@
     cell.summary = tour.summary;
     cell.totalDistance = tour.totalDistance;
     cell.estimatedTime = tour.estimatedTime;
+    cell.rating = tour.averageRating;
 
     return cell;
 }
