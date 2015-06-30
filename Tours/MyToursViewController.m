@@ -12,7 +12,7 @@
 #import "User.h"
 #import "PhotoPopup.h"
 
-@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate>
+@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -138,12 +138,19 @@
 
     Tour *tour = [self.tours objectAtIndex:indexPath.row];
 
+    cell.tour = tour;
+    cell.delegate = self;
     cell.title = tour.title;
     cell.summary = tour.summary;
     cell.totalDistance = tour.totalDistance;
     cell.estimatedTime = tour.estimatedTime;
-    cell.rating = tour.averageRating;
 
+    //if (!tour.published) {
+        // [cell showPublishButton];
+    //}
+    //else {
+        // cell.rating = tour.averageRating;
+    //}
     return cell;
 }
 
@@ -191,6 +198,16 @@
     Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
 
     [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
+}
+
+#pragma mark - TourTableViewCell Delegate Methods
+
+-(void)tourTableViewCell:(TourTableViewCell *)tourTableViewCell publishTourButtonPressedForTour:(Tour *)tour {
+
+    // tour.published = YES;
+    // [self.unpublishedTours removeObject:tour];
+    // [self.publishedTours addObject:tour];
+    // [self.tableview reloadData];
 }
 
 @end
