@@ -62,9 +62,10 @@
 -(void)viewWillAppear:(BOOL)animated {
 
     [self loadTours];
-        if (![User currentUser]) {
+    [[User currentUser] fetchIfNeeded];
+    if (![User currentUser]) {
             
-            [self.navigationItem.rightBarButtonItem setTitle:@"Login"];
+        [self.navigationItem.rightBarButtonItem setTitle:@"Login"];
     } else {
 
         [self.navigationItem.rightBarButtonItem setTitle:@"Logout"];
