@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UIView *tourDetailView;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tourDetailViewHeightConstraint;
+@property PhotoPopup *photoPopup;
 
 @property UILabel *totalDistanceLabel;
 @property UILabel *estimatedTimeLabel;
@@ -36,8 +37,6 @@
 @property SummaryTextView *summaryTextView;
 @property UIButton *moreButton;
 @property UIButton *editStopsButton;
-@property UIImageView *imageView;
-@property UIView *blackView;
 
 @property NSArray *stops;
 @property NSMutableDictionary *photos;
@@ -58,8 +57,6 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapRecognizer];
-
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -72,6 +69,10 @@
 
     if (!self.didSetupViews) {
         [self setupViews];
+    }
+
+    if (self.photoPopup) {
+        [self.photoPopup reloadViews];
     }
 
     [self updateViews];
@@ -297,9 +298,36 @@
 #pragma mark - PhotoPopupDelegate
 
 -(void)photoPopup:(PhotoPopup *)photoPopup editPhotoButtonPressed:(Photo *)photo {
-    //segue
-    NSLog(@"pressed edit photo button");
+
+    Stop* stop = photo.stop;
+    [stop fetchIfNeeded];
+    Tour *tour = photo.tour;
+    [tour fetchIfNeeded];
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BuildStopImagePickerViewController *buildStopImagePickerVC = [storyboard instantiateViewControllerWithIdentifier:@"BuildStopImagePickerVC"];
+
+    buildStopImagePickerVC.photo = photo;
+    buildStopImagePickerVC.stop = stop;
+    buildStopImagePickerVC.tour = tour;
+
+    double delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.parentViewController presentViewController:buildStopImagePickerVC animated:YES completion:nil];
+    });
 }
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidAppear:(Photo *)photo {
+    self.photoPopup = photoPopup;
+}
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidDisappear:(Photo *)photo {
+    self.photoPopup = nil;
+}
+
+
 
 #pragma mark - MapKit methods
 

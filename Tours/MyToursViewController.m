@@ -3,6 +3,7 @@
 #import "MyToursViewController.h"
 #import "TourTableViewCell.h"
 //#import "BuildTourParentViewController.h"
+#import "BuildStopImagePickerViewController.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "Tour.h"
@@ -12,19 +13,22 @@
 #import "User.h"
 #import "PhotoPopup.h"
 
-@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate, UISearchBarDelegate>
+@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate, UISearchBarDelegate, PhotoPopupDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property NSArray *tours;
 @property NSMutableDictionary *tourPhotos; // all photos displayed on page, key -> tourID : value = [array of photos for that tour]
-@property UIImageView *imageView;
-@property UIView *blackView;
+
 @property NSMutableDictionary *validationErrors;
 @property NSMutableArray *publishedTours;
 @property NSMutableArray *notPublishedTours;
+@property NSArray *filteredTours;
+
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property BOOL inProgressToursSelected;
+
+@property PhotoPopup *photoPopup;
 
 @end
 
@@ -43,6 +47,10 @@
     self.publishedTours = [NSMutableArray new];
     self.notPublishedTours = [NSMutableArray new];
 
+    if (self.photoPopup) {
+        [self.photoPopup reloadViews];
+    }
+    self.searchBar.text = @"";
     self.tours = [NSArray new];
 //    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
     if (![User currentUser]) {
@@ -51,8 +59,6 @@
         [self loadUserTours];
     }
 }
-
-
 
 -(void)presentLogInViewController {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -65,14 +71,6 @@
         [self.parentViewController presentViewController:navigationLoginVC animated:YES completion:nil];
     });
 }
-
-
-//- (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
-//    NSLog(@"See you soon, %@", [User currentUser].username);
-//    [User logOut];
-//    [self presentLogInViewController];
-//}
-
 
 - (void)loadUserTours {
 
@@ -93,6 +91,9 @@
             } else {
                 self.tours = self.publishedTours;
             }
+
+            self.filteredTours = self.tours;
+
             [self loadPhotosForAllTours:tours];
         } else {
             //error check
@@ -111,6 +112,7 @@
     // Query parse for the first photo of every stop
     PFQuery *query = [Photo query];
     [query whereKey:@"creator" equalTo:[User currentUser]];
+    [query whereKey:@"order" equalTo:@1];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
 
@@ -158,7 +160,7 @@
     [cell clearVariableViews];
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
 
-    Tour *tour = [self.tours objectAtIndex:indexPath.row];
+    Tour *tour = [self.filteredTours objectAtIndex:indexPath.row];
 
     cell.tour = tour;
     cell.delegate = self;
@@ -177,7 +179,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return self.tours.count;
+    return self.filteredTours.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -193,7 +195,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
-    Tour *tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Tour *tour = self.filteredTours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
 
     return [self.tourPhotos[tour.objectId] count];
 }
@@ -202,7 +204,7 @@
 
     IndexedPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:indexedPhotoCollectionViewCellID forIndexPath:indexPath];
 
-    Tour* tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Tour* tour = self.filteredTours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
     Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
 
     cell.imageView.file = photo.image;
@@ -215,10 +217,43 @@
 
     IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-    Tour* tour = self.tours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Tour* tour = self.filteredTours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
     Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
 
-    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:YES delegate:self];
+}
+
+
+#pragma mark - PhotoPopup Delegate methods
+
+-(void)photoPopup:(PhotoPopup *)photoPopup editPhotoButtonPressed:(Photo *)photo {
+
+    Stop* stop = photo.stop;
+    [stop fetchIfNeeded];
+    Tour *tour = photo.tour;
+    [tour fetchIfNeeded];
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BuildStopImagePickerViewController *buildStopImagePickerVC = [storyboard instantiateViewControllerWithIdentifier:@"BuildStopImagePickerVC"];
+
+    buildStopImagePickerVC.photo = photo;
+    buildStopImagePickerVC.stop = stop;
+    buildStopImagePickerVC.tour = tour;
+
+    double delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.parentViewController presentViewController:buildStopImagePickerVC animated:YES completion:nil];
+    });
+}
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidAppear:(Photo *)photo {
+    self.photoPopup = photoPopup;
+}
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidDisappear:(Photo *)photo {
+    self.photoPopup = nil;
 }
 
 #pragma mark - UISearchBar Delegate methods
@@ -230,6 +265,8 @@
     } else {
         self.tours = self.publishedTours;
     }
+    self.filteredTours = self.tours;
+    self.searchBar.text = @"";
     [self.tableView reloadData];
 
 }
@@ -237,20 +274,19 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 
     if (searchText.length > 0) {
-        //        NSIndexSet *indexes = [self.tours indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        //            return [[[obj title] lowercaseString] containsString:[searchText lowercaseString]];
-        //        }];
-        //
-        //        self.filteredTours = [self.tours objectsAtIndexes:indexes];
-        //    }
-        //    else {
-        //        self.filteredTours = self.tours;
-        //    }
-        //    [self.tableView reloadData];
+
+        NSIndexSet *indexes = [self.tours indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [[[obj title] lowercaseString] containsString:[searchText lowercaseString]];
+        }];
+
+        self.filteredTours = [self.tours objectsAtIndexes:indexes];
+    }
+    else {
+        self.filteredTours = self.tours;
     }
 
+    [self.tableView reloadData];
 }
-
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [searchBar resignFirstResponder];
@@ -435,6 +471,9 @@
                     // move the array to the published array
                 [self.notPublishedTours removeObject:tour];
                 [self.publishedTours addObject:tour];
+                self.tours = self.searchBar.selectedScopeButtonIndex ? self.notPublishedTours : self.publishedTours;
+                self.filteredTours = self.tours;
+                self.searchBar.text = @"";
                 [self.tableView reloadData];
             }
         }];

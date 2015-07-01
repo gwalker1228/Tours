@@ -4,14 +4,16 @@
 #import "StopPhotoCollectionViewCell.h"
 #import "BuildStopLocationViewController.h"
 #import "BuildStopPhotosViewController.h"
+#import "BuildStopImagePickerViewController.h"
 #import "Photo.h"
 #import "Stop.h"
+#import "Tour.h"
 #import "PhotoPopup.h"
 #import "StopPointAnnotation.h"
 
 static NSString *reuseIdentifier = @"PhotoCell";
 
-@interface BuildStopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
+@interface BuildStopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate, PhotoPopupDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
@@ -23,6 +25,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 @property UIButton *setLocationButton;
 @property UIButton *addLocationButton;
 @property NSArray *photos;
+@property PhotoPopup *photoPopup;
 
 @property BOOL didSetupSetLocationButton;
 
@@ -57,6 +60,10 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 - (void)viewWillAppear:(BOOL)animated {
 
+    if (self.photoPopup) {
+        [self.photoPopup reloadViews];
+    }
+
     [self updateViews];
     [self checkIfLocationSetAndEnableSaveButton];
     [self.view setNeedsLayout];
@@ -82,8 +89,6 @@ static NSString *reuseIdentifier = @"PhotoCell";
         [self.navigationItem.leftBarButtonItem setTitle:@"Save Stop"];
         [self placeAnnotationViewOnMapForStopLocation];
     }
-
-
 }
 
 - (void)setupAddLocationButton {
@@ -250,7 +255,42 @@ static NSString *reuseIdentifier = @"PhotoCell";
     StopPhotoCollectionViewCell *cell = [[StopPhotoCollectionViewCell alloc] init];
     cell = (StopPhotoCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
 
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+    Photo *photo = self.photos[indexPath.row];
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:YES delegate:self];
+}
+
+
+#pragma mark - PhotoPopupDelegate
+
+-(void)photoPopup:(PhotoPopup *)photoPopup editPhotoButtonPressed:(Photo *)photo {
+
+    Stop* stop = photo.stop;
+    [stop fetchIfNeeded];
+    Tour *tour = photo.tour;
+    [tour fetchIfNeeded];
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BuildStopImagePickerViewController *buildStopImagePickerVC = [storyboard instantiateViewControllerWithIdentifier:@"BuildStopImagePickerVC"];
+
+    buildStopImagePickerVC.photo = photo;
+    buildStopImagePickerVC.stop = stop;
+    buildStopImagePickerVC.tour = tour;
+
+    double delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.parentViewController presentViewController:buildStopImagePickerVC animated:YES completion:nil];
+    });
+}
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidAppear:(Photo *)photo {
+    self.photoPopup = photoPopup;
+}
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidDisappear:(Photo *)photo {
+    self.photoPopup = nil;
 }
 
 

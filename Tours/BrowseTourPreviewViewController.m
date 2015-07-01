@@ -45,6 +45,7 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 @property StopDetailMKPinAnnotationView *currentPinAnnotationView;
 @property MKAnnotationView *selectedAnnotationView;
 @property MKPolyline *directionsPolyline;
+//@property PhotoPopup *photoPopup;
 
 @property CLLocationManager *locationManager;
 
@@ -634,7 +635,20 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
     IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+    Photo *photo;
+
+    // if indexpath property is nil, collectionView is in callout accessory
+    if (![(IndexedPhotoCollectionView *)collectionView indexPath]) {
+        photo = self.photosForSelectedStop[indexPath.row];
+    }
+
+    // else, collectionView is in tableViewCell
+    else {
+        Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+        photo = self.stopPhotos[stop.objectId][indexPath.row];
+    }
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view.superview editable:NO delegate:nil];
 }
 
 @end

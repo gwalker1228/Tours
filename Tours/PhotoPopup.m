@@ -186,6 +186,7 @@
 
         [popup.imageView addGestureRecognizer:tap];
         [popup.backgroundView addGestureRecognizer:tap];
+        [popup.delegate photoPopup:popup viewDidAppear:popup.photo];
     }];
 }
 
@@ -202,6 +203,20 @@
     } completion:^(BOOL finished) {
 
         [self removeFromSuperview];
+        [self.delegate photoPopup:self viewDidDisappear:self.photo];
+    }];
+}
+
+- (void)reloadViews {
+
+    self.titleLabel.text = self.photo.title;
+    self.summaryLabel.text = self.photo.summary;
+
+    [self.photo.image getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+
+        if (!error) {
+            self.imageView.image = [UIImage imageWithData:data];
+        }
     }];
 }
 
