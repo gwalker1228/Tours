@@ -75,6 +75,7 @@
 
     self.mainView.ratingLabel.text = @"Avg. Rating: ";
     self.mainView.ratingView.rating = rating;
+    [self.mainView bringSubviewToFront:self.mainView.ratingView];
 }
 
 - (void)setTitle:(NSString *)title summary:(NSString *)summary {
@@ -101,11 +102,18 @@
     self.publishButton.layer.cornerRadius = 5;
     [self.publishButton setTitle:@"Publish Tour" forState:UIControlStateNormal];
     [self.publishButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.mainView.ratingView removeFromSuperview];
 
     [self.publishButton addTarget:self action:@selector(onPublishTourButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 
     [self.mainView addSubview:self.publishButton];
+
+}
+
+- (void) clearVariableViews {
+
+    [self.publishButton removeFromSuperview];
+    [self.mainView sendSubviewToBack:self.mainView.ratingView];
+    self.mainView.ratingLabel.text = @"";
 
 }
 
