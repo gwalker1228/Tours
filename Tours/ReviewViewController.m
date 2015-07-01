@@ -64,10 +64,12 @@
 
 -(void)viewWillAppear:(BOOL)animated {
 
+//    [[User currentUser] fetch];
     // added this because I've seen a couple of edge cases that had the button enabled when it shouldn't have been
     self.saveButton.enabled = NO;
 
     [self checkIfUserLoggedIn];
+//        [self fetchReviews]; // for checking
     [self enableUserInteractionBasedRatingAndLoginStatus];
 
 }
@@ -146,6 +148,7 @@
 
     PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     [query whereKey:@"tour" equalTo:self.tour];
+    [query includeKey:@"user"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *reviews, NSError *error){
 
         if (error == nil) {

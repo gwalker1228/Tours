@@ -9,6 +9,7 @@
 #import "TourDetailView.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
+#import "RateView.h"
 
 static CGFloat verticalSpaceInterval = 0.0;
 static CGFloat rightMarginIndent = 8.0;
@@ -41,7 +42,7 @@ static CGFloat leftMarginIndent = 8.0;
     CGFloat labelWidth = self.parentFrame.size.width - (rightMarginIndent + leftMarginIndent);
     CGFloat labelHeight = self.parentFrame.size.height/6;
 
-    CGFloat detailLabelWidth = labelWidth / 2;
+    CGFloat detailLabelWidth = labelWidth / 2 - rightMarginIndent;
     CGFloat detailLabelHeight = labelHeight / 2.5 + 4;
 
     CGFloat titleLabelX = rightMarginIndent;
@@ -56,26 +57,43 @@ static CGFloat leftMarginIndent = 8.0;
     CGFloat summaryLabelX = titleLabelX;
     CGFloat summaryLabelY = estimatedTimeLabelY + detailLabelHeight + verticalSpaceInterval;
 
+    CGFloat distanceFromCurrentLocationLabelX = totalDistanceLabelX + detailLabelWidth;
+    CGFloat distanceFromCurrentLocationLabelY = totalDistanceLabelY;
+
+    CGFloat ratingLabelX = estimatedTimeLabelX + detailLabelWidth;
+    CGFloat ratingLabelY = estimatedTimeLabelY;
+    CGFloat ratingLabelWidth = detailLabelWidth / 2;
+
+    CGFloat ratingViewX = ratingLabelX + ratingLabelWidth;
+    CGFloat ratingViewY = ratingLabelY;
+    CGFloat ratingViewWidth = detailLabelWidth - ratingLabelWidth;
 
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, labelWidth, labelHeight)];
     self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(summaryLabelX, summaryLabelY, labelWidth, labelHeight)];
     self.totalDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(totalDistanceLabelX, totalDistanceLabelY, detailLabelWidth, detailLabelHeight)];
     self.estimatedTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(estimatedTimeLabelX, estimatedTimeLabelY, detailLabelWidth, detailLabelHeight)];
-    //    self.titleLabel.backgroundColor = [UIColor blueColor];
-    //    self.summaryLabel.backgroundColor = [UIColor greenColor];
+    self.distanceFromCurrentLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(distanceFromCurrentLocationLabelX, distanceFromCurrentLocationLabelY, detailLabelWidth, detailLabelHeight)];
+    self.ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(ratingLabelX, ratingLabelY, ratingLabelWidth, detailLabelHeight)];
+    self.ratingView = [[RateView alloc] initWithFrame:CGRectMake(ratingViewX, ratingViewY, ratingViewWidth, detailLabelHeight)];
 
-    self.totalDistanceLabel.font = [UIFont systemFontOfSize:14.0];
-    self.estimatedTimeLabel.font = [UIFont systemFontOfSize:14.0];
+    self.ratingView.editable = NO;
 
-    self.titleLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-    self.totalDistanceLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-    self.estimatedTimeLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-    self.summaryLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+    NSArray *labels = @[self.titleLabel, self.summaryLabel, self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingLabel];
 
-    [self addSubview:self.titleLabel];
-    [self addSubview:self.summaryLabel];
-    [self addSubview:self.totalDistanceLabel];
-    [self addSubview:self.estimatedTimeLabel];
+    UIColor *textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+    UIFont *detailLabelFont = [UIFont systemFontOfSize:14.0];
+
+    for (UILabel *label in labels) {
+        label.textColor = textColor;
+        [self addSubview:label];
+    }
+    [self addSubview:self.ratingView];
+
+    self.totalDistanceLabel.font = detailLabelFont;
+    self.estimatedTimeLabel.font = detailLabelFont;
+    self.distanceFromCurrentLocationLabel.font = detailLabelFont;
+    self.ratingLabel.font = detailLabelFont;
+
 }
 
 - (void)createCollectionView {

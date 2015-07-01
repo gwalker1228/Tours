@@ -18,16 +18,23 @@
 #import "Stop.h"
 #import "User.h"
 
-@interface BrowseAllToursViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface BrowseAllToursViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property UIImageView *imageView;
 @property UIView *blackView;
 
+@property CLLocationManager *locationManager;
+
 @property NSArray *tours;
 @property NSArray *filteredTours;
 @property NSMutableDictionary *tourPhotos;
+@property NSMutableDictionary *distancesFromCurrentLocation;
+
+@property BOOL distancesCalculated;
+@property BOOL currentLocationFound;
+@property BOOL toursLoaded;
 
 @end
 
@@ -41,6 +48,11 @@
 
     self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
 
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    [self.locationManager requestWhenInUseAuthorization];
+
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapRecognizer];
@@ -50,9 +62,10 @@
 -(void)viewWillAppear:(BOOL)animated {
 
     [self loadTours];
-        if (![User currentUser]) {
+    [[User currentUser] fetchIfNeeded];
+    if (![User currentUser]) {
             
-            [self.navigationItem.rightBarButtonItem setTitle:@"Login"];
+        [self.navigationItem.rightBarButtonItem setTitle:@"Login"];
     } else {
 
         [self.navigationItem.rightBarButtonItem setTitle:@"Logout"];
@@ -81,6 +94,7 @@
         [self.parentViewController presentViewController:navigationLoginVC animated:YES completion:nil];
     });
 }
+
 -(void)loadTours {
 
     PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
@@ -100,8 +114,9 @@
 -(void)loadPhotos {
 
     self.tourPhotos = [NSMutableDictionary new];
+    self.distancesFromCurrentLocation = [NSMutableDictionary new];
 
-    for (Tour *tour in self.filteredTours) {
+    for (Tour *tour in self.tours) {
         self.tourPhotos[tour.objectId] = [NSMutableArray new];
     }
 
@@ -119,6 +134,13 @@
             [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
         }
 //        NSLog(@"%@", self.tourPhotos);
+        self.toursLoaded = YES;
+
+        if (!self.distancesCalculated && self.currentLocationFound) {
+            self.distancesCalculated = YES;
+
+            [self calculateDistanceFromCurrentLocationForAllTours];
+        }
         [self.tableView reloadData];
     }];
 }
@@ -132,6 +154,27 @@
         BrowseTourDetailViewController *destinationVC = segue.destinationViewController;
         destinationVC.tour = self.filteredTours[[self.tableView indexPathForCell:sender].row];
     }
+}
+
+-(void)calculateDistanceFromCurrentLocationForAllTours {
+
+    for (Tour *tour in self.tours) {
+
+        if (self.tourPhotos[tour.objectId]) {
+            Photo *firstPhoto = [self.tourPhotos[tour.objectId] firstObject];
+            Stop *firstStop = firstPhoto.stop;
+            [firstStop fetch];
+            NSLog(@"%@", firstStop);
+            if (firstStop.location) {
+                NSLog(@"%@", firstStop.location);
+                double distance = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
+                NSLog(@"%f", distance);
+
+                self.distancesFromCurrentLocation[tour.objectId] = [NSString stringWithFormat:@"%.2f mi", distance];
+            }
+        }
+    }
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableView Delegate/DataSource methods
@@ -151,6 +194,8 @@
     cell.summary = tour.summary;
     cell.totalDistance = tour.totalDistance;
     cell.estimatedTime = tour.estimatedTime;
+    cell.distanceFromCurrentLocation = self.distancesFromCurrentLocation[tour.objectId];
+    cell.rating = tour.averageRating;
 
     return cell;
 }
@@ -230,6 +275,28 @@
     [self.searchBar resignFirstResponder];
 }
 
+#pragma mark - CLLocationManager
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"gjlfgs");
+    NSLog(@"%@", error);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+
+    for (CLLocation *location in locations) {
+        if (location.verticalAccuracy < 1000 && location.horizontalAccuracy < 1000) {
+            [self.locationManager stopUpdatingLocation];
+            NSLog(@"location found");
+            self.currentLocationFound = YES;
+            if (!self.distancesCalculated && self.toursLoaded) {
+                self.distancesCalculated = YES;
+                [self calculateDistanceFromCurrentLocationForAllTours];
+            }
+            break;
+        }
+    }
+}
 
 @end
 
