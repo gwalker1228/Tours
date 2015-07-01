@@ -35,8 +35,6 @@
 @property SummaryTextView *summaryTextView;
 @property UIButton *moreButton;
 @property UIButton *editStopsButton;
-@property UIImageView *imageView;
-@property UIView *blackView;
 
 @property NSArray *stops;
 @property NSMutableDictionary *photos;
