@@ -70,6 +70,10 @@
     }
 }
 
+- (IBAction)onChangePhotoButtonPressed:(UIButton *)sender {
+}
+
+
 - (void) displayPhotoForEditingIfFromEditSegue {
 
     if (self.photo) {
