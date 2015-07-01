@@ -265,6 +265,9 @@
 
 -(void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
 
+//    if (selectedScope == 0) {
+//        self.tours = [self.tours sor]
+//    }
     //reload tours based on index change
 }
 

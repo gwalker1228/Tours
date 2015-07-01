@@ -141,9 +141,10 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    BuildTourDetailViewController *destinationVC = (BuildTourDetailViewController *)[segue.destinationViewController topViewController];
+
 
     if ([segue.identifier isEqualToString:@"editTour"]) {
+        BuildTourDetailViewController *destinationVC = (BuildTourDetailViewController *)[segue.destinationViewController topViewController];
 
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         Tour *tour = self.filteredTours[indexPath.row];
@@ -151,6 +152,7 @@
 
     }
     else if ([segue.identifier isEqualToString:@"addTour"]) {
+        BuildTourDetailViewController *destinationVC = (BuildTourDetailViewController *)[segue.destinationViewController topViewController];
 
         Tour *tour = [Tour object];
         destinationVC.tour = tour;
@@ -160,9 +162,9 @@
 
     else if ([segue.identifier isEqualToString:@"browseTour"]) {
 
-        BrowseTourDetailViewController *destination = segue.destinationViewController;
+        BrowseTourDetailViewController *destinationVC = segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        destination.tour = self.filteredTours[indexPath.row];
+        destinationVC.tour = self.filteredTours[indexPath.row];
     }
 }
 
