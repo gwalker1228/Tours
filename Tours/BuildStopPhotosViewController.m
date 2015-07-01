@@ -62,7 +62,7 @@
 
 - (IBAction)onAddPictureButtonPressed:(UIButton *)sender {
 
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"ActionTitle" message:@"ActionMessage" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please Select Your Image Source" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
 
     UIAlertAction *takePictureAction = [UIAlertAction actionWithTitle:@"Take a Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self performSegueWithIdentifier:@"camera" sender:self];

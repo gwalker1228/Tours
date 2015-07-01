@@ -209,6 +209,7 @@
 
 - (void)reloadViews {
 
+    NSLog(@"this reload is getting called");
     self.titleLabel.text = self.photo.title;
     self.summaryLabel.text = self.photo.summary;
 

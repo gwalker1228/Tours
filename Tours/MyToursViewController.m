@@ -43,6 +43,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
+
         // clear it everytime it views
     self.publishedTours = [NSMutableArray new];
     self.notPublishedTours = [NSMutableArray new];
@@ -250,6 +251,7 @@
 
 -(void)photoPopup:(PhotoPopup *)photoPopup viewDidAppear:(Photo *)photo {
     self.photoPopup = photoPopup;
+    NSLog(@"view appeared");
 }
 
 -(void)photoPopup:(PhotoPopup *)photoPopup viewDidDisappear:(Photo *)photo {
