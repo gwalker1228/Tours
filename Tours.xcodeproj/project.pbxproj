@@ -9,16 +9,17 @@
 /* Begin PBXBuildFile section */
 		0076CE341B38989800365B2F /* BuildStopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CE331B38989800365B2F /* BuildStopDetailViewController.m */; };
 		0076CE3A1B38DB9300365B2F /* StopPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CE391B38DB9300365B2F /* StopPhotoCollectionViewCell.m */; };
-		0076CF381B3C7B0B00365B2F /* DesignableButton1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF371B3C7B0B00365B2F /* DesignableButton1.m */; };
-		0076CF3F1B3C9E9700365B2F /* DesignableButton2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF3E1B3C9E9700365B2F /* DesignableButton2.m */; };
-		0076CF421B3C9F0800365B2F /* DesignableLabel1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF411B3C9F0800365B2F /* DesignableLabel1.m */; };
+		0076CF381B3C7B0B00365B2F /* DesignableGreenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF371B3C7B0B00365B2F /* DesignableGreenButton.m */; };
+		0076CF3F1B3C9E9700365B2F /* DesignableTransparentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF3E1B3C9E9700365B2F /* DesignableTransparentButton.m */; };
+		0076CF421B3C9F0800365B2F /* DesignableSummaryNoBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF411B3C9F0800365B2F /* DesignableSummaryNoBorderLabel.m */; };
 		0076CF4B1B3CA67300365B2F /* DesignableTextView1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF4A1B3CA67300365B2F /* DesignableTextView1.m */; };
 		0076CF4E1B3CAA3900365B2F /* DesignableSegmentedControl1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF4D1B3CAA3900365B2F /* DesignableSegmentedControl1.m */; };
 		0076CF541B3CB01100365B2F /* DesignableTextField1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF531B3CB01100365B2F /* DesignableTextField1.m */; };
 		0076CF5A1B3CFC0000365B2F /* ParentNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0076CF591B3CFC0000365B2F /* ParentNavigationController.m */; };
 		007BE45A1B3482FF0076A6FF /* StopPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */; };
 		007BE45D1B34A16D0076A6FF /* TourPageMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 007BE45C1B34A16D0076A6FF /* TourPageMasterViewController.m */; };
-		009AA9D41B3DE1F2002ADFD4 /* DesignableLabel2.m in Sources */ = {isa = PBXBuildFile; fileRef = 009AA9D31B3DE1F2002ADFD4 /* DesignableLabel2.m */; };
+		009AA9D41B3DE1F2002ADFD4 /* DesignableTitleNoBorderLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 009AA9D31B3DE1F2002ADFD4 /* DesignableTitleNoBorderLabel.m */; };
+		009B9B4F1B4468DD000CC02C /* DesignableTitleBorderedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 009B9B4E1B4468DD000CC02C /* DesignableTitleBorderedLabel.m */; };
 		00A326311B322B7C00DE7E4E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326301B322B7C00DE7E4E /* LoginViewController.m */; };
 		00A326341B322B9D00DE7E4E /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326331B322B9D00DE7E4E /* SignupViewController.m */; };
 		00A326381B322C1200DE7E4E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 00A326371B322C1200DE7E4E /* User.m */; };
@@ -104,12 +105,12 @@
 		0076CE331B38989800365B2F /* BuildStopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildStopDetailViewController.m; sourceTree = "<group>"; };
 		0076CE381B38DB9300365B2F /* StopPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		0076CE391B38DB9300365B2F /* StopPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPhotoCollectionViewCell.m; sourceTree = "<group>"; };
-		0076CF361B3C7B0B00365B2F /* DesignableButton1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableButton1.h; sourceTree = "<group>"; };
-		0076CF371B3C7B0B00365B2F /* DesignableButton1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableButton1.m; sourceTree = "<group>"; };
-		0076CF3D1B3C9E9700365B2F /* DesignableButton2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableButton2.h; sourceTree = "<group>"; };
-		0076CF3E1B3C9E9700365B2F /* DesignableButton2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableButton2.m; sourceTree = "<group>"; };
-		0076CF401B3C9F0800365B2F /* DesignableLabel1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableLabel1.h; sourceTree = "<group>"; };
-		0076CF411B3C9F0800365B2F /* DesignableLabel1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableLabel1.m; sourceTree = "<group>"; };
+		0076CF361B3C7B0B00365B2F /* DesignableGreenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableGreenButton.h; sourceTree = "<group>"; };
+		0076CF371B3C7B0B00365B2F /* DesignableGreenButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableGreenButton.m; sourceTree = "<group>"; };
+		0076CF3D1B3C9E9700365B2F /* DesignableTransparentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableTransparentButton.h; sourceTree = "<group>"; };
+		0076CF3E1B3C9E9700365B2F /* DesignableTransparentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableTransparentButton.m; sourceTree = "<group>"; };
+		0076CF401B3C9F0800365B2F /* DesignableSummaryNoBorderLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableSummaryNoBorderLabel.h; sourceTree = "<group>"; };
+		0076CF411B3C9F0800365B2F /* DesignableSummaryNoBorderLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableSummaryNoBorderLabel.m; sourceTree = "<group>"; };
 		0076CF491B3CA67300365B2F /* DesignableTextView1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableTextView1.h; sourceTree = "<group>"; };
 		0076CF4A1B3CA67300365B2F /* DesignableTextView1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableTextView1.m; sourceTree = "<group>"; };
 		0076CF4C1B3CAA3900365B2F /* DesignableSegmentedControl1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableSegmentedControl1.h; sourceTree = "<group>"; };
@@ -122,8 +123,10 @@
 		007BE4591B3482FF0076A6FF /* StopPageMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopPageMasterViewController.m; sourceTree = "<group>"; };
 		007BE45B1B34A16D0076A6FF /* TourPageMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourPageMasterViewController.h; sourceTree = "<group>"; };
 		007BE45C1B34A16D0076A6FF /* TourPageMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourPageMasterViewController.m; sourceTree = "<group>"; };
-		009AA9D21B3DE1F2002ADFD4 /* DesignableLabel2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableLabel2.h; sourceTree = "<group>"; };
-		009AA9D31B3DE1F2002ADFD4 /* DesignableLabel2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableLabel2.m; sourceTree = "<group>"; };
+		009AA9D21B3DE1F2002ADFD4 /* DesignableTitleNoBorderLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableTitleNoBorderLabel.h; sourceTree = "<group>"; };
+		009AA9D31B3DE1F2002ADFD4 /* DesignableTitleNoBorderLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableTitleNoBorderLabel.m; sourceTree = "<group>"; };
+		009B9B4D1B4468DD000CC02C /* DesignableTitleBorderedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DesignableTitleBorderedLabel.h; sourceTree = "<group>"; };
+		009B9B4E1B4468DD000CC02C /* DesignableTitleBorderedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DesignableTitleBorderedLabel.m; sourceTree = "<group>"; };
 		00A3262F1B322B7C00DE7E4E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		00A326301B322B7C00DE7E4E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		00A326321B322B9D00DE7E4E /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
@@ -282,14 +285,16 @@
 		0076CF3C1B3C9CD000365B2F /* Designables */ = {
 			isa = PBXGroup;
 			children = (
-				0076CF361B3C7B0B00365B2F /* DesignableButton1.h */,
-				0076CF371B3C7B0B00365B2F /* DesignableButton1.m */,
-				0076CF3D1B3C9E9700365B2F /* DesignableButton2.h */,
-				0076CF3E1B3C9E9700365B2F /* DesignableButton2.m */,
-				0076CF401B3C9F0800365B2F /* DesignableLabel1.h */,
-				0076CF411B3C9F0800365B2F /* DesignableLabel1.m */,
-				009AA9D21B3DE1F2002ADFD4 /* DesignableLabel2.h */,
-				009AA9D31B3DE1F2002ADFD4 /* DesignableLabel2.m */,
+				0076CF361B3C7B0B00365B2F /* DesignableGreenButton.h */,
+				0076CF371B3C7B0B00365B2F /* DesignableGreenButton.m */,
+				0076CF3D1B3C9E9700365B2F /* DesignableTransparentButton.h */,
+				0076CF3E1B3C9E9700365B2F /* DesignableTransparentButton.m */,
+				009B9B4D1B4468DD000CC02C /* DesignableTitleBorderedLabel.h */,
+				009B9B4E1B4468DD000CC02C /* DesignableTitleBorderedLabel.m */,
+				009AA9D21B3DE1F2002ADFD4 /* DesignableTitleNoBorderLabel.h */,
+				009AA9D31B3DE1F2002ADFD4 /* DesignableTitleNoBorderLabel.m */,
+				0076CF401B3C9F0800365B2F /* DesignableSummaryNoBorderLabel.h */,
+				0076CF411B3C9F0800365B2F /* DesignableSummaryNoBorderLabel.m */,
 				0076CF491B3CA67300365B2F /* DesignableTextView1.h */,
 				0076CF4A1B3CA67300365B2F /* DesignableTextView1.m */,
 				0076CF4C1B3CAA3900365B2F /* DesignableSegmentedControl1.h */,
@@ -723,13 +728,14 @@
 				FAD9BC5A1B30AF3D00A3997E /* BuildManager.m in Sources */,
 				0076CF4B1B3CA67300365B2F /* DesignableTextView1.m in Sources */,
 				BC0E9CA51B2FCEE8000A8E2C /* BuildStopPhotoTableViewCell.m in Sources */,
-				009AA9D41B3DE1F2002ADFD4 /* DesignableLabel2.m in Sources */,
+				009AA9D41B3DE1F2002ADFD4 /* DesignableTitleNoBorderLabel.m in Sources */,
 				FA82C8C41B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m in Sources */,
 				BC0E9C8D1B2F46C9000A8E2C /* Stop.m in Sources */,
 				0076CF4E1B3CAA3900365B2F /* DesignableSegmentedControl1.m in Sources */,
 				0076CF5A1B3CFC0000365B2F /* ParentNavigationController.m in Sources */,
 				BC54EE4F1B40C595009D41E6 /* ReviewViewController.m in Sources */,
 				BC0E9C441B2E308F000A8E2C /* BuildTourGeneralViewController.m in Sources */,
+				009B9B4F1B4468DD000CC02C /* DesignableTitleBorderedLabel.m in Sources */,
 				BC0E9C3F1B2E2B31000A8E2C /* MyToursViewController.m in Sources */,
 				0076CE341B38989800365B2F /* BuildStopDetailViewController.m in Sources */,
 				FAD9BC631B30F1C700A3997E /* IndexedPhotoCollectionViewCell.m in Sources */,
@@ -748,7 +754,7 @@
 				FA82C8CA1B3D13D100D95042 /* BrowseStopDetailViewController.m in Sources */,
 				BC3E11031B370781005D6F94 /* InteractPinAnnotationView.m in Sources */,
 				FAE01D8C1B30947C00826536 /* BuildStopParentViewController.m in Sources */,
-				0076CF3F1B3C9E9700365B2F /* DesignableButton2.m in Sources */,
+				0076CF3F1B3C9E9700365B2F /* DesignableTransparentButton.m in Sources */,
 				007BE45A1B3482FF0076A6FF /* StopPageMasterViewController.m in Sources */,
 				FA82C8C11B3C9AE600D95042 /* BrowseTourPreviewViewController.m in Sources */,
 				FAAC09111B39D6FD0064D07B /* TourPhotoCollectionViewCell.m in Sources */,
@@ -772,10 +778,10 @@
 				FAD9BC5D1B30E11100A3997E /* BuildTourStopsTableViewCell.m in Sources */,
 				FA1DF3B11B41EE49003C4225 /* PhotoFlag.m in Sources */,
 				BC3E10FA1B31E904005D6F94 /* TourTableViewCell.m in Sources */,
-				0076CF421B3C9F0800365B2F /* DesignableLabel1.m in Sources */,
+				0076CF421B3C9F0800365B2F /* DesignableSummaryNoBorderLabel.m in Sources */,
 				BC1E99461B39DFE70079EC99 /* RateView.m in Sources */,
 				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,
-				0076CF381B3C7B0B00365B2F /* DesignableButton1.m in Sources */,
+				0076CF381B3C7B0B00365B2F /* DesignableGreenButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

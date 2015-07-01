@@ -1,8 +1,8 @@
 //
-//  DesignableLabel2.h
+//  DesignableButton1.h
 //  Tours
 //
-//  Created by Adriana Jimenez Mangas on 6/26/15.
+//  Created by Adriana Jimenez Mangas on 6/25/15.
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
@@ -10,6 +10,6 @@
 
 IB_DESIGNABLE
 
-@interface DesignableLabel2 : UILabel
+@interface DesignableGreenButton : UIButton
 
 @end

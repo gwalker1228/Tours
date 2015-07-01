@@ -1,14 +1,14 @@
 //
-//  DesignableButton2.m
+//  DesignableButton1.m
 //  Tours
 //
 //  Created by Adriana Jimenez Mangas on 6/25/15.
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
-#import "DesignableButton2.h"
+#import "DesignableGreenButton.h"
 
-@implementation DesignableButton2
+@implementation DesignableGreenButton
 
 - (void)setUp {
 
@@ -46,7 +46,5 @@
     [self setUp];
 }
 
+
 @end
-
-
-

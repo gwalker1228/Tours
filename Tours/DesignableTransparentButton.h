@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-//IB_DESIGNABLE
+IB_DESIGNABLE
 
-@interface DesignableButton2 : UIButton
+@interface DesignableTransparentButton : UIButton
 
 @end
