@@ -19,6 +19,7 @@
 @property float totalDistance;
 @property float estimatedTime;
 @property float averageRating;
+@property BOOL published;
 
 
 

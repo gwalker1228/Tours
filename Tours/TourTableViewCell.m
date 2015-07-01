@@ -86,7 +86,7 @@
 - (void)showPublishButton {
 
     CGFloat publishButtonX = self.mainView.distanceFromCurrentLocationLabel.frame.origin.x;
-    CGFloat publishButtonY = self.mainView.titleLabel.frame.origin.y + self.mainView.titleLabel.frame.size.height / 2;
+    CGFloat publishButtonY = self.mainView.totalDistanceLabel.frame.origin.y;
     CGFloat publishButtonWidth = self.mainView.distanceFromCurrentLocationLabel.frame.size.width;
     CGFloat publishButtonHeight = self.mainView.titleLabel.frame.size.height;
 

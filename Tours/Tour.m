@@ -17,6 +17,7 @@
 @dynamic totalDistance;
 @dynamic estimatedTime;
 @dynamic averageRating;
+@dynamic published;
 
 + (NSString * __nonnull)parseClassName {
     return @"Tour";
