@@ -56,5 +56,29 @@
     }];
 }
 
+- (void) updatePhoto:(Photo *)photo photoWithImage:(UIImage *)image title:(NSString *)title description:(NSString *)summary withCompletion:(void(^)(Photo *photo, NSError *error))complete {
+
+    CGSize newSize = CGSizeMake(500, 500);
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    NSData *imageData = UIImageJPEGRepresentation(resizedImage, 0.8f);
+
+    photo.image = [PFFile fileWithData:imageData];
+    photo.title = title;
+    photo.summary = summary;
+
+    [photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        complete(photo, error);
+    }];
+
+}
+
+
+
+
+
+
 
 @end

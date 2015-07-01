@@ -270,7 +270,7 @@
 - (void)rateView:(RateView *)rateView ratingDidChange:(float)rating {
 
     self.rating = rating;
-    if (self.userLoggedIn) {
+    if (self.userLoggedIn && self.userPreviouslyRated == NO) {
         self.saveButton.enabled = YES;
     }
 }
