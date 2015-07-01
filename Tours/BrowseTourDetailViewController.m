@@ -20,7 +20,7 @@
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
 
-@interface BrowseTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate, CLLocationManagerDelegate>
+@interface BrowseTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate, CLLocationManagerDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet PFImageView *coverPhotoImageView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -51,6 +51,9 @@
 @property BOOL didFindCurrentLocation;
 @property BOOL didCalculateDistanceFromCurrentLocation;
 @property BOOL didLoadStops;
+
+@property BOOL userSelectedAnnotation;
+@property BOOL isScrolling;
 
 @end
 
@@ -263,6 +266,30 @@
 
 #pragma mark - UICollectionView dataSource/delegate methods
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
+    self.isScrolling = YES;
+    self.userSelectedAnnotation = NO;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+
+    if (!decelerate) {
+        self.userSelectedAnnotation = NO;
+        self.isScrolling = NO;
+        NSLog(@"ended scrolling");
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+
+    self.userSelectedAnnotation = NO;
+    self.isScrolling = NO;
+    NSLog(@"ended scrolling");
+
+}
+
+
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TourPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCell" forIndexPath:indexPath];
@@ -280,6 +307,15 @@
     [cell.imageView loadInBackground];
 
     return cell;
+}
+
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (!self.userSelectedAnnotation && self.isScrolling) {
+        int scrolledToIndexPath = (int)indexPath.section;
+        [self.mapView selectAnnotation:self.orderedAnnotations[scrolledToIndexPath] animated:NO];
+    }
 }
 
 
@@ -338,20 +374,25 @@
     return pin;
 }
 
+
+
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
 
     StopPointAnnotation *annotation = view.annotation;
     Stop *stop = annotation.stop;
 
-    //NSLog(@"%@", stop.title);
-
     if ([self.photos[stop.objectId] count] > 0) {
 
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:[self.stops indexOfObject:stop]];
-        //NSLog(@"%@", indexPath);
-        [self.photosCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+
+        if (!self.isScrolling) {
+
+            self.userSelectedAnnotation = YES;
+
+            [self.photosCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+        }
+
     }
-    // self.stopTitle.text = stop.title;
 }
 
 -(void)renderPolylineForRoute:(MKRoute *)route {
