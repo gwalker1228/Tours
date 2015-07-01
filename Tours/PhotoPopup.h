@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
+
+NSString* getTimeStringFromETAInMinutes(float eta);
 
 @class Photo;
 @class PhotoPopup;

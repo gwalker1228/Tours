@@ -11,6 +11,15 @@
 #import "Photo.h"
 #import "User.h"
 
+NSString* getTimeStringFromETAInMinutes(float eta) {
+
+    float hours = floorf(eta / 60);
+    float minutes = eta - hours * 60;
+
+    NSString *hoursString = hours ? [NSString stringWithFormat:@"%g h ", hours] : @"";
+    return [NSString stringWithFormat:@"%@%g min", hoursString, minutes];
+}
+
 @interface PhotoPopup () <UIAlertViewDelegate>
 
 @property UIImageView *imageView;

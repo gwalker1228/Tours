@@ -81,7 +81,7 @@ static CGFloat leftMarginIndent = 8.0;
     NSArray *labels = @[self.titleLabel, self.summaryLabel, self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingLabel];
 
     UIColor *textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-    UIFont *detailLabelFont = [UIFont systemFontOfSize:14.0];
+    UIFont *detailLabelFont = [UIFont systemFontOfSize:12.0];
 
     for (UILabel *label in labels) {
         label.textColor = textColor;

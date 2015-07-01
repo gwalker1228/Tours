@@ -10,6 +10,7 @@
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "RateView.h"
+#import "PhotoPopup.h"
 
 @interface TourTableViewCell ()
 
@@ -61,7 +62,7 @@
 
 - (void)setEstimatedTime:(float)estimatedTime {
     _estimatedTime = estimatedTime;
-    self.mainView.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", estimatedTime];
+    self.mainView.estimatedTimeLabel.text = [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(estimatedTime)];
 }
 
 
