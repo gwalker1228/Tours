@@ -12,7 +12,7 @@
 #import "User.h"
 #import "PhotoPopup.h"
 
-@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate>
+@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -21,6 +21,8 @@
 @property UIImageView *imageView;
 @property UIView *blackView;
 @property NSMutableDictionary *validationErrors;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property BOOL inProgressToursSelected;
 
 @end
 
@@ -29,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
-
+    self.inProgressToursSelected = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -201,7 +203,44 @@
     [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
 }
 
+#pragma mark - UISearchBar Delegate methods
 
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+//    if (selectedScope == 0) {
+//        <#statements#>
+//    }
+
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+
+    if (searchText.length > 0) {
+        //        NSIndexSet *indexes = [self.tours indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        //            return [[[obj title] lowercaseString] containsString:[searchText lowercaseString]];
+        //        }];
+        //
+        //        self.filteredTours = [self.tours objectsAtIndexes:indexes];
+        //    }
+        //    else {
+        //        self.filteredTours = self.tours;
+        //    }
+        //    [self.tableView reloadData];
+    }
+
+}
+
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+}
+
+-(void)dismissKeyboard {
+    [self.view endEditing:YES];
+    [self.searchBar resignFirstResponder];
+}
+
+
+#pragma mark - validationMethods
 
 - (void) validateTourForPublishing:(Tour *)tour {
     self.validationErrors = [NSMutableDictionary new];
