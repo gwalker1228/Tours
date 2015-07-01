@@ -23,22 +23,35 @@
 #import "InteractPinAnnotationView.h"
 #import <ParseUI/ParseUI.h>
 
+static NSString *polylineBetweenStopAndCurrentLocationID = @"polylineBetweenStopAndCurrentLocationID";
+static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
+
+
 @interface BrowseTourPreviewViewController () <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property UIButton *getDirectionsButton;
+@property UITableView *directionsTableView;
+
 @property NSArray *photosForSelectedStop;
 @property NSMutableArray *stopAnnotations;
+@property NSMutableDictionary *directionsFromCurrentLocation;
+@property NSMutableDictionary *polylinesForDirectionsFromCurrentLocation;
 @property NSArray *photos;
 @property NSArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property StopDetailMKPinAnnotationView *currentPinAnnotationView;
 @property MKAnnotationView *selectedAnnotationView;
+@property MKPolyline *directionsPolyline;
+//@property PhotoPopup *photoPopup;
 
 @property CLLocationManager *locationManager;
 
 @property BOOL foundPhotosForStop;
 @property BOOL removeViewAfterNextSelection;
+@property BOOL showingDirections;
 
 @end
 
@@ -52,6 +65,9 @@
     self.mapView.mapType = MKMapTypeHybrid;
     self.stopAnnotations = [NSMutableArray new];
 
+    self.directionsFromCurrentLocation = [NSMutableDictionary new];
+    self.polylinesForDirectionsFromCurrentLocation = [NSMutableDictionary new];
+
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
@@ -61,6 +77,8 @@
 
     self.mapView.showsUserLocation = YES;
 
+    [self setupGetDirectionsButton];
+    [self setupDirectionsTableView];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -100,6 +118,9 @@
 
             } completion:^(BOOL finished) {
                 [self.view bringSubviewToFront:self.mapView];
+                [self.view bringSubviewToFront:self.getDirectionsButton];
+                [self.view bringSubviewToFront:self.directionsTableView];
+
             }];
         } completion:^(BOOL finished) {
             self.tableView.alpha = 1.0;
@@ -108,8 +129,129 @@
 
 }
 
+-(void)setupGetDirectionsButton {
 
+    CGFloat rightMargin = 8;
+    //CGFloat bottomMargin = 8;
 
+    CGFloat directionsButtonWidth = 150;
+    CGFloat directionsButtonHeight = 50;
+    CGFloat directionsButtonX = self.view.frame.size.width - directionsButtonWidth - rightMargin;
+    CGFloat directionsButtonY = self.view.frame.size.height;
+
+    UIColor *color1 = [UIColor colorWithRed:252/255.0f green:255/255.0f blue:245/255.0f alpha:1.0];
+    UIColor *color3 = [UIColor colorWithRed:145/255.0f green:170/255.0f blue:157/255.0f alpha:1.0];
+
+    self.getDirectionsButton = [[UIButton alloc] initWithFrame:CGRectMake(directionsButtonX, directionsButtonY, directionsButtonWidth, directionsButtonHeight)];
+
+    [self.getDirectionsButton setTitle:@"Directions From Current Location" forState:UIControlStateNormal];
+
+    self.getDirectionsButton.tintColor = color1;
+    self.getDirectionsButton.backgroundColor = color3;
+    self.getDirectionsButton.titleLabel.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:18];
+    self.getDirectionsButton.layer.cornerRadius = 5;
+
+    [self.getDirectionsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.getDirectionsButton.titleLabel.numberOfLines = 0;
+
+    [self.getDirectionsButton addTarget:self action:@selector(onGetDirectionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view addSubview:self.getDirectionsButton];
+
+}
+
+-(void)setupDirectionsTableView {
+
+    CGFloat directionsTableViewWidth = self.view.frame.size.width;
+    CGFloat directionsTableViewHeight = self.view.frame.size.height / 3;
+    CGFloat directionsTableViewX = 0;
+    CGFloat directionsTableViewY = self.view.frame.size.height + 50;
+
+    self.directionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(directionsTableViewX, directionsTableViewY, directionsTableViewWidth, directionsTableViewHeight)];
+
+    self.directionsTableView.tag = 1;
+    self.directionsTableView.delegate = self;
+    self.directionsTableView.dataSource = self;
+    self.directionsTableView.allowsSelection = NO;
+
+    [self.view addSubview:self.directionsTableView];
+}
+
+-(void)setGetDirectionsButtonHidden:(BOOL)hidden {
+
+    CGFloat bottomMargin = 8;
+
+    CGRect newFrame = self.getDirectionsButton.frame;
+    newFrame.origin.y = hidden ? self.view.frame.size.height + 20 : self.view.frame.size.height - self.getDirectionsButton.frame.size.height - bottomMargin;
+
+    [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionTransitionCurlUp animations:^{
+
+        self.getDirectionsButton.frame = newFrame;
+
+    } completion:^(BOOL finished) {
+
+    }];
+}
+
+-(void)onGetDirectionsButtonPressed {
+
+    [self setGetDirectionsButtonHidden:YES];
+    [self setDirectionsTableViewHidden:NO];
+}
+
+-(void)displayDirections {
+
+    if (self.directionsPolyline) {
+        [self.mapView removeOverlay:self.directionsPolyline];
+        self.directionsPolyline = nil;
+    }
+
+    if (!self.showingDirections) {
+        [self setDirectionsTableViewHidden:NO];
+    }
+    [self.directionsTableView reloadData];
+
+    StopPointAnnotation *stopPointAnnotation = self.selectedAnnotationView.annotation;
+    Stop *stop = stopPointAnnotation.stop;
+    [stop fetchIfNeeded];
+
+    if (self.directionsFromCurrentLocation[stop.objectId] && [self.directionsFromCurrentLocation[stop.objectId] count] > 0) {
+        [self.directionsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
+
+    self.directionsPolyline = self.polylinesForDirectionsFromCurrentLocation[stop.objectId];
+
+    if (self.directionsPolyline) {
+
+        [self.mapView addOverlay:self.directionsPolyline];
+        [self.mapView setNeedsDisplay];
+    }
+}
+
+-(void)setDirectionsTableViewHidden:(BOOL)hidden {
+
+    self.showingDirections = !hidden;
+
+    if (!hidden) {
+        [self displayDirections];
+        //[self setGetDirectionsButtonHidden:YES];
+    }
+    else if (self.directionsPolyline) {
+        [self.mapView removeOverlay:self.directionsPolyline];
+        self.directionsPolyline = nil;
+    }
+
+    CGRect newFrame = self.directionsTableView.frame;
+    newFrame.origin.y = hidden ? self.view.frame.size.height + 50 : self.view.frame.size.height - self.directionsTableView.frame.size.height;
+
+    [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationOptionTransitionCurlUp animations:^{
+
+        self.directionsTableView.frame = newFrame;
+
+    } completion:^(BOOL finished) {
+        
+    }];
+}
 
 -(void)loadStops {
 
@@ -171,28 +313,66 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    BuildTourStopsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BuildTourStopsTableViewCellIdentifier];
+    if (tableView.tag == 1) {
 
-    if (cell == nil) {
-        cell = [[BuildTourStopsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BuildTourStopsTableViewCellIdentifier size:CGSizeMake(self.tableView.bounds.size.width, tableCellHeight)];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"directionsCell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"directionsCell"];
+        }
+
+        StopPointAnnotation *stopPointAnnotation = self.selectedAnnotationView.annotation;
+        Stop *stop = stopPointAnnotation.stop;
+        [stop fetchIfNeeded];
+
+        if (self.directionsFromCurrentLocation[stop.objectId] && [self.directionsFromCurrentLocation[stop.objectId] count] > 0) {
+            NSMutableArray *directions = self.directionsFromCurrentLocation[stop.objectId];
+            cell.textLabel.text = [NSString stringWithFormat:@"%lu. %@", indexPath.row + 1, directions[indexPath.row]];
+        }
+        else {
+            cell.textLabel.text = @"Directions are unavailable for this location.";
+        }
+        return cell;
     }
+    else {
+        BuildTourStopsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BuildTourStopsTableViewCellIdentifier];
 
-    [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
+        if (cell == nil) {
+            cell = [[BuildTourStopsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BuildTourStopsTableViewCellIdentifier size:CGSizeMake(self.tableView.bounds.size.width, tableCellHeight)];
+        }
 
-    Stop *stop = self.stops[indexPath.row];
+        [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
 
-    cell.title = stop.title;
-    cell.summary = stop.summary;
+        Stop *stop = self.stops[indexPath.row];
 
-    return cell;
+        cell.title = stop.title;
+        cell.summary = stop.summary;
+        
+        return cell;
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return tableCellHeight;
+
+    return tableView.tag == 1 ? 44 : tableCellHeight;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
+    if (tableView.tag == 1) {
+
+        if (self.selectedAnnotationView) {
+            StopPointAnnotation *stopPointAnnotation = self.selectedAnnotationView.annotation;
+            Stop *stop = stopPointAnnotation.stop;
+            [stop fetchIfNeeded];
+
+            if (self.directionsFromCurrentLocation[stop.objectId] && [self.directionsFromCurrentLocation[stop.objectId] count] > 0) {
+
+                return [self.directionsFromCurrentLocation[stop.objectId] count];
+            }
+            return 1;
+        }
+        return 0;
+    }
     return self.stops.count;
 }
 
@@ -211,9 +391,8 @@
 
     for (Stop *stop in self.stops) {
 
-//        CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:stop.location.latitude longitude:stop.location.longitude];
         StopPointAnnotation *stopAnnotation = [[StopPointAnnotation alloc] initWithStop:stop];
-        //stopAnnotation.title = @" ";
+
         [self.stopAnnotations addObject:stopAnnotation];
         [self.mapView addAnnotation:stopAnnotation];
     }
@@ -236,6 +415,8 @@
     annotationView.canShowCallout = YES;
     annotationView.enabled = YES;
 
+    [self getDirectionsFromCurrentLocationToAnnotationView:annotationView];
+
     return annotationView;
 }
 
@@ -243,9 +424,18 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
 
     if ([(StopDetailMKPinAnnotationView *)view isEqual:self.selectedAnnotationView]) {
+
         [self.currentPinAnnotationView removeFromSuperview];
         self.selectedAnnotationView = nil;
         [self.mapView deselectAnnotation:view.annotation animated:NO];
+
+
+        if (self.showingDirections) {
+            [self setDirectionsTableViewHidden:YES];
+        }
+        else {
+            [self setGetDirectionsButtonHidden:YES];
+        }
     }
     else {
         if (self.currentPinAnnotationView) {
@@ -254,13 +444,11 @@
 
         StopPointAnnotation *stopPointAnnotation = view.annotation;
         Stop *stop = stopPointAnnotation.stop;
-        //
+
         [self.mapView deselectAnnotation:stopPointAnnotation animated:NO];
-        //    self.removeViewAfterNextSelection = YES;
-        //
-        //
+
         self.photosForSelectedStop = [self.stopPhotos objectForKey:stop.objectId];
-        //
+
         CGRect stopViewFrame = CGRectMake(0, 0, 200, 150);
         StopDetailMKPinAnnotationView *stopView = [[StopDetailMKPinAnnotationView alloc] initWithFrame:stopViewFrame];
         stopView.backgroundColor = [UIColor whiteColor];
@@ -272,17 +460,16 @@
 
         self.currentPinAnnotationView = stopView;
         self.selectedAnnotationView = view;
-        //[view.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];
 
         [view addSubview:stopView];
+
+        if (self.showingDirections) {
+            [self displayDirections];
+        }
+        else {
+            [self setGetDirectionsButtonHidden:NO];
+        }
     }
-}
-
--(void)renderPolylineForRoute:(MKRoute *)route {
-
-    MKPolyline *polyline = [route polyline];
-    [self.mapView addOverlay:polyline];
-    [self.mapView setNeedsDisplay];
 }
 
 -(void)generatePolylineForDirectionsFromIndex:(int)sourceIndex toIndex:(int)destinationIndex{
@@ -304,7 +491,10 @@
             NSArray *routes = response.routes;
             MKRoute *route = routes.firstObject;
 
+
             MKPolyline *polyline = [route polyline];
+            polyline.title = polylineBetweenStopsID;
+
             [self.mapView addOverlay:polyline];
             [self.mapView setNeedsDisplay];
         }
@@ -318,32 +508,69 @@
 
 -(void)getDirectionsFromCurrentLocationToAnnotationView:(StopDetailMKPinAnnotationView *)view {
 
-    MKDirectionsRequest *request = [MKDirectionsRequest new];
+    if ([self.locationManager location]) {
 
-    request.source = [MKMapItem mapItemForCurrentLocation];
-    MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[view.annotation coordinate] addressDictionary:nil];
-    request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
+        MKDirectionsRequest *request = [MKDirectionsRequest new];
 
-    //request.transportType = MKDirectionsTransportTypeWalking;
+        request.source = [MKMapItem mapItemForCurrentLocation];
+        MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:[view.annotation coordinate] addressDictionary:nil];
+        request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
 
-    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
+        //request.transportType = MKDirectionsTransportTypeWalking;
 
-    [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
+        MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 
-        NSArray *routes = response.routes;
-        MKRoute *route = routes.firstObject;
+        [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
 
-        MKPolyline *polyline = [route polyline];
+            NSLog(@"calculating directions for view %@", view);
+            if (!error) {
+                NSArray *routes = response.routes;
+                MKRoute *route = routes.firstObject;
 
-        [self.mapView addOverlay:polyline];
-        [self.mapView setNeedsDisplay];
-    }];
+                MKPolyline *polyline = [route polyline];
+                polyline.title = polylineBetweenStopAndCurrentLocationID;
+
+                self.directionsPolyline = polyline;
+
+                NSMutableArray *directionsSteps = [NSMutableArray new];
+
+                for (MKRouteStep *step in route.steps) {
+                    [directionsSteps addObject:step.instructions];
+                }
+
+                NSLog(@"Directions for view are %@", directionsSteps);
+
+                StopPointAnnotation *stopPointAnnotation = view.annotation;
+                Stop *stop = stopPointAnnotation.stop;
+                [stop fetchIfNeeded];
+
+                self.directionsFromCurrentLocation[stop.objectId] = directionsSteps;
+                self.polylinesForDirectionsFromCurrentLocation[stop.objectId] = polyline;
+
+                if (self.showingDirections && self.currentPinAnnotationView == view) {
+
+                    [self.mapView addOverlay:polyline];
+                    [self.mapView setNeedsDisplay];
+
+                    [self.directionsTableView reloadData];
+                }
+            }
+        }];
+    }
 }
 
 -(MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+
     MKPolylineRenderer *polylineRenderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
 
-    polylineRenderer.strokeColor = [UIColor blueColor];
+    MKPolyline *polyline = (MKPolyline *)overlay;
+
+    if ([polyline.title isEqualToString:polylineBetweenStopAndCurrentLocationID]) {
+        polylineRenderer.strokeColor = [UIColor purpleColor];
+    }
+    else {
+        polylineRenderer.strokeColor = [UIColor blueColor];
+    }
     polylineRenderer.lineWidth = 4;
 
     return polylineRenderer;
@@ -359,6 +586,7 @@
 
     for (CLLocation *location in locations) {
         if (location.verticalAccuracy < 1000 && location.horizontalAccuracy < 1000) {
+
             [self.locationManager stopUpdatingLocation];
             break;
         }
@@ -407,7 +635,20 @@
 
     IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+    Photo *photo;
+
+    // if indexpath property is nil, collectionView is in callout accessory
+    if (![(IndexedPhotoCollectionView *)collectionView indexPath]) {
+        photo = self.photosForSelectedStop[indexPath.row];
+    }
+
+    // else, collectionView is in tableViewCell
+    else {
+        Stop *stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+        photo = self.stopPhotos[stop.objectId][indexPath.row];
+    }
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view.superview editable:NO delegate:nil];
 }
 
 @end

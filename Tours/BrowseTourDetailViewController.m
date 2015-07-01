@@ -275,7 +275,10 @@
     //TourPhotoCollectionViewCell *cell = [[TourPhotoCollectionViewCell alloc] init];
     TourPhotoCollectionViewCell *cell = (TourPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+    Stop *stop = self.stops[indexPath.section];
+    Photo *photo = self.photos[stop.objectId][indexPath.row];
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
 }
 
 

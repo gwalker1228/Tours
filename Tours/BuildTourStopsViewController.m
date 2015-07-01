@@ -11,6 +11,7 @@
 #import "BuildStopDetailViewController.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
+#import "BuildStopImagePickerViewController.h"
 #import "Stop.h"
 #import "Photo.h"
 #import "Tour.h"
@@ -18,7 +19,7 @@
 #import <ParseUI/ParseUI.h>
 
 
-@interface BuildTourStopsViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface BuildTourStopsViewController () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, PhotoPopupDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *addStopButton;
@@ -27,6 +28,8 @@
 @property NSMutableArray *stops;
 @property NSMutableDictionary *stopPhotos;
 @property BOOL isEditing;
+
+@property PhotoPopup *photoPopup;
 
 @end
 
@@ -55,6 +58,11 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+
+    if (self.photoPopup) {
+        [self.photoPopup reloadViews];
+    }
+
     [self loadStops];
 }
 
@@ -273,8 +281,45 @@
 
     IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
 
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view.superview];
+
+    Stop* stop = self.stops[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Photo *photo = self.stopPhotos[stop.objectId][indexPath.row];
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view.superview editable:YES delegate:self];
 }
+
+#pragma mark - PhotoPopup Delegate methods
+
+-(void)photoPopup:(PhotoPopup *)photoPopup editPhotoButtonPressed:(Photo *)photo {
+
+    Stop* stop = photo.stop;
+    [stop fetchIfNeeded];
+    Tour *tour = photo.tour;
+    [tour fetchIfNeeded];
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BuildStopImagePickerViewController *buildStopImagePickerVC = [storyboard instantiateViewControllerWithIdentifier:@"BuildStopImagePickerVC"];
+
+    buildStopImagePickerVC.photo = photo;
+    buildStopImagePickerVC.stop = stop;
+    buildStopImagePickerVC.tour = tour;
+
+    double delayInSeconds = 0.1;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.parentViewController presentViewController:buildStopImagePickerVC animated:YES completion:nil];
+    });
+}
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidAppear:(Photo *)photo {
+    self.photoPopup = photoPopup;
+}
+
+-(void)photoPopup:(PhotoPopup *)photoPopup viewDidDisappear:(Photo *)photo {
+    self.photoPopup = nil;
+}
+
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

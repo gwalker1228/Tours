@@ -163,7 +163,7 @@
         if (self.tourPhotos[tour.objectId]) {
             Photo *firstPhoto = [self.tourPhotos[tour.objectId] firstObject];
             Stop *firstStop = firstPhoto.stop;
-            [firstStop fetch];
+            [firstStop fetchIfNeeded];
             NSLog(@"%@", firstStop);
             if (firstStop.location) {
                 NSLog(@"%@", firstStop.location);
@@ -240,8 +240,11 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     IndexedPhotoCollectionViewCell *cell = (IndexedPhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+
+    Tour* tour = self.filteredTours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
+    Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
 }
 
 

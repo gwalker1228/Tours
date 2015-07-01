@@ -143,7 +143,9 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     StopPhotoCollectionViewCell *cell = (StopPhotoCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
 
-    [PhotoPopup popupWithImage:cell.imageView.image inView:self.view];
+    Photo *photo = self.photos[indexPath.row];
+
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:NO delegate:nil];
 }
 
 

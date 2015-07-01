@@ -12,10 +12,10 @@
 
 - (void)setUp {
 
-    UIColor *color1 = [UIColor colorWithRed:252/255.0f green:255/255.0f blue:245/255.0f alpha:1.0];
+    //UIColor *color1 = [UIColor colorWithRed:252/255.0f green:255/255.0f blue:245/255.0f alpha:1.0];
 
     self.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:18];
-    self.backgroundColor = color1;
+    //self.backgroundColor = color1;
 }
 
 - (void)prepareForInterfaceBuilder {
