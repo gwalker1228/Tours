@@ -378,10 +378,6 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    //    BuildManager *buildManager = [BuildManager sharedBuildManager];
-    //    Stop *stop = self.stops[indexPath.row];
-    //    buildManager.stop = stop;
-
     [self performSegueWithIdentifier:@"browseStop" sender:self];
 }
 
@@ -422,6 +418,8 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+
+    if (view.annotation == mapView.userLocation) return;
 
     if ([(StopDetailMKPinAnnotationView *)view isEqual:self.selectedAnnotationView]) {
 
