@@ -163,7 +163,7 @@
         if (self.tourPhotos[tour.objectId]) {
             Photo *firstPhoto = [self.tourPhotos[tour.objectId] firstObject];
             Stop *firstStop = firstPhoto.stop;
-            [firstStop fetch];
+            [firstStop fetchIfNeeded];
             NSLog(@"%@", firstStop);
             if (firstStop.location) {
                 NSLog(@"%@", firstStop.location);
