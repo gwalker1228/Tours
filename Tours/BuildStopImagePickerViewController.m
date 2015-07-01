@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *imageSummaryTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
+@property BOOL photoChanged;
 
 @property BOOL firstViewDisplay;
 
@@ -28,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.photoChanged = NO;
     self.firstViewDisplay = YES;
 
     [self checkForCameraAvailableAndAlert];
@@ -52,6 +54,7 @@
 
     self.saveButton.enabled = NO;
 
+        // If this is not from and edit segue, just save the new photo
     if (!self.photo) {
 
         NSString *imageTitle = self.imageTitleTextField.text;
@@ -59,18 +62,61 @@
         [Photo photoWithImage:self.imageView.image stop:self.stop tour:self.stop.tour title:imageTitle description:imageDescription orderNumber:self.orderNumber withCompletion:^(Photo *photo, NSError *error) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
-    }
-    else {
+    }  else {
+            // if this is from an edit segue, only resave the image if they've changed it
+        if (self.photoChanged) {
+            self.photo.title = self.imageTitleTextField.text;
+            self.photo.summary = self.imageSummaryTextField.text;
 
-        self.photo.title = self.imageTitleTextField.text;
-        self.photo.summary = self.imageSummaryTextField.text;
-        [self.photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }];
+                
+            [self.photo updatePhoto:self.photo photoWithImage:self.imageView.image title:self.imageTitleTextField.text description:self.imageSummaryTextField.text withCompletion:^(Photo *photo, NSError *error) {
+                  [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+
+        } else {
+
+            // if they've only chancged the title or summary, only save that
+            self.photo.title = self.imageTitleTextField.text;
+            self.photo.summary = self.imageSummaryTextField.text;
+            [self.photo saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
     }
 }
 
 - (IBAction)onChangePhotoButtonPressed:(UIButton *)sender {
+
+    self.photoChanged = YES;
+    NSLog(@"photo has changed");
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please Select Your Image Source" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *takePictureAction = [UIAlertAction actionWithTitle:@"Take a Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+
+            // initialView is poorly named, but it is set when segueing from the add picture VC.  If not from that segue I set it here for the checkCamera...
+        self.initialView = @"camera";
+        [self checkForCameraAvailableAndAlert];
+        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            return;
+        }
+        [self showCameraPickerController];
+    }];
+
+    UIAlertAction *photoLibraryAction = [UIAlertAction actionWithTitle:@"Photo Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+
+        [self showPhotoLibraryPickerController];
+    }];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        self.photoChanged = NO;
+    }];
+
+    [alertController addAction:takePictureAction];
+    [alertController addAction:photoLibraryAction];
+    [alertController addAction:cancelAction];
+
+    [self presentViewController:alertController animated:YES completion:nil];
+
 }
 
 

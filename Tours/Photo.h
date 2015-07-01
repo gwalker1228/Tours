@@ -25,4 +25,6 @@
 
 + (void) photoWithImage:(UIImage *)image stop:(Stop *)stop tour:(Tour *)tour title:(NSString *)title description:(NSString *)description orderNumber:(NSNumber *)order withCompletion:(void(^)(Photo *photo, NSError *error))complete;
 
+- (void) updatePhoto:(Photo *)photo photoWithImage:(UIImage *)image title:(NSString *)title description:(NSString *)summary withCompletion:(void(^)(Photo *photo, NSError *error))complete;
+
 @end
