@@ -44,5 +44,6 @@ static NSString *TourTableViewCellIdentifier = @"TourTableViewCell";
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
 - (void)showPublishButton;
+- (void)clearVariableViews;
 
 @end

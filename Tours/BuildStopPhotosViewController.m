@@ -27,6 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0f green:255/255.0f blue:245/255.0f alpha:1.0];
     self.inEditingMode = NO;
 
     // NEED TO ADD OUTLETS AND CHANGE THE COLOR OF THE BUTTONS

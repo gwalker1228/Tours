@@ -138,6 +138,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 - (IBAction)onCancelButtonPressed {
 
     if (!self.stop.location) {
+        NSLog(@"deleting stop");
         [self.stop delete];
     }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -199,7 +200,7 @@ static NSString *reuseIdentifier = @"PhotoCell";
 - (void)zoomToRegionAroundAnnotation {
 
     CLLocationCoordinate2D stopCLLocationCoordinate2D = CLLocationCoordinate2DMake(self.stop.location.latitude + 0.002, self.stop.location.longitude);
-    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(stopCLLocationCoordinate2D, 10000, 10000);
+    MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(stopCLLocationCoordinate2D, 1000, 1000);
     [self.mapView setRegion:coordinateRegion animated:NO];
 }
 
