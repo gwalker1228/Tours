@@ -6,17 +6,15 @@
 //  Copyright (c) 2015 Mark Porcella. All rights reserved.
 //
 
-#import "DesignableLabel1.h"
+#import "DesignableSummaryNoBorderLabel.h"
 
-@implementation DesignableLabel1
+@implementation DesignableSummaryNoBorderLabel
 
 - (void)setUp {
-
-    //UIColor *color1 = [UIColor colorWithRed:252/255.0f green:255/255.0f blue:245/255.0f alpha:1.0];
+    UIColor *color5 = [UIColor colorWithRed:25/255.0f green:52/255.0f blue:65/255.0f alpha:1.0];
 
     self.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:15];
-
-    
+    self.textColor = color5;
 }
 
 

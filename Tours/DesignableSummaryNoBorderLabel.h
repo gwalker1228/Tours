@@ -1,5 +1,5 @@
 //
-//  DesignableButton1.h
+//  DesignableLabel.h
 //  Tours
 //
 //  Created by Adriana Jimenez Mangas on 6/25/15.
@@ -10,6 +10,6 @@
 
 IB_DESIGNABLE
 
-@interface DesignableButton1 : UIButton
+@interface DesignableSummaryNoBorderLabel : UILabel
 
 @end
