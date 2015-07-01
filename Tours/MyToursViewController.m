@@ -21,6 +21,8 @@
 @property UIImageView *imageView;
 @property UIView *blackView;
 @property NSMutableDictionary *validationErrors;
+@property NSMutableArray *publishedTours;
+@property NSMutableArray *notPublishedTours;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property BOOL inProgressToursSelected;
 
@@ -29,12 +31,18 @@
 @implementation MyToursViewController
 
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
     self.inProgressToursSelected = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+
+        // clear it everytime it views
+    self.publishedTours = [NSMutableArray new];
+    self.notPublishedTours = [NSMutableArray new];
+
     self.tours = [NSArray new];
 //    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
     if (![User currentUser]) {
@@ -59,11 +67,11 @@
 }
 
 
-- (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
-    NSLog(@"See you soon, %@", [User currentUser].username);
-    [User logOut];
-    [self presentLogInViewController];
-}
+//- (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
+//    NSLog(@"See you soon, %@", [User currentUser].username);
+//    [User logOut];
+//    [self presentLogInViewController];
+//}
 
 
 - (void)loadUserTours {
@@ -73,20 +81,30 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *tours, NSError *error) {
         if (!error) {
-
-            self.tours = tours;
-            [self loadPhotos];
+            for (Tour *tour in tours) {
+                if (tour.published) {
+                    [self.publishedTours addObject:tour];
+                } else {
+                    [self.notPublishedTours addObject:tour];
+                }
+            }
+            if (self.inProgressToursSelected) {
+                self.tours = self.notPublishedTours;
+            } else {
+                self.tours = self.publishedTours;
+            }
+            [self loadPhotosForAllTours:tours];
         } else {
             //error check
         }
     }];
 }
 
--(void)loadPhotos {
+-(void)loadPhotosForAllTours:(NSArray *)tours {
 
     self.tourPhotos = [NSMutableDictionary new];
 
-    for (Tour *tour in self.tours) {
+    for (Tour *tour in tours) {
         self.tourPhotos[tour.objectId] = [NSMutableArray new];
     }
 
@@ -137,6 +155,7 @@
         cell = [[TourTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TourTableViewCellIdentifier size:CGSizeMake(self.tableView.bounds.size.width, tableCellHeight)];
     }
 
+    [cell clearVariableViews];
     [cell setCollectionViewDataSourceDelegate:self indexPath:indexPath];
 
     Tour *tour = [self.tours objectAtIndex:indexPath.row];
@@ -150,8 +169,7 @@
 
     if (!tour.published) {
          [cell showPublishButton];
-    }
-    else {
+    } else {
          cell.rating = tour.averageRating;
     }
     return cell;
@@ -206,9 +224,13 @@
 #pragma mark - UISearchBar Delegate methods
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-//    if (selectedScope == 0) {
-//        <#statements#>
-//    }
+
+    if (selectedScope == 0) {
+        self.tours = self.notPublishedTours;
+    } else {
+        self.tours = self.publishedTours;
+    }
+    [self.tableView reloadData];
 
 }
 
@@ -244,6 +266,15 @@
 
 - (void) validateTourForPublishing:(Tour *)tour {
     self.validationErrors = [NSMutableDictionary new];
+
+    if ([tour.title isEqual:@"New Tour"]) {
+        self.validationErrors[@"noTourTitle"] = @"YES";
+    }
+
+    if ([tour.summary isEqualToString:@"Write a brief description of the tour here."]) {
+        self.validationErrors[@"noTourSummary"] = @"YES";
+    }
+
         // We need to get the stops for each tour because we don't do this prior to validation
     PFQuery *query = [PFQuery queryWithClassName:@"Stop"];
     [query whereKey:@"tour" equalTo:tour];
@@ -251,12 +282,9 @@
 
         if (error == nil) {
             if (stops.count < 2) {
-                NSLog(@"adding minimum objects ");
                 self.validationErrors[@"objectMinimum"] = @"YES";
-                NSLog(@"validation errors: %@", self.validationErrors);
             }
         }
-
         [self ensureSelectedTour:tour hasAPhotoAssociatedWithEachStop:stops];
     }];
 }
@@ -333,6 +361,12 @@
     if ([self.validationErrors[@"objectMinimum"] isEqualToString:@"YES" ]) {
         validationMessage = [validationMessage stringByAppendingString:@"Please have at least two stops in your tour in order to publish\n"];
     }
+    if ([self.validationErrors[@"noTourTitle"] isEqualToString:@"YES" ]) {
+        validationMessage = [validationMessage stringByAppendingString:@"Please add a tour title (select \"New Tour\" in title bar of build tour section\n"];
+    }
+    if ([self.validationErrors[@"noTourSummary"] isEqualToString:@"YES" ]) {
+        validationMessage = [validationMessage stringByAppendingString:@"Please add a tour summary by editing the text just above the map in the build tour seciton\n"];
+    }
 
     NSArray *stopsWithNoPhoto = self.validationErrors[@"stopsWithNoPhotos"];
     if (stopsWithNoPhoto.count > 0) {
@@ -389,7 +423,7 @@
         // no problems with the tour
     if ([validationMessage isEqualToString:@""]) {
 
-            // publish it and give a success message
+            // publish it and give a success message and move it to the publishedTours Array
         tour.published = YES;
         [tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error == nil) {
@@ -398,6 +432,10 @@
                 UIAlertAction *backToMyTours = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
                 [successController addAction:backToMyTours];
                 [self presentViewController:successController animated:YES completion:nil];
+                    // move the array to the published array
+                [self.notPublishedTours removeObject:tour];
+                [self.publishedTours addObject:tour];
+                [self.tableView reloadData];
             }
         }];
 
