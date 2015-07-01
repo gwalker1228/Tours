@@ -16,6 +16,7 @@
 #import "Stop.h"
 #import "Photo.h"
 #import "PhotoPopup.h"
+#import "RateView.h"
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
 
@@ -34,6 +35,7 @@
 @property UILabel *estimatedTimeLabel;
 @property UILabel *distanceFromCurrentLocationLabel;
 @property UILabel *ratingsLabel;
+@property RateView *rateView;
 @property SummaryTextView *summaryTextView;
 @property UIButton *moreButton;
 @property UIButton *editStopsButton;
@@ -143,10 +145,13 @@
     CGFloat labelWidth = self.view.bounds.size.width / 2 - labelMarginX;
     CGFloat labelHeight = 20;
 
+    CGFloat ratingsLabelWidth = labelWidth / 3;
+
     self.totalDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelMarginX, labelMarginY, labelWidth, labelHeight)];
     self.estimatedTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelMarginX, labelHeight + labelMarginY, labelWidth, labelHeight)];
     self.distanceFromCurrentLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX , labelMarginY, labelWidth, labelHeight)];
     self.ratingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX, labelHeight + labelMarginY, labelWidth, labelHeight)];
+    self.rateView = [[RateView alloc] initWithFrame:CGRectMake(self.ratingsLabel.frame.origin.x + ratingsLabelWidth, labelHeight + labelMarginY, labelWidth - ratingsLabelWidth, labelHeight)];
 
     NSArray *labels = @[self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingsLabel];
 
@@ -201,10 +206,16 @@
 
 -(void)updateViews {
 
-    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Estimated Distance: %.2g", self.tour.totalDistance] : @"Estimated Distance:";
-    self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Estimated Time: %.2g", self.tour.estimatedTime] : @"Estimated Time:";
+    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.2g", self.tour.totalDistance] : @"Total Distance:";
+    self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.tour.estimatedTime)] : @"Est. Time:";
     self.distanceFromCurrentLocationLabel.text = @"From Current Location: N/A";
-    self.ratingsLabel.text = self.tour.averageRating ? [NSString stringWithFormat:@"Average Rating: %g", self.tour.averageRating] : @"Average Rating: N/A";
+    self.ratingsLabel.text = @"Rating: ";
+    self.rateView.rating = self.tour.averageRating;
+
+    if (self.tour.averageRating) {
+        [self.tourDetailView addSubview:self.rateView];
+    }
+
     self.summaryTextView.text = self.tour.summary ? : @"Write a brief description of the tour here.";
 }
 
@@ -458,15 +469,16 @@
     [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
 
         self.eta += response.expectedTravelTime;
-        NSLog(@"%f", self.eta);
+        self.eta += 50*60;
+
         if (destinationIndex < self.stops.count - 1) {
-            self.eta += 50;
             [self getEtaFromIndex:destinationIndex toIndex:destinationIndex + 1];
         }
         else {
             self.eta = floor(self.eta/60);
             NSLog(@"%f", self.eta);
-            self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", self.eta];
+
+            self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.eta)];
             self.tour.estimatedTime = self.eta;
         }
     }];

@@ -4,6 +4,7 @@
 #import "TourTableViewCell.h"
 //#import "BuildTourParentViewController.h"
 #import "BuildStopImagePickerViewController.h"
+#import "BrowseTourDetailViewController.h"
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "Tour.h"
@@ -24,6 +25,8 @@
 @property NSMutableArray *publishedTours;
 @property NSMutableArray *notPublishedTours;
 @property NSArray *filteredTours;
+
+@property BOOL promptedLoginOnce;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property BOOL inProgressToursSelected;
@@ -50,14 +53,22 @@
     if (self.photoPopup) {
         [self.photoPopup reloadViews];
     }
-    self.searchBar.text = @"";
-    self.tours = [NSArray new];
-//    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
+
     if (![User currentUser]) {
-        [self presentLogInViewController];
+        if (!self.promptedLoginOnce) {
+            self.promptedLoginOnce = YES;
+            [self presentLogInViewController];
+        }
+        else {
+            [self.parentViewController.navigationController popViewControllerAnimated:YES];
+        }
     } else {
         [self loadUserTours];
     }
+
+    self.searchBar.text = @"";
+    self.tours = [NSArray new];
+//    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
 }
 
 -(void)presentLogInViewController {
@@ -86,7 +97,7 @@
                     [self.notPublishedTours addObject:tour];
                 }
             }
-            if (self.inProgressToursSelected) {
+            if ([self.searchBar selectedScopeButtonIndex] == 0) {
                 self.tours = self.notPublishedTours;
             } else {
                 self.tours = self.publishedTours;
@@ -135,7 +146,7 @@
     if ([segue.identifier isEqualToString:@"editTour"]) {
 
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        Tour *tour = self.tours[indexPath.row];
+        Tour *tour = self.filteredTours[indexPath.row];
         destinationVC.tour = tour;
 
     }
@@ -145,6 +156,13 @@
         destinationVC.tour = tour;
         destinationVC.tour.creator = [User currentUser];
         [tour save];
+    }
+
+    else if ([segue.identifier isEqualToString:@"browseTour"]) {
+
+        BrowseTourDetailViewController *destination = segue.destinationViewController;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        destination.tour = self.filteredTours[indexPath.row];
     }
 }
 
@@ -188,7 +206,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    [self performSegueWithIdentifier:@"editTour" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+    Tour *tour = self.filteredTours[indexPath.row];
+
+    [self performSegueWithIdentifier:(tour.published ? @"browseTour" : @"editTour") sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+
 }
 
 #pragma mark - UICollectionView Delegate/DataSource methods
@@ -220,7 +241,7 @@
     Tour* tour = self.filteredTours[[(IndexedPhotoCollectionView *)collectionView indexPath].row];
     Photo *photo = self.tourPhotos[tour.objectId][indexPath.row];
 
-    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:YES delegate:self];
+    [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:(!tour.published) delegate:self];
 }
 
 

@@ -16,10 +16,11 @@
 #import "Stop.h"
 #import "Photo.h"
 #import "PhotoPopup.h"
+#import "RateView.h"
 #import <MapKit/MapKit.h>
 #import <ParseUI/ParseUI.h>
 
-@interface BrowseTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate>
+@interface BrowseTourDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, SummaryTextViewDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet PFImageView *coverPhotoImageView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -32,20 +33,24 @@
 @property UILabel *estimatedTimeLabel;
 @property UILabel *distanceFromCurrentLocationLabel;
 @property UILabel *ratingsLabel;
+@property RateView *rateView;
 @property SummaryTextView *summaryTextView;
 @property UIButton *moreButton;
-@property UIButton *editStopsButton;
-@property UIImageView *imageView;
-@property UIView *blackView;
+@property UIButton *expandButton;
 
 @property NSArray *stops;
 @property NSMutableDictionary *photos;
 @property NSMutableArray *orderedAnnotations;
 @property float eta;
+
+@property CLLocationManager *locationManager;
+@property double distanceFromCurrentLocation;
 @property CLLocationDistance totalDistance;
 
 @property BOOL didSetupViews;
-
+@property BOOL didFindCurrentLocation;
+@property BOOL didCalculateDistanceFromCurrentLocation;
+@property BOOL didLoadStops;
 
 @end
 
@@ -67,6 +72,11 @@
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    [self.locationManager requestWhenInUseAuthorization];
+
     if (!self.didSetupViews) {
         [self setupViews];
         [self updateViews];
@@ -83,6 +93,11 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
         self.stops = stops;
         NSLog(@"%@ -> %@", NSStringFromSelector(_cmd), stops);
+        self.didLoadStops = YES;
+
+        if (self.didFindCurrentLocation && !self.didCalculateDistanceFromCurrentLocation) {
+            [self calculateDistanceFromCurrentLocation];
+        }
         [self loadStopsOnMap];
         [self loadPhotos];
     }];
@@ -125,10 +140,13 @@
     CGFloat labelWidth = self.view.bounds.size.width / 2 - labelMarginX;
     CGFloat labelHeight = 20;
 
+    CGFloat ratingsLabelWidth = labelWidth / 3;
+
     self.totalDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelMarginX, labelMarginY, labelWidth, labelHeight)];
     self.estimatedTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelMarginX, labelHeight + labelMarginY, labelWidth, labelHeight)];
     self.distanceFromCurrentLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX , labelMarginY, labelWidth, labelHeight)];
-    self.ratingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX, labelHeight + labelMarginY, labelWidth, labelHeight)];
+    self.ratingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelWidth + labelMarginX, labelHeight + labelMarginY, ratingsLabelWidth, labelHeight)];
+    self.rateView = [[RateView alloc] initWithFrame:CGRectMake(self.ratingsLabel.frame.origin.x + ratingsLabelWidth, labelHeight + labelMarginY, labelWidth - ratingsLabelWidth, labelHeight)];
 
     NSArray *labels = @[self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingsLabel];
 
@@ -160,17 +178,17 @@
 
 -(void)setupExpandButton {
 
-    CGFloat editStopsButtonWidth = self.view.layer.bounds.size.width / 6;
+    CGFloat expandButtonWidth = self.view.layer.bounds.size.width / 6;
     //NSLog(@"%f, %f", CGRectGetMinY(self.mapView.frame), CGRectGetMaxY(self.mapView.frame));
-    self.editStopsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - editStopsButtonWidth, self.mapView.bounds.origin.y, editStopsButtonWidth, self.mapView.layer.bounds.size.height)];
-    [self.editStopsButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
-    self.editStopsButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.editStopsButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.editStopsButton setTitle:@"E\nx\np\na\nn\nd" forState:UIControlStateNormal];
+    self.expandButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - expandButtonWidth, self.mapView.bounds.origin.y, expandButtonWidth, self.mapView.layer.bounds.size.height)];
+    [self.expandButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
+    self.expandButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.expandButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.expandButton setTitle:@"E\nx\np\na\nn\nd" forState:UIControlStateNormal];
 
-    [self.editStopsButton addTarget:self action:@selector(performExpandSegue:) forControlEvents:UIControlEventTouchUpInside];
+    [self.expandButton addTarget:self action:@selector(performExpandSegue:) forControlEvents:UIControlEventTouchUpInside];
 
-    [self.mapView addSubview:self.editStopsButton];
+    [self.mapView addSubview:self.expandButton];
 
 }
 - (IBAction)onReviewsButtonPressed:(UIButton *)sender {
@@ -179,11 +197,17 @@
 
 -(void)updateViews {
 
-    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.2g", self.tour.totalDistance] : @"Estimated Distance:";
-    self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Estimated Time: %.2g", self.tour.estimatedTime] : @"Estimated Time:";
-    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"From Current Location: N/A"];
-    self.ratingsLabel.text = self.tour.averageRating ? [NSString stringWithFormat:@"Average Rating: %g", self.tour.averageRating] : @"Average Rating: N/A";
-    self.summaryTextView.text = self.tour.summary ? : @"Write a brief description of the tour here.";
+    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.2g miles", self.tour.totalDistance] : @"Total Distance:";
+    self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.tour.estimatedTime)] : @"Est. Time:";
+    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@""];
+    self.ratingsLabel.text = @"Rating: ";
+    self.rateView.rating = self.tour.averageRating;
+
+    if (self.tour.averageRating) {
+        [self.tourDetailView addSubview:self.rateView];
+    }
+
+    self.summaryTextView.text = self.tour.summary ? : @"";
 }
 
 - (void)setupCollectionView {
@@ -414,7 +438,7 @@
         self.eta += response.expectedTravelTime;
 
         if (destinationIndex < self.stops.count - 1) {
-            self.eta += 50;
+            self.eta += 50*60;
             [self getEtaFromIndex:destinationIndex toIndex:destinationIndex + 1];
         }
         else {
@@ -465,4 +489,44 @@
 }
 
 
+#pragma mark - CLLocationManager
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"gjlfgs");
+    NSLog(@"%@", error);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+
+    for (CLLocation *location in locations) {
+        if (location.verticalAccuracy < 1000 && location.horizontalAccuracy < 1000) {
+
+            [self.locationManager stopUpdatingLocation];
+            self.didFindCurrentLocation = YES;
+
+            if (self.didLoadStops && !self.didCalculateDistanceFromCurrentLocation) {
+                [self calculateDistanceFromCurrentLocation];
+            }
+            break;
+        }
+    }
+}
+
+
+-(void)calculateDistanceFromCurrentLocation {
+
+    self.didCalculateDistanceFromCurrentLocation = YES;
+
+    Stop *firstStop = [self.stops firstObject];
+    [firstStop fetchIfNeeded];
+
+    self.distanceFromCurrentLocation = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
+
+    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"%.2f miles away", self.distanceFromCurrentLocation];
+}
+
+
 @end
+
+
+

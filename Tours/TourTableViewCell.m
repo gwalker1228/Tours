@@ -10,6 +10,7 @@
 #import "IndexedPhotoCollectionView.h"
 #import "IndexedPhotoCollectionViewCell.h"
 #import "RateView.h"
+#import "PhotoPopup.h"
 
 @interface TourTableViewCell ()
 
@@ -61,7 +62,7 @@
 
 - (void)setEstimatedTime:(float)estimatedTime {
     _estimatedTime = estimatedTime;
-    self.mainView.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", estimatedTime];
+    self.mainView.estimatedTimeLabel.text = [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(estimatedTime)];
 }
 
 
@@ -75,7 +76,8 @@
 
     self.mainView.ratingLabel.text = @"Avg. Rating: ";
     self.mainView.ratingView.rating = rating;
-    [self.mainView bringSubviewToFront:self.mainView.ratingView];
+//    [self.mainView bringSubviewToFront:self.mainView.ratingView];
+    [self.mainView addSubview: self.mainView.ratingView];
 }
 
 - (void)setTitle:(NSString *)title summary:(NSString *)summary {
@@ -112,7 +114,8 @@
 - (void) clearVariableViews {
 
     [self.publishButton removeFromSuperview];
-    [self.mainView sendSubviewToBack:self.mainView.ratingView];
+    [self.mainView.ratingView removeFromSuperview];
+//    [self.mainView sendSubviewToBack:self.mainView.ratingView];
     self.mainView.ratingLabel.text = @"";
 
 }

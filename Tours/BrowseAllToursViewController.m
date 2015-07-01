@@ -22,8 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property UIImageView *imageView;
-@property UIView *blackView;
 
 @property CLLocationManager *locationManager;
 
@@ -47,6 +45,8 @@
     self.searchBar.delegate = self;
 
     self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
+
+    self.distancesFromCurrentLocation = [NSMutableDictionary new];
 
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
@@ -114,7 +114,6 @@
 -(void)loadPhotos {
 
     self.tourPhotos = [NSMutableDictionary new];
-    self.distancesFromCurrentLocation = [NSMutableDictionary new];
 
     for (Tour *tour in self.tours) {
         self.tourPhotos[tour.objectId] = [NSMutableArray new];
