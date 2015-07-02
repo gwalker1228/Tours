@@ -22,13 +22,7 @@
     self.tintColor = color1;
     self.backgroundColor = color3;
 
-    //[self setBackgroundImage:[UIImage imageNamed:@"darkGreen"] forState:UIControlStateNormal];
-    //[self setBackgroundImage:[UIImage imageNamed:@"lightGreen"] forState:UIControlStateHighlighted];
-
     self.titleLabel.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:18];
-
-    //self.layer.borderWidth = 3.0;
-    //self.layer.borderColor = [UIColor redColor].CGColor;
 
     self.layer.cornerRadius = self.bounds.size.height / 2.0;
     self.layer.masksToBounds = YES;

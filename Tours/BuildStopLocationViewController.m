@@ -47,9 +47,6 @@
     self.mapView.pitchEnabled = YES; // doesn't seem to do much. The reference makes it sound like this is auto set based on the camera
     self.mapView.showsBuildings = YES;
 
-
-//    NSLog(@"self.stoplocation: %@", [self.stop.location description]);
-
 //    CLLocation *stopLocation = [[CLLocation alloc] initWithLatitude:self.stop.location.latitude longitude:self.stop.location.longitude];
 //    StopPointAnnotation *stopAnnotation = [[StopPointAnnotation alloc] initWithLocation:stopLocation forStop:self.stop];
 //    stopAnnotation.title = @" ";
@@ -68,12 +65,10 @@
 
 
 -(void)viewDidLayoutSubviews {
-    NSLog(@"did layout subviews");
 //    [self dropPin];
 
     if (!self.pinViewDropped) {
         if (self.stop.location == nil) {
-            //        NSLog(@"still finding user location");
             [self findUserLocation];
         }
         else {
@@ -82,7 +77,7 @@
             annotation.coordinate = CLLocationCoordinate2DMake(self.stop.location.latitude, self.stop.location.longitude);
             [self.mapView addAnnotation:annotation];
             self.pinViewDropped = YES;
-            CGPoint p = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.mapView];
+            CGPoint p = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.mapView]; // TO DELETE!
             NSLog(@"use this %@", NSStringFromCGPoint(p));
             [self dropPin];
         }
@@ -103,7 +98,6 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *location = locations.firstObject;
-    NSLog(@"updated location");
     if (location.verticalAccuracy < 10000 && location.horizontalAccuracy < 10000) {
         self.locationUser = location;
         MKCoordinateRegion coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 100000, 10000);
@@ -114,7 +108,7 @@
         annotation.coordinate = CLLocationCoordinate2DMake(self.mapView.centerCoordinate.latitude, self.mapView.centerCoordinate.longitude);
         [self.mapView addAnnotation:annotation];
         self.pinViewDropped = YES;
-        CGPoint p = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.mapView];
+        CGPoint p = [self.mapView convertCoordinate:annotation.coordinate toPointToView:self.mapView];  // TO DELETE!!
         NSLog(@"use this %@", NSStringFromCGPoint(p));
         CLLocationCoordinate2D mapCenter = self.mapView.centerCoordinate;
         self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
@@ -150,9 +144,6 @@
 //        [self.view addSubview:pin];
         [self.mapView addSubview:pin];
 //        [self.view addSubview:pin];
-        NSLog(@"Real!! viewCenter:%@ pinCenterRep:(%f, %f)", NSStringFromCGPoint(self.view.center), CGRectGetMidX(pin.frame), CGRectGetMaxY(pin.frame));
-        NSLog(@"Size: %@", NSStringFromCGSize(pin.frame.size));
-
         self.pinDropped = YES;
     }
 }
@@ -203,13 +194,10 @@
 }
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-//    NSLog(@"%f, %f", mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude);
     if (self.pinViewDropped) {
 //        [self dropPin];
         CLLocationCoordinate2D mapCenter = mapView.centerCoordinate;
         self.stop.location = [PFGeoPoint geoPointWithLatitude:mapCenter.latitude longitude:mapCenter.longitude];
-        NSLog(@"%@ mapCenter:(%f, %f) and (%f, %f)", NSStringFromSelector(_cmd), mapCenter.latitude, mapCenter.longitude, mapView.frame.size.width, mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height/2);  // TO DELETE
-
     }
    // [self dropPin];
 
@@ -220,8 +208,6 @@
     self.navigationItem.leftBarButtonItem.enabled = NO;
     
     [self.stop saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-
-        NSLog(@"savingLocation: %@", self.stop.location);     // TO DELETE!
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }];
 }

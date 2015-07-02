@@ -263,8 +263,6 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
         if (!error) {
             self.stops = stops;
-            NSLog(@"%@ %@ %@", NSStringFromClass([self class]), NSStringFromSelector(_cmd), self.stops); // TO DELETE
-
             [self loadPhotos];
         } else {
             // error check
@@ -521,7 +519,6 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
         [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
 
-            NSLog(@"calculating directions for view %@", view);
             if (!error) {
                 NSArray *routes = response.routes;
                 MKRoute *route = routes.firstObject;
@@ -536,8 +533,6 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
                 for (MKRouteStep *step in route.steps) {
                     [directionsSteps addObject:step.instructions];
                 }
-
-                NSLog(@"Directions for view are %@", directionsSteps);
 
                 StopPointAnnotation *stopPointAnnotation = view.annotation;
                 Stop *stop = stopPointAnnotation.stop;

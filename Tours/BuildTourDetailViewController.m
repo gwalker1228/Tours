@@ -86,18 +86,22 @@
     [self updateViews];
     [self loadStops];
 
+    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
+    self.titleTextField.rightView.frame = CGRectMake(self.titleTextField.rightView.frame.origin.x - 30, 0, 15, 15);
+    self.titleTextField.rightView = clearButton;
 
-    for (UIView *subview in self.titleTextField.subviews) {
-        if ([subview isKindOfClass:[UIButton class]]) {
-            UIButton *clearButton = (UIButton *)subview;
-            UIImage *image = [clearButton imageForState:UIControlStateHighlighted];
-            [clearButton setImage:image forState:UIControlStateNormal];
-            NSLog(@"clear button found");
-        }
-    }
-    UIButton *clearButton = (UIButton *)self.titleTextField.rightView;
-    NSLog(@"clear button:%@", clearButton.description);
+    //clearButton.frame = [self.titleTextField clearButtonRectForBounds:self.titleTextField.rightView.frame];
+    //clearButton.frame = CGRectMake(-50, 0, 10, 10);
+    [clearButton setImage:[UIImage imageNamed:@"buttonForClear"] forState:UIControlStateNormal];
+    self.titleTextField.rightViewMode = UITextFieldViewModeAlways;
+    [clearButton addTarget:self action:@selector(clearText) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void)clearText {
+    self.titleTextField.text = @"";
+    [self.titleTextField becomeFirstResponder];
+}
+
 
 - (void)loadStops {
 
@@ -148,7 +152,6 @@
 
                 [self.photos[photo.stop.objectId] addObject:photo];
             }
-            // NSLog(@"self.stops has %lu items. self.photos has %lu items. reloading collectionview data.", self.stops.count, self.photos.count);
             [self.photosCollectionView reloadData];
         }
     }];
@@ -201,10 +204,10 @@
 
     self.titleTextField.layer.cornerRadius = 5.0;
     self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.titleTextField.layer.borderWidth = 0.0;
+    self.titleTextField.layer.borderWidth = 0.5;
     [self.titleTextField setBackgroundColor:[UIColor clearColor]];
     [self.titleTextField setTextColor:[UIColor whiteColor]];
-    [self.titleTextField setFont:[UIFont fontWithName:@"AvenirNextCondensed=Medium" size:18]];
+    //[self.titleTextField setFont:[UIFont fontWithName:@"AvenirNextCondensed=Medium" size:18]];
 
     self.didSetupViews = YES;
 }
@@ -212,7 +215,6 @@
 -(void)setupEditStopsButton {
 
     CGFloat editStopsButtonWidth = self.view.layer.bounds.size.width / 6;
-    //NSLog(@"%f, %f", CGRectGetMinY(self.mapView.frame), CGRectGetMaxY(self.mapView.frame));
     self.editStopsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - editStopsButtonWidth, self.mapView.bounds.origin.y, editStopsButtonWidth, self.mapView.layer.bounds.size.height)];
     [self.editStopsButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
     self.editStopsButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -248,7 +250,6 @@
 
     CGFloat cellWidth = self.photosCollectionView.layer.bounds.size.height;
     flowLayout.itemSize = CGSizeMake(cellWidth, cellWidth);
-    //NSLog(@"Cell width is %f", cellWidth);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 30.0);
     flowLayout.minimumLineSpacing = 1.0f;
@@ -298,7 +299,6 @@
     if (!decelerate) {
         self.userSelectedAnnotation = NO;
         self.isScrolling = NO;
-        NSLog(@"ended scrolling");
     }
 }
 
@@ -306,8 +306,6 @@
 
     self.userSelectedAnnotation = NO;
     self.isScrolling = NO;
-    NSLog(@"ended scrolling");
-    
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -320,7 +318,6 @@
 
     UIColor *sectionColor1 = [UIColor colorWithRed:19/255.0 green:157/255.0 blue:172/255.0 alpha:1.0];
     UIColor *sectionColor2 = [UIColor colorWithRed:177/255.0 green:243/255.0 blue:250/255.0 alpha:1.0];
-    //NSLog(@"adding photo for stop %@", stop.title);
     cell.backgroundColor = indexPath.section % 2 ? sectionColor1 : sectionColor2;
 
     cell.imageView.file = photo.image;
@@ -403,7 +400,6 @@
 
     if (self.stops.count > 1) {
         [self generatePolylineForDirectionsFromIndex:0 toIndex:1];
-        NSLog(@"Heeeeey");
         [self getEtaFromIndex:0 toIndex:1];
     }
 }
@@ -451,7 +447,6 @@
 //
 //    request.source = [MKMapItem mapItemForCurrentLocation];
 //    request.destination = mapItem;
-//    //NSLog(@"%@", request.destination.description);
 //
 //    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 //
@@ -512,7 +507,6 @@
     request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
 
    // request.transportType = MKDirectionsTransportTypeDriving;
-    NSLog(@"hello");
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 
     [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
@@ -525,7 +519,6 @@
         }
         else {
             self.eta = floor(self.eta/60);
-            NSLog(@"%f", self.eta);
 
             self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.eta)];
             self.tour.estimatedTime = self.eta;
@@ -540,7 +533,6 @@
 //
 //    request.source = [MKMapItem mapItemForCurrentLocation];
 //    request.destination = mapItem;
-//    //NSLog(@"%@", request.destination.description);
 //
 //    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 //
@@ -549,7 +541,6 @@
 //        MKRoute *route = routes.firstObject;
 //
 //        MKPolyline *polyline = [route polyline];
-//        // NSLog(@"%lu", polyline.pointCount);
 //        [self.mapView addOverlay:polyline];
 //        //[self.mapView setVisibleMapRect:polyline.boundingMapRect];
 //
@@ -574,17 +565,17 @@
 
 #pragma mark - UITextField Delegate methods
 
--(void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.isEditingTitle = YES;
-    [self toggleTextFieldAppearance];
-}
-
--(void)textFieldDidEndEditing:(UITextField *)textField {
-    //[self.view endEditing:YES];
-    self.isEditingTitle = NO;
-    [self toggleTextFieldAppearance];
-    self.tour.title = self.titleTextField.text;
-}
+//-(void)textFieldDidBeginEditing:(UITextField *)textField {
+//    self.isEditingTitle = YES;
+//    [self toggleTextFieldAppearance];
+//}
+//
+//-(void)textFieldDidEndEditing:(UITextField *)textField {
+//    //[self.view endEditing:YES];
+//    self.isEditingTitle = NO;
+//    [self toggleTextFieldAppearance];
+//    self.tour.title = self.titleTextField.text;
+//}
 
 -(void)textFieldDidChange:(UITextField *)textField {
     self.tour.title = self.titleTextField.text;
@@ -597,15 +588,15 @@
 
 -(void)toggleTextFieldAppearance {
 
-//    if (self.isEditingTitle) {
-////        [self.titleTextField setBackgroundColor:[UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-//        self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
-//        self.titleTextField.layer.borderWidth = 1.0;
-//    }
-//    else {
-//        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
-//        self.titleTextField.layer.borderWidth = 0;
-//    }
+    if (self.isEditingTitle) {
+//        [self.titleTextField setBackgroundColor:[UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+        self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.titleTextField.layer.borderWidth = 1.0;
+    }
+    else {
+        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
+        self.titleTextField.layer.borderWidth = 0;
+    }
 }
 
 #pragma mark - SummaryTextView Delegate methods

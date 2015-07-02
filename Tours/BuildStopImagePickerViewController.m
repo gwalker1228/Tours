@@ -88,7 +88,6 @@
 - (IBAction)onChangePhotoButtonPressed:(UIButton *)sender {
 
     self.photoChanged = YES;
-    NSLog(@"photo has changed");
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please Select Your Image Source" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
 
     UIAlertAction *takePictureAction = [UIAlertAction actionWithTitle:@"Take a Picture" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
