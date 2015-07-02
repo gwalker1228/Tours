@@ -86,18 +86,22 @@
     [self updateViews];
     [self loadStops];
 
+    UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
+    self.titleTextField.rightView.frame = CGRectMake(self.titleTextField.rightView.frame.origin.x - 30, 0, 15, 15);
+    self.titleTextField.rightView = clearButton;
 
-    for (UIView *subview in self.titleTextField.subviews) {
-        if ([subview isKindOfClass:[UIButton class]]) {
-            UIButton *clearButton = (UIButton *)subview;
-            UIImage *image = [clearButton imageForState:UIControlStateHighlighted];
-            [clearButton setImage:image forState:UIControlStateNormal];
-            NSLog(@"clear button found");
-        }
-    }
-    UIButton *clearButton = (UIButton *)self.titleTextField.rightView;
-    NSLog(@"clear button:%@", clearButton.description);
+    //clearButton.frame = [self.titleTextField clearButtonRectForBounds:self.titleTextField.rightView.frame];
+    //clearButton.frame = CGRectMake(-50, 0, 10, 10);
+    [clearButton setImage:[UIImage imageNamed:@"buttonForClear"] forState:UIControlStateNormal];
+    self.titleTextField.rightViewMode = UITextFieldViewModeAlways;
+    [clearButton addTarget:self action:@selector(clearText) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void)clearText {
+    self.titleTextField.text = @"";
+    [self.titleTextField becomeFirstResponder];
+}
+
 
 - (void)loadStops {
 
@@ -201,10 +205,10 @@
 
     self.titleTextField.layer.cornerRadius = 5.0;
     self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.titleTextField.layer.borderWidth = 0.0;
+    self.titleTextField.layer.borderWidth = 0.5;
     [self.titleTextField setBackgroundColor:[UIColor clearColor]];
     [self.titleTextField setTextColor:[UIColor whiteColor]];
-    [self.titleTextField setFont:[UIFont fontWithName:@"AvenirNextCondensed=Medium" size:18]];
+    //[self.titleTextField setFont:[UIFont fontWithName:@"AvenirNextCondensed=Medium" size:18]];
 
     self.didSetupViews = YES;
 }
@@ -574,17 +578,17 @@
 
 #pragma mark - UITextField Delegate methods
 
--(void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.isEditingTitle = YES;
-    [self toggleTextFieldAppearance];
-}
-
--(void)textFieldDidEndEditing:(UITextField *)textField {
-    //[self.view endEditing:YES];
-    self.isEditingTitle = NO;
-    [self toggleTextFieldAppearance];
-    self.tour.title = self.titleTextField.text;
-}
+//-(void)textFieldDidBeginEditing:(UITextField *)textField {
+//    self.isEditingTitle = YES;
+//    [self toggleTextFieldAppearance];
+//}
+//
+//-(void)textFieldDidEndEditing:(UITextField *)textField {
+//    //[self.view endEditing:YES];
+//    self.isEditingTitle = NO;
+//    [self toggleTextFieldAppearance];
+//    self.tour.title = self.titleTextField.text;
+//}
 
 -(void)textFieldDidChange:(UITextField *)textField {
     self.tour.title = self.titleTextField.text;
@@ -597,15 +601,15 @@
 
 -(void)toggleTextFieldAppearance {
 
-//    if (self.isEditingTitle) {
-////        [self.titleTextField setBackgroundColor:[UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-//        self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
-//        self.titleTextField.layer.borderWidth = 1.0;
-//    }
-//    else {
-//        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
-//        self.titleTextField.layer.borderWidth = 0;
-//    }
+    if (self.isEditingTitle) {
+//        [self.titleTextField setBackgroundColor:[UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+        self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.titleTextField.layer.borderWidth = 1.0;
+    }
+    else {
+        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
+        self.titleTextField.layer.borderWidth = 0;
+    }
 }
 
 #pragma mark - SummaryTextView Delegate methods

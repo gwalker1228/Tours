@@ -201,6 +201,7 @@
     [self.mapView addSubview:self.expandButton];
 
 }
+
 - (IBAction)onReviewsButtonPressed:(UIButton *)sender {
     NSLog(@"Review button pressed");
 }
@@ -239,6 +240,7 @@
     self.photosCollectionView.layer.borderColor = [UIColor blackColor].CGColor;
     self.photosCollectionView.layer.borderWidth = 2.0f;
 }
+
 
 - (void)performExpandSegue:(UIButton *)sender {
 

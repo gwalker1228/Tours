@@ -17,7 +17,7 @@
     //UIColor *color5 = [UIColor colorWithRed:25/255.0f green:52/255.0f blue:65/255.0f alpha:1.0];
 
     self.tintColor = color1;
-    self.backgroundColor = [color4 colorWithAlphaComponent:0.40];
+    self.backgroundColor = [color4 colorWithAlphaComponent:0.50];
 
     self.titleLabel.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:15];
 
