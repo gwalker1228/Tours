@@ -87,7 +87,7 @@
 
     BuildStopPhotoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 
-    cell.buildStopPhotoImageView.image = [UIImage imageNamed:@"redPin"]; // placeholder image
+    cell.buildStopPhotoImageView.image = [UIImage imageNamed:@"placeholderCoverPhoto"]; // placeholder image
 
     Photo *photo = [self.photos objectAtIndex:indexPath.row];
 //    cell.buildStopPhotoImageView.file = photo1.image;
