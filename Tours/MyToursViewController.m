@@ -14,7 +14,7 @@
 #import "User.h"
 #import "PhotoPopup.h"
 
-@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate, UISearchBarDelegate, PhotoPopupDelegate, UIAlertViewDelegate>
+@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate, UISearchBarDelegate, PhotoPopupDelegate, UIAlertViewDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -24,7 +24,14 @@
 @property NSMutableDictionary *validationErrors;
 @property NSMutableArray *publishedTours;
 @property NSMutableArray *notPublishedTours;
+@property NSMutableDictionary *distancesFromCurrentLocation;
 @property NSArray *filteredTours;
+
+@property CLLocationManager *locationManager;
+
+@property BOOL distancesCalculated;
+@property BOOL currentLocationFound;
+@property BOOL toursLoaded;
 
 @property BOOL promptedLoginOnce;
 
@@ -44,12 +51,19 @@
     [super viewDidLoad];
     self.tableView.backgroundColor = [UIColor colorWithRed:252/255.0 green:255/255.0 blue:245/255.0 alpha:1.0];
     self.inProgressToursSelected = YES;
+
+    self.distancesFromCurrentLocation = [NSMutableDictionary new];
+
+    self.locationManager = [CLLocationManager new];
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 
 
-        // clear it everytime it views
+    // clear it everytime it appears
     self.publishedTours = [NSMutableArray new];
     self.notPublishedTours = [NSMutableArray new];
 
@@ -136,7 +150,17 @@
         for (Photo *photo in photos) {
 
             Tour *photoTour = photo.tour; // get photo's tour
+            [photoTour fetchIfNeeded];
+
             [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
+        }
+
+        self.toursLoaded = YES;
+
+        if (!self.distancesCalculated && self.currentLocationFound) {
+            self.distancesCalculated = YES;
+
+            [self calculateDistanceFromCurrentLocationForAllTours];
         }
 
         [self.tableView reloadData];
@@ -170,6 +194,31 @@
     }
 }
 
+-(void)calculateDistanceFromCurrentLocationForAllTours {
+
+    NSMutableArray *allTours = [NSMutableArray arrayWithArray:self.publishedTours];
+    [allTours addObjectsFromArray:self.notPublishedTours];
+
+    for (Tour *tour in allTours) {
+
+        if (self.tourPhotos[tour.objectId]) {
+            Photo *firstPhoto = [self.tourPhotos[tour.objectId] firstObject];
+            [firstPhoto fetchIfNeeded];
+            Stop *firstStop = firstPhoto.stop;
+            [firstStop fetchIfNeeded];
+
+            if (firstStop.location) {
+
+                double distance = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
+                self.distancesFromCurrentLocation[tour.objectId] = [NSNumber numberWithFloat:distance];
+            }
+        }
+    }
+    
+    [self.tableView reloadData];
+}
+
+
 #pragma mark - UITableView Delegate/DataSource methods
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -192,13 +241,18 @@
     cell.estimatedTime = tour.estimatedTime;
 
     if (!tour.published) {
+
         [cell showPublishButton];
         [cell showDeleteButton];
         [cell setEditing:YES];
     }
     else {
-         cell.rating = tour.averageRating;
+
+        NSNumber *distance = self.distancesFromCurrentLocation[tour.objectId];
+        cell.distanceFromCurrentLocation = [NSString stringWithFormat:@"%.1f mi", [distance floatValue]];
+        cell.rating = tour.averageRating;
     }
+
     return cell;
 }
 
@@ -243,7 +297,7 @@
         [mutableTours removeObject:self.tourToDelete];
         self.tours = [NSArray arrayWithArray:mutableTours];
         self.filteredTours = self.tours;
-        self.notPublishedTours = self.tours;
+        self.notPublishedTours = [self.tours mutableCopy];
 
         [self.tourToDelete deleteTourAndAssociatedObjectsInBackground];
 
@@ -558,6 +612,7 @@
             self.tours = self.searchBar.selectedScopeButtonIndex ? self.notPublishedTours : self.publishedTours;
             self.filteredTours = self.tours;
             self.searchBar.text = @"";
+            self.searchBar.selectedScopeButtonIndex = 1;
             [self.tableView reloadData];
         }
     }];
@@ -579,6 +634,29 @@
 
     NSLog(@"tour title: %@", tour.title);
     [self validateTourForPublishing:tour];
+}
+
+
+#pragma mark - CLLocationManager
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSLog(@"%@", error);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+
+    for (CLLocation *location in locations) {
+        if (location.verticalAccuracy < 1000 && location.horizontalAccuracy < 1000) {
+            [self.locationManager stopUpdatingLocation];
+
+            self.currentLocationFound = YES;
+            if (!self.distancesCalculated && self.toursLoaded) {
+                self.distancesCalculated = YES;
+                [self calculateDistanceFromCurrentLocationForAllTours];
+            }
+            break;
+        }
+    }
 }
 
 

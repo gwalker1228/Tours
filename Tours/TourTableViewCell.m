@@ -135,6 +135,7 @@
 
     [self.deleteButton removeFromSuperview];
     [self.publishButton removeFromSuperview];
+    self.mainView.distanceFromCurrentLocationLabel.text = @"";
     [self.mainView.ratingView removeFromSuperview];
 //    [self.mainView sendSubviewToBack:self.mainView.ratingView];
     self.mainView.ratingLabel.text = @"";

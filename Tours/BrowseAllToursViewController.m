@@ -132,8 +132,8 @@
         for (Photo *photo in photos) {
 
             Tour *photoTour = photo.tour;// get photo's tour
-
             [photoTour fetchIfNeeded];
+
             if (photoTour.published) {
                 [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
             }
