@@ -58,7 +58,7 @@
 
 - (void)setTotalDistance:(float)totalDistance {
     _totalDistance = totalDistance;
-    self.mainView.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2f mi", totalDistance];
+    self.mainView.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.1f mi", totalDistance];
 }
 
 - (void)setEstimatedTime:(float)estimatedTime {

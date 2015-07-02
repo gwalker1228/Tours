@@ -205,7 +205,7 @@
 
 -(void)updateViews {
 
-    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.2g miles", self.tour.totalDistance] : @"Total Distance:";
+    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.1f miles", self.tour.totalDistance] : @"Total Distance:";
     self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.tour.estimatedTime)] : @"Est. Time:";
     self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@""];
     self.ratingsLabel.text = @"Rating: ";
@@ -455,7 +455,7 @@
             [self generatePolylineForDirectionsFromIndex:destinationIndex toIndex:destinationIndex + 1];
         }
         else {
-            self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2g miles", self.totalDistance/1609.34];
+            self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.1f miles", self.totalDistance/1609.34];
         }
 
     }];
@@ -559,7 +559,7 @@
 
     self.distanceFromCurrentLocation = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
 
-    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"%.2f miles away", self.distanceFromCurrentLocation];
+    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"%.1f miles away", self.distanceFromCurrentLocation];
 }
 
 

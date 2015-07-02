@@ -199,7 +199,7 @@
 
     NSNumber *distance = self.distancesFromCurrentLocation[tour.objectId];
 
-    cell.distanceFromCurrentLocation = [NSString stringWithFormat:@"%.2f mi", [distance floatValue]];
+    cell.distanceFromCurrentLocation = [NSString stringWithFormat:@"%.1f mi", [distance floatValue]];
     cell.rating = tour.averageRating;
 
     return cell;

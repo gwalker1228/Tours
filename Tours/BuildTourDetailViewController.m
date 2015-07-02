@@ -229,7 +229,7 @@
 
 -(void)updateViews {
 
-    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.2g", self.tour.totalDistance] : @"Total Distance:";
+    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.1f", self.tour.totalDistance] : @"Total Distance:";
     self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.tour.estimatedTime)] : @"Est. Time:";
     self.distanceFromCurrentLocationLabel.text = @"From Current Location: N/A";
     self.ratingsLabel.text = @"Rating: ";
@@ -491,7 +491,7 @@
         }
         else {
             float distanceInMiles = self.totalDistance/1609.34;
-            self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2g miles", distanceInMiles];
+            self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.1f miles", distanceInMiles];
             self.tour.totalDistance = distanceInMiles;
         }
     }];
