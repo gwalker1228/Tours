@@ -28,7 +28,7 @@
     self.layer.borderWidth = 0.5;
     self.layer.borderColor = veryLightGrayColor.CGColor;
 
-    self.layer.cornerRadius = self.bounds.size.height / 7.0;
+    self.layer.cornerRadius = self.bounds.size.height / 8.0;
     self.layer.masksToBounds = YES;
 
 }

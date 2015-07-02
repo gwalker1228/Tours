@@ -52,8 +52,13 @@ static CGFloat leftMarginIndent = 8.0;
 //    self.titleLabel.backgroundColor = [UIColor blueColor];
 //    self.summaryLabel.backgroundColor = [UIColor greenColor];
 
-    self.titleLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-    self.summaryLabel.textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+    UIColor *textColor = [UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+    self.titleLabel.textColor = textColor;
+    self.summaryLabel.textColor = textColor;
+
+    self.titleLabel.font = [UIFont fontWithName:@"AvenirNextCondensed-DemiBold" size:18];
+    self.summaryLabel.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:15];
+
 
     [self addSubview:self.titleLabel];
     [self addSubview:self.summaryLabel];

@@ -150,8 +150,12 @@
 
     NSArray *labels = @[self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingsLabel];
 
+    UIColor *textColor = [UIColor colorWithRed:25/255.0f green:52/255.0f blue:65/255.0f alpha:1.0];
+
     for (UILabel *label in labels) {
-        [label setFont:[UIFont systemFontOfSize:12]];
+        [label setFont:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:14]];
+        [label setTextColor:textColor];
+        //[label setFont:[UIFont systemFontOfSize:12]];
         //[label setTextColor:[UIColor whiteColor]];
     }
 
@@ -168,6 +172,9 @@
     [self.tourDetailView addSubview:self.distanceFromCurrentLocationLabel];
     [self.tourDetailView addSubview:self.ratingsLabel];
     [self.tourDetailView addSubview:self.summaryTextView];
+
+    self.summaryTextView.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:16];
+    [self.summaryTextView setTextColor:textColor];
 
     self.tourDetailView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.7];
 
