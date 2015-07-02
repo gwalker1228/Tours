@@ -36,7 +36,7 @@
 @property UILabel *distanceFromCurrentLocationLabel;
 @property UILabel *ratingsLabel;
 @property RateView *rateView;
-@property SummaryTextView *summaryTextView;
+@property UITextView *summaryTextView;
 @property UIButton *moreButton;
 @property UIButton *editStopsButton;
 
@@ -59,6 +59,9 @@
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapRecognizer];
+
+    self.titleTextField.clearButtonMode = UITextFieldViewModeAlways;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -79,6 +82,18 @@
 
     [self updateViews];
     [self loadStops];
+
+
+    for (UIView *subview in self.titleTextField.subviews) {
+        if ([subview isKindOfClass:[UIButton class]]) {
+            UIButton *clearButton = (UIButton *)subview;
+            UIImage *image = [clearButton imageForState:UIControlStateHighlighted];
+            [clearButton setImage:image forState:UIControlStateNormal];
+            NSLog(@"clear button found");
+        }
+    }
+    UIButton *clearButton = (UIButton *)self.titleTextField.rightView;
+    NSLog(@"clear button:%@", clearButton.description);
 }
 
 - (void)loadStops {
@@ -156,17 +171,20 @@
     NSArray *labels = @[self.totalDistanceLabel, self.estimatedTimeLabel, self.distanceFromCurrentLocationLabel, self.ratingsLabel];
 
     for (UILabel *label in labels) {
-        [label setFont:[UIFont systemFontOfSize:12]];
+        [label setFont:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:16]];
+        //[label setFont:[UIFont systemFontOfSize:12]];
         //[label setTextColor:[UIColor whiteColor]];
     }
 
     CGFloat summaryWidth = self.view.bounds.size.width;
     CGFloat summaryHeight = self.tourDetailView.layer.bounds.size.height - (labelHeight*2 + labelMarginY);
 
-    self.summaryTextView = [[SummaryTextView alloc] initWithFrame:CGRectMake(0, labelHeight*2 + labelMarginY, summaryWidth, summaryHeight)];
+
+    self.summaryTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, labelHeight*2 + labelMarginY, summaryWidth, summaryHeight)];
     //self.summaryTextView.text = @"Really super long tour description goes here.self.tourDetailView.layer.bounds.size.width";
     self.summaryTextView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0];
     self.summaryTextView.delegate = self;
+    [self.summaryTextView setFont:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:18]];
 
     [self.tourDetailView addSubview:self.totalDistanceLabel];
     [self.tourDetailView addSubview:self.estimatedTimeLabel];
@@ -179,7 +197,7 @@
     [self setupEditStopsButton];
 
     self.titleTextField.layer.cornerRadius = 5.0;
-    self.titleTextField.layer.borderColor = [UIColor clearColor].CGColor;
+    self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
     self.titleTextField.layer.borderWidth = 0.0;
     [self.titleTextField setBackgroundColor:[UIColor clearColor]];
     [self.titleTextField setTextColor:[UIColor whiteColor]];
@@ -548,15 +566,15 @@
 
 -(void)toggleTextFieldAppearance {
 
-    if (self.isEditingTitle) {
-//        [self.titleTextField setBackgroundColor:[UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
-        self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.titleTextField.layer.borderWidth = 1.0;
-    }
-    else {
-        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
-        self.titleTextField.layer.borderWidth = 0;
-    }
+//    if (self.isEditingTitle) {
+////        [self.titleTextField setBackgroundColor:[UIColor colorWithRed:25/255.0 green:52/255.0 blue:65/255.0 alpha:1.0];
+//        self.titleTextField.layer.borderColor = [UIColor whiteColor].CGColor;
+//        self.titleTextField.layer.borderWidth = 1.0;
+//    }
+//    else {
+//        [self.titleTextField setBackgroundColor:[UIColor clearColor]];
+//        self.titleTextField.layer.borderWidth = 0;
+//    }
 }
 
 #pragma mark - SummaryTextView Delegate methods
@@ -577,6 +595,8 @@
 //
 //    return YES;
 //}
+
+
 
 @end
 

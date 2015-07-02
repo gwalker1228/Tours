@@ -149,7 +149,7 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
     self.getDirectionsButton.tintColor = color1;
     self.getDirectionsButton.backgroundColor = color3;
     self.getDirectionsButton.titleLabel.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:18];
-    self.getDirectionsButton.layer.cornerRadius = 5;
+    self.getDirectionsButton.layer.cornerRadius = self.getDirectionsButton.bounds.size.height / 2.0;
 
     [self.getDirectionsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.getDirectionsButton.titleLabel.numberOfLines = 0;
@@ -331,6 +331,7 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
         else {
             cell.textLabel.text = @"Directions are unavailable for this location.";
         }
+        cell.textLabel.font =  [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17];
         return cell;
     }
     else {
