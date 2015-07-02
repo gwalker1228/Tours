@@ -68,7 +68,6 @@
 
 -(void)loadStops {
 
-    NSLog(@"loading stops");
     PFQuery *query = [Stop query];
     [query whereKey:@"tour" equalTo:self.tour];
     [query orderByAscending:@"orderIndex"];
@@ -235,7 +234,6 @@
 
         [stop deleteStopAndPhotosInBackground];
 
-        //NSLog(@"self.stops.count = %lu", self.stops.count);
         [self updateStopOrderIndexesFromIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:self.stops.count-1 inSection:0]];
 
         [tableView reloadData];
@@ -243,8 +241,6 @@
 }
 
 -(void) updateStopOrderIndexesFromIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-
-    NSLog(@"%@, %@", sourceIndexPath, destinationIndexPath);
 
     for (NSUInteger i = sourceIndexPath.row; i <= destinationIndexPath.row; i++) {
 

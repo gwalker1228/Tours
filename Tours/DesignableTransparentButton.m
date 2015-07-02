@@ -14,7 +14,6 @@
 
     UIColor *color1 = [UIColor colorWithRed:252/255.0f green:255/255.0f blue:245/255.0f alpha:1.0];
     UIColor *color4 = [UIColor colorWithRed:62/255.0f green:96/255.0f blue:111/255.0f alpha:1.0];
-    //UIColor *color5 = [UIColor colorWithRed:25/255.0f green:52/255.0f blue:65/255.0f alpha:1.0];
 
     self.tintColor = color1;
     self.backgroundColor = [color4 colorWithAlphaComponent:0.50];

@@ -152,7 +152,6 @@
 
                 [self.photos[photo.stop.objectId] addObject:photo];
             }
-            // NSLog(@"self.stops has %lu items. self.photos has %lu items. reloading collectionview data.", self.stops.count, self.photos.count);
             [self.photosCollectionView reloadData];
         }
     }];
@@ -216,7 +215,6 @@
 -(void)setupEditStopsButton {
 
     CGFloat editStopsButtonWidth = self.view.layer.bounds.size.width / 6;
-    //NSLog(@"%f, %f", CGRectGetMinY(self.mapView.frame), CGRectGetMaxY(self.mapView.frame));
     self.editStopsButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - editStopsButtonWidth, self.mapView.bounds.origin.y, editStopsButtonWidth, self.mapView.layer.bounds.size.height)];
     [self.editStopsButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
     self.editStopsButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -252,7 +250,6 @@
 
     CGFloat cellWidth = self.photosCollectionView.layer.bounds.size.height;
     flowLayout.itemSize = CGSizeMake(cellWidth, cellWidth);
-    //NSLog(@"Cell width is %f", cellWidth);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 30.0);
     flowLayout.minimumLineSpacing = 1.0f;
@@ -302,7 +299,6 @@
     if (!decelerate) {
         self.userSelectedAnnotation = NO;
         self.isScrolling = NO;
-        NSLog(@"ended scrolling");
     }
 }
 
@@ -310,8 +306,6 @@
 
     self.userSelectedAnnotation = NO;
     self.isScrolling = NO;
-    NSLog(@"ended scrolling");
-    
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -324,7 +318,6 @@
 
     UIColor *sectionColor1 = [UIColor colorWithRed:19/255.0 green:157/255.0 blue:172/255.0 alpha:1.0];
     UIColor *sectionColor2 = [UIColor colorWithRed:177/255.0 green:243/255.0 blue:250/255.0 alpha:1.0];
-    //NSLog(@"adding photo for stop %@", stop.title);
     cell.backgroundColor = indexPath.section % 2 ? sectionColor1 : sectionColor2;
 
     cell.imageView.file = photo.image;
@@ -407,7 +400,6 @@
 
     if (self.stops.count > 1) {
         [self generatePolylineForDirectionsFromIndex:0 toIndex:1];
-        NSLog(@"Heeeeey");
         [self getEtaFromIndex:0 toIndex:1];
     }
 }
@@ -455,7 +447,6 @@
 //
 //    request.source = [MKMapItem mapItemForCurrentLocation];
 //    request.destination = mapItem;
-//    //NSLog(@"%@", request.destination.description);
 //
 //    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 //
@@ -516,7 +507,6 @@
     request.destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
 
    // request.transportType = MKDirectionsTransportTypeDriving;
-    NSLog(@"hello");
     MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 
     [directions calculateETAWithCompletionHandler:^(MKETAResponse *response, NSError *error) {
@@ -529,7 +519,6 @@
         }
         else {
             self.eta = floor(self.eta/60);
-            NSLog(@"%f", self.eta);
 
             self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.eta)];
             self.tour.estimatedTime = self.eta;
@@ -544,7 +533,6 @@
 //
 //    request.source = [MKMapItem mapItemForCurrentLocation];
 //    request.destination = mapItem;
-//    //NSLog(@"%@", request.destination.description);
 //
 //    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 //
@@ -553,7 +541,6 @@
 //        MKRoute *route = routes.firstObject;
 //
 //        MKPolyline *polyline = [route polyline];
-//        // NSLog(@"%lu", polyline.pointCount);
 //        [self.mapView addOverlay:polyline];
 //        //[self.mapView setVisibleMapRect:polyline.boundingMapRect];
 //
