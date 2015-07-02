@@ -151,16 +151,16 @@ NSString* getTimeStringFromETAInMinutes(float eta) {
                     [popup.flagButton setTitle:@"Flag as inappropriate" forState:UIControlStateNormal];
                     [popup.flagButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
                 }
+
             }];
-            [popup addSubview:popup.flagButton];
         }
     }
-    
     [popup addSubview:popup.backgroundView];
     [popup addSubview:popup.imageView];
     [popup addSubview:popup.captionView];
     [popup addSubview:popup.titleLabel];
     [popup addSubview:popup.summaryLabel];
+    [popup addSubview:popup.flagButton];
 
 
     [view addSubview:popup];
