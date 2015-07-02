@@ -48,6 +48,8 @@
 
     self.distancesFromCurrentLocation = [NSMutableDictionary new];
 
+
+
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
@@ -98,7 +100,9 @@
 -(void)loadTours {
 
     PFQuery *query = [PFQuery queryWithClassName:@"Tour"];
-    [query orderByAscending:@"totalDistance"];
+    [query orderByDescending:@"averageRating"];
+    [query whereKey:@"published" equalTo:[NSNumber numberWithBool:YES]];
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *tours, NSError *error) {
 
         self.tours = tours;
@@ -129,8 +133,12 @@
         //NSLog(@"%@", photos);
         for (Photo *photo in photos) {
 
-            Tour *photoTour = photo.tour; // get photo's tour
-            [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
+            Tour *photoTour = photo.tour;// get photo's tour
+
+            [photoTour fetchIfNeeded];
+            if (photoTour.published) {
+                [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
+            }
         }
 //        NSLog(@"%@", self.tourPhotos);
         self.toursLoaded = YES;
@@ -169,7 +177,7 @@
                 double distance = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
                 NSLog(@"%f", distance);
 
-                self.distancesFromCurrentLocation[tour.objectId] = [NSString stringWithFormat:@"%.2f mi", distance];
+                self.distancesFromCurrentLocation[tour.objectId] = [NSNumber numberWithFloat:distance];
             }
         }
     }
@@ -193,7 +201,10 @@
     cell.summary = tour.summary;
     cell.totalDistance = tour.totalDistance;
     cell.estimatedTime = tour.estimatedTime;
-    cell.distanceFromCurrentLocation = self.distancesFromCurrentLocation[tour.objectId];
+
+    NSNumber *distance = self.distancesFromCurrentLocation[tour.objectId];
+
+    cell.distanceFromCurrentLocation = [NSString stringWithFormat:@"%.2f mi", [distance floatValue]];
     cell.rating = tour.averageRating;
 
     return cell;
@@ -265,10 +276,43 @@
 
 -(void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
 
-//    if (selectedScope == 0) {
-//        self.tours = [self.tours sor]
-//    }
-    //reload tours based on index change
+    if (selectedScope == 1) { // closest to user
+
+        if (self.distancesCalculated) {
+
+            self.tours = [self.tours sortedArrayUsingComparator:^NSComparisonResult(Tour *obj1, Tour *obj2) {
+                NSNumber *distance1 = self.distancesFromCurrentLocation[obj1.objectId];
+                NSNumber *distance2 = self.distancesFromCurrentLocation[obj2.objectId];
+
+                return [distance1 compare:distance2];
+            }];
+        }
+    }
+    else {
+
+        NSString *key;
+        BOOL ascending = YES;
+
+        if (selectedScope == 0) { // highest rated
+            key = @"averageRating";
+            ascending = NO;
+        }
+        else if (selectedScope == 2) { // shortest time
+            key = @"estimatedTime";
+        }
+        else { // shortest distance
+            key = @"totalDistance";
+        }
+
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:key ascending:ascending];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+
+        self.tours = [self.tours sortedArrayUsingDescriptors:sortDescriptors];
+    }
+
+    self.filteredTours = self.tours;
+    [self.tableView reloadData];
+
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
