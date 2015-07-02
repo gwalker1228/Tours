@@ -46,6 +46,9 @@
 @property NSMutableArray *orderedAnnotations;
 @property float eta;
 
+@property Stop *firstStop;
+@property Stop *lastStop;
+
 @property CLLocationManager *locationManager;
 @property double distanceFromCurrentLocation;
 @property CLLocationDistance totalDistance;
@@ -104,14 +107,19 @@
     [query orderByAscending:@"orderIndex"];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
-        self.stops = stops;
-        self.didLoadStops = YES;
 
-        if (self.didFindCurrentLocation && !self.didCalculateDistanceFromCurrentLocation) {
-            [self calculateDistanceFromCurrentLocation];
+        if (!error) {
+            self.stops = stops;
+            self.didLoadStops = YES;
+            self.firstStop = [self.stops firstObject];
+            self.lastStop = [self.stops lastObject];
+
+            if (self.didFindCurrentLocation && !self.didCalculateDistanceFromCurrentLocation) {
+                [self calculateDistanceFromCurrentLocation];
+            }
+            [self loadStopsOnMap];
+            [self loadPhotos];
         }
-        [self loadStopsOnMap];
-        [self loadPhotos];
     }];
 }
 
@@ -372,6 +380,9 @@
     [self.mapView removeOverlays:self.mapView.overlays];
     self.orderedAnnotations = [NSMutableArray new];
 
+    self.firstStop = [self.stops firstObject];
+    self.lastStop = [self.stops lastObject];
+
     for (Stop *stop in self.stops) {
 
         StopPointAnnotation *stopPointAnnotation = [[StopPointAnnotation alloc] initWithStop:stop];
@@ -388,7 +399,17 @@
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
-    MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"pin"];
+    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
+
+    if ([(StopPointAnnotation *)annotation stop] == self.firstStop) {
+        pin.pinColor = MKPinAnnotationColorGreen;
+    }
+    else if ([(StopPointAnnotation *)annotation stop] == self.lastStop) {
+        pin.pinColor = MKPinAnnotationColorPurple;
+    }
+    else {
+        pin.pinColor = MKPinAnnotationColorRed;
+    }
 
     pin.userInteractionEnabled = YES;
     pin.canShowCallout = YES;

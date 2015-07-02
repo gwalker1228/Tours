@@ -46,6 +46,9 @@
 @property float eta;
 @property CLLocationDistance totalDistance;
 
+@property Stop *firstStop;
+@property Stop *lastStop;
+
 @property BOOL didSetupViews;
 @property BOOL isEditingTitle;
 
@@ -115,16 +118,20 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
 
-        // don't allow stops without locations to show up
-        NSMutableArray *mutableArray = [NSMutableArray new];
-        for (Stop *stop in stops) {
-            if (stop.location != nil) {
-                [mutableArray addObject:stop];
+        if (!error) {
+            // don't allow stops without locations to show up
+            NSMutableArray *mutableArray = [NSMutableArray new];
+            for (Stop *stop in stops) {
+                if (stop.location != nil) {
+                    [mutableArray addObject:stop];
+                }
             }
+            self.stops = [mutableArray copy];
+            self.firstStop = [self.stops firstObject];
+            self.lastStop = [self.stops lastObject];
+            [self loadStopsOnMap];
+            [self loadPhotos];
         }
-        self.stops = [mutableArray copy];
-        [self loadStopsOnMap];
-        [self loadPhotos];
     }];
 }
 
@@ -411,7 +418,17 @@
 
 -(MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
-    MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"pin"];
+    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
+
+    if ([(StopPointAnnotation *)annotation stop] == self.firstStop) {
+        pin.pinColor = MKPinAnnotationColorGreen;
+    }
+    else if ([(StopPointAnnotation *)annotation stop] == self.lastStop) {
+        pin.pinColor = MKPinAnnotationColorPurple;
+    }
+    else {
+        pin.pinColor = MKPinAnnotationColorRed;
+    }
 
     pin.userInteractionEnabled = YES;
     pin.canShowCallout = YES;

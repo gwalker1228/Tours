@@ -46,6 +46,9 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 @property MKPolyline *directionsPolyline;
 //@property PhotoPopup *photoPopup;
 
+@property Stop *firstStop;
+@property Stop *lastStop;
+
 @property CLLocationManager *locationManager;
 
 @property BOOL foundPhotosForStop;
@@ -258,12 +261,14 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
     PFQuery *query = [Stop query];
     [query whereKey:@"tour" equalTo:self.tour];
-    [query orderByAscending:@"index"];
+    [query orderByAscending:@"orderIndex"];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error){
 
         if (!error) {
             self.stops = stops;
+            self.firstStop = [self.stops firstObject];
+            self.lastStop = [self.stops lastObject];
             [self loadPhotos];
         } else {
             // error check
@@ -405,6 +410,17 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
     StopDetailMKPinAnnotationView *annotationView = [[StopDetailMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
 
+
+    if ([(StopPointAnnotation *)annotation stop] == self.firstStop) {
+        annotationView.pinColor = MKPinAnnotationColorGreen;
+    }
+    else if ([(StopPointAnnotation *)annotation stop] == self.lastStop) {
+        annotationView.pinColor = MKPinAnnotationColorPurple;
+    }
+    else {
+        annotationView.pinColor = MKPinAnnotationColorRed;
+    }
+
     CGRect stopViewFrame = CGRectMake(0, 0, 200, 150);
     [annotationView.leftCalloutAccessoryView sizeThatFits:stopViewFrame.size];
 
@@ -453,7 +469,7 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
         addSubview:stopView.center = CGPointMake(view.bounds.size.width*0.5f, -stopView.bounds.size.height*0.5f);
 
         [stopView setCollectionViewDataSourceDelegate:self indexPath:nil];
-        stopView.titleLabel.text = stop.title;
+        stopView.titleLabel.text = [NSString stringWithFormat:@"%lu. %@", stop.orderIndex + 1, stop.title];
         stopView.summaryLabel.text = stop.summary;
 
         self.currentPinAnnotationView = stopView;
@@ -561,7 +577,7 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
     MKPolyline *polyline = (MKPolyline *)overlay;
 
     if ([polyline.title isEqualToString:polylineBetweenStopAndCurrentLocationID]) {
-        polylineRenderer.strokeColor = [UIColor purpleColor];
+        polylineRenderer.strokeColor = [UIColor colorWithRed:0/255.0 green:255/255.0 blue:255/255.0 alpha:1.0];
     }
     else {
         polylineRenderer.strokeColor = [UIColor blueColor];
