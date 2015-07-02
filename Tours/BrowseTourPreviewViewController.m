@@ -137,15 +137,20 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
     CGFloat directionsButtonY = self.view.frame.size.height;
 
     UIColor *color1 = [UIColor colorWithRed:252/255.0f green:255/255.0f blue:245/255.0f alpha:1.0];
-    UIColor *color3 = [UIColor colorWithRed:145/255.0f green:170/255.0f blue:157/255.0f alpha:1.0];
+//    UIColor *color2 = [UIColor colorWithRed:209/255.0f green:219/255.0f blue:189/255.0f alpha:1.0];
+//    UIColor *color3 = [UIColor colorWithRed:145/255.0f green:170/255.0f blue:157/255.0f alpha:1.0];
+//    UIColor *color4 = [UIColor colorWithRed:62/255.0f green:96/255.0f blue:111/255.0f alpha:1.0];
+    UIColor *color5 = [UIColor colorWithRed:25/255.0f green:52/255.0f blue:65/255.0f alpha:1.0];
 
     self.getDirectionsButton = [[UIButton alloc] initWithFrame:CGRectMake(directionsButtonX, directionsButtonY, directionsButtonWidth, directionsButtonHeight)];
 
     [self.getDirectionsButton setTitle:@"Directions From Current Location" forState:UIControlStateNormal];
 
     self.getDirectionsButton.tintColor = color1;
-    self.getDirectionsButton.backgroundColor = color3;
+    self.getDirectionsButton.backgroundColor = color5;
     self.getDirectionsButton.titleLabel.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:18];
+    self.getDirectionsButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.getDirectionsButton.layer.borderWidth = 1.5;
     self.getDirectionsButton.layer.cornerRadius = self.getDirectionsButton.bounds.size.height / 2.0;
 
     [self.getDirectionsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -154,7 +159,6 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
     [self.getDirectionsButton addTarget:self action:@selector(onGetDirectionsButtonPressed) forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:self.getDirectionsButton];
-
 }
 
 -(void)setupDirectionsTableView {
