@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vjx-iJ-xLY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vjx-iJ-xLY">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -1638,7 +1638,7 @@
                                                     <constraint firstAttribute="height" constant="30" id="IJo-1t-NKU"/>
                                                     <constraint firstAttribute="width" constant="110" id="guy-og-oRs"/>
                                                 </constraints>
-                                                <state key="normal" title="Reviews (111)">
+                                                <state key="normal" title="Reviews">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
@@ -1695,6 +1695,7 @@
                         <outlet property="coverPhotoImageView" destination="zGU-a7-8Ef" id="BKk-ra-b5T"/>
                         <outlet property="mapView" destination="coT-td-89q" id="QNM-tM-HCL"/>
                         <outlet property="photosCollectionView" destination="eqo-6z-o3S" id="PzQ-Fh-H2P"/>
+                        <outlet property="reviewsButton" destination="3cR-pD-qOc" id="IEY-Ld-C1u"/>
                         <outlet property="tourDetailView" destination="5ln-wT-d7s" id="RCu-go-yR1"/>
                         <outlet property="tourDetailViewHeightConstraint" destination="eR2-hO-aBF" id="C1N-Ne-20X"/>
                         <segue destination="TLv-1M-bvy" kind="show" identifier="previewTour" id="PBh-5I-N42"/>

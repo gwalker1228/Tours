@@ -11,10 +11,12 @@
 #import "ReviewViewController.h"
 #import "BrowseTourPreviewViewController.h"
 #import "StopPointAnnotation.h"
+#import "DesignableTransparentButton.h"
 #import "SummaryTextView.h"
 #import "Tour.h"
 #import "Stop.h"
 #import "Photo.h"
+#import "Review.h"
 #import "PhotoPopup.h"
 #import "RateView.h"
 #import <MapKit/MapKit.h>
@@ -28,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *photosCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *tourDetailView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tourDetailViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet DesignableTransparentButton *reviewsButton;
 
 @property UILabel *totalDistanceLabel;
 @property UILabel *estimatedTimeLabel;
@@ -84,6 +87,7 @@
         [self setupViews];
         [self updateViews];
         [self loadStops];
+        [self loadRatings];
     }
 }
 
@@ -129,6 +133,19 @@
             [self.photos[photo.stop.objectId] addObject:photo];
         }
         [self.photosCollectionView reloadData];
+    }];
+}
+
+- (void)loadRatings {
+
+    PFQuery *query = [Review query];
+    [query whereKey:@"tour" equalTo:self.tour];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *reviews, NSError *error) {
+
+        if (!error) {
+            [self.reviewsButton setTitle:[NSString stringWithFormat:@"Reviews (%lu)", reviews.count] forState:UIControlStateNormal];
+        }
     }];
 }
 
