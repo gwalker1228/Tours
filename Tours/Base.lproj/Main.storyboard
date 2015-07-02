@@ -1183,8 +1183,10 @@
                                 <color key="barTintColor" red="0.81960784313725488" green="0.85882352941176465" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <scopeButtonTitles>
-                                    <string>By Distance</string>
-                                    <string>By Rating</string>
+                                    <string>Rating</string>
+                                    <string>Near Me</string>
+                                    <string>Time</string>
+                                    <string>Distance</string>
                                 </scopeButtonTitles>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="163" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="KvQ-sN-FRf">
@@ -2040,8 +2042,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="rv9-x6-nRn"/>
         <segue reference="Q1r-K1-cau"/>
-        <segue reference="KFx-xS-uGh"/>
-        <segue reference="rv9-x6-nRn"/>
+        <segue reference="6ai-Kw-FbE"/>
         <segue reference="bPE-Tc-wrt"/>
     </inferredMetricsTieBreakers>
 </document>
