@@ -14,7 +14,7 @@
 #import "User.h"
 #import "PhotoPopup.h"
 
-@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate, UISearchBarDelegate, PhotoPopupDelegate>
+@interface MyToursViewController () <UITableViewDataSource, UITableViewDelegate,  UICollectionViewDataSource, UICollectionViewDelegate, TourTableViewCellDelegate, UISearchBarDelegate, PhotoPopupDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -30,6 +30,8 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property BOOL inProgressToursSelected;
+
+@property Tour *tourToDelete;
 
 @property PhotoPopup *photoPopup;
 
@@ -223,8 +225,33 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
 
+        self.tourToDelete = self.tours[indexPath.row];
+
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Permanently delete tour?" message:@"You will not be able to undo this action." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete Tour", nil];
+        [alertView show];
+    }
 }
+
+#pragma mark - UIAlertView Delegate methods
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1 && self.tourToDelete) {
+
+        NSMutableArray *mutableTours = [self.tours mutableCopy];
+        [mutableTours removeObject:self.tourToDelete];
+        self.tours = [NSArray arrayWithArray:mutableTours];
+        self.filteredTours = self.tours;
+        self.notPublishedTours = self.tours;
+
+        [self.tourToDelete deleteTourAndAssociatedObjectsInBackground];
+
+        [self.tableView reloadData];
+    }
+    self.tourToDelete = nil;
+}
+
 
 #pragma mark - UICollectionView Delegate/DataSource methods
 
@@ -536,12 +563,16 @@
     }];
 }
 
+
 #pragma mark - TourTableViewCell Delegate Methods
 
 -(void)tourTableViewCell:(TourTableViewCell *)tourTableViewCell deleteTourButtonPressedForTour:(Tour *)tour {
     NSLog(@"delete button pressed");
-    [tourTableViewCell willTransitionToState:UITableViewCellStateShowingDeleteConfirmationMask];
-    [tourTableViewCell setEditing:YES];
+
+    self.tourToDelete = tour;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Permanently delete tour?" message:@"You will not be able to undo this action." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Delete Tour", nil];
+    [alertView show];
+//    [tourTableViewCell setEditing:YES];
 }
 
 -(void)tourTableViewCell:(TourTableViewCell *)tourTableViewCell publishTourButtonPressedForTour:(Tour *)tour {
@@ -549,6 +580,7 @@
     NSLog(@"tour title: %@", tour.title);
     [self validateTourForPublishing:tour];
 }
+
 
 @end
 

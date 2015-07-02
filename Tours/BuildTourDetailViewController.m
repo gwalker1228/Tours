@@ -63,6 +63,7 @@
     tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapRecognizer];
 
+
     self.titleTextField.clearButtonMode = UITextFieldViewModeAlways;
 
 }
@@ -85,6 +86,9 @@
 
     [self updateViews];
     [self loadStops];
+
+    self.titleTextField.delegate = self;
+    [self.titleTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
     UIButton *clearButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
     self.titleTextField.rightView.frame = CGRectMake(self.titleTextField.rightView.frame.origin.x - 30, 0, 15, 15);
@@ -267,6 +271,9 @@
 }
 
 - (IBAction)onSaveButtonPressed:(UIBarButtonItem *)sender {
+
+    self.tour.title = self.titleTextField.text;
+    self.tour.summary = self.summaryTextView.text;
 
     self.navigationItem.leftBarButtonItem.enabled = NO;
 

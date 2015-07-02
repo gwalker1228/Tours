@@ -78,6 +78,10 @@
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 
+//    [self.reviewsButton setAlpha:.9];
+
+    self.reviewsButton.layer.backgroundColor = [[UIColor colorWithCGColor:self.reviewsButton.layer.backgroundColor] colorWithAlphaComponent:.9].CGColor;
+
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
@@ -171,7 +175,7 @@
     UIColor *textColor = [UIColor colorWithRed:25/255.0f green:52/255.0f blue:65/255.0f alpha:1.0];
 
     for (UILabel *label in labels) {
-        [label setFont:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:14]];
+        [label setFont:[UIFont fontWithName:@"AvenirNextCondensed-Regular" size:16]];
         [label setTextColor:textColor];
         //[label setFont:[UIFont systemFontOfSize:12]];
         //[label setTextColor:[UIColor whiteColor]];
@@ -191,7 +195,7 @@
     [self.tourDetailView addSubview:self.ratingsLabel];
     [self.tourDetailView addSubview:self.summaryTextView];
 
-    self.summaryTextView.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:16];
+    self.summaryTextView.font = [UIFont fontWithName:@"AvenirNextCondensed-Medium" size:17];
     [self.summaryTextView setTextColor:textColor];
 
     self.tourDetailView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:.7];

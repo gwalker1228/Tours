@@ -48,8 +48,6 @@
 
     self.distancesFromCurrentLocation = [NSMutableDictionary new];
 
-
-
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
@@ -63,8 +61,12 @@
 
 -(void)viewWillAppear:(BOOL)animated {
 
+    [self.searchBar setSelectedScopeButtonIndex:0];
+    self.searchBar.text = @"";
+
     [self loadTours];
     [[User currentUser] fetchIfNeeded];
+
     if (![User currentUser]) {
             
         [self.navigationItem.rightBarButtonItem setTitle:@"Login"];
@@ -107,9 +109,7 @@
 
         self.tours = tours;
         self.filteredTours = tours;
-//        for (int i = 0; i < (tours.count < 20 ? tours.count : 20); i++) {
-//            [self.tours addObject:tours[i]];
-//        }
+
         [self loadPhotos];
     }];
 }
@@ -304,7 +304,18 @@
         self.tours = [self.tours sortedArrayUsingDescriptors:sortDescriptors];
     }
 
-    self.filteredTours = self.tours;
+    if (searchBar.text.length > 0) {
+
+        NSIndexSet *indexes = [self.tours indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [[[obj title] lowercaseString] containsString:[searchBar.text lowercaseString]];
+        }];
+
+        self.filteredTours = [self.tours objectsAtIndexes:indexes];
+    }
+    else {
+        self.filteredTours = self.tours;
+    }
+
     [self.tableView reloadData];
 
 }

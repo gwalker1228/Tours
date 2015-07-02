@@ -26,7 +26,6 @@
 static NSString *polylineBetweenStopAndCurrentLocationID = @"polylineBetweenStopAndCurrentLocationID";
 static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
 
-
 @interface BrowseTourPreviewViewController () <MKMapViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -72,8 +71,6 @@ static NSString *polylineBetweenStopsID = @"polylineBetweenStopsID";
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
     [self.locationManager requestWhenInUseAuthorization];
-
-    //self.title = self.tour.title;
 
     self.mapView.showsUserLocation = YES;
 

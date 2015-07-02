@@ -1833,7 +1833,7 @@
                                     <outlet property="delegate" destination="TLv-1M-bvy" id="51d-iL-fyo"/>
                                 </connections>
                             </tableView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lD5-qH-7iP">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lD5-qH-7iP">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="750"/>
                                 <connections>
                                     <outlet property="delegate" destination="TLv-1M-bvy" id="6Y7-0X-d2r"/>
@@ -1842,8 +1842,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="lD5-qH-7iP" firstAttribute="top" secondItem="PEj-42-yNc" secondAttribute="topMargin" id="7K3-cb-BfK"/>
                             <constraint firstItem="v22-Er-9OP" firstAttribute="top" secondItem="Tr6-Cl-D3b" secondAttribute="bottom" id="7tj-BM-jnS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lD5-qH-7iP" secondAttribute="trailing" constant="-16" id="YXl-zK-4eu"/>
+                            <constraint firstItem="lD5-qH-7iP" firstAttribute="leading" secondItem="PEj-42-yNc" secondAttribute="leadingMargin" constant="-16" id="ewP-g6-cQZ"/>
                             <constraint firstItem="2yS-LA-4IZ" firstAttribute="top" secondItem="v22-Er-9OP" secondAttribute="bottom" id="gg1-y9-XXu"/>
+                            <constraint firstItem="2yS-LA-4IZ" firstAttribute="top" secondItem="lD5-qH-7iP" secondAttribute="bottom" id="nsO-s7-kYg"/>
                             <constraint firstItem="v22-Er-9OP" firstAttribute="leading" secondItem="PEj-42-yNc" secondAttribute="leadingMargin" constant="-16" id="nzz-59-f7C"/>
                             <constraint firstAttribute="trailingMargin" secondItem="v22-Er-9OP" secondAttribute="trailing" constant="-16" id="upI-gK-WAV"/>
                         </constraints>

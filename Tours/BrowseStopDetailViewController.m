@@ -54,10 +54,10 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    [self updateViews];
-
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
+
+    [self updateViews];
 
     [self placeAnnotationViewOnMapForStopLocation];
 }
@@ -66,6 +66,14 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     self.titleLabel.text = self.stop.title;
     self.summaryTextView.text = self.stop.summary;
+
+    self.titleLabel.backgroundColor = [UIColor clearColor];
+    self.titleLabel.layer.borderColor = [UIColor clearColor].CGColor;
+    self.titleLabel.font = [UIFont fontWithName:self.titleLabel.font.fontName size:20];
+
+    self.summaryTextView.backgroundColor = [UIColor clearColor];
+    self.summaryTextView.layer.borderColor = [UIColor clearColor].CGColor;
+    [self.summaryTextView setContentOffset:CGPointMake(0, 0)];
 
     PFQuery *query = [Photo query];
     [query whereKey:@"stop" equalTo:self.stop];

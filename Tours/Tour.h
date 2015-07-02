@@ -21,6 +21,6 @@
 @property float averageRating;
 @property BOOL published;
 
-
+- (void)deleteTourAndAssociatedObjectsInBackground;
 
 @end
