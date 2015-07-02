@@ -49,6 +49,9 @@
 @property BOOL didSetupViews;
 @property BOOL isEditingTitle;
 
+@property BOOL isScrolling;
+@property BOOL userSelectedAnnotation;
+
 @end
 
 @implementation BuildTourDetailViewController
@@ -284,6 +287,29 @@
 
 #pragma mark - UICollectionView dataSource/delegate methods
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+
+    self.isScrolling = YES;
+    self.userSelectedAnnotation = NO;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+
+    if (!decelerate) {
+        self.userSelectedAnnotation = NO;
+        self.isScrolling = NO;
+        NSLog(@"ended scrolling");
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+
+    self.userSelectedAnnotation = NO;
+    self.isScrolling = NO;
+    NSLog(@"ended scrolling");
+    
+}
+
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     TourPhotoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCell" forIndexPath:indexPath];
@@ -322,6 +348,7 @@
     Photo *photo = self.photos[stop.objectId][indexPath.row];
 
     [PhotoPopup popupWithImage:cell.imageView.image photo:photo inView:self.view editable:YES delegate:self];
+
 }
 
 #pragma mark - PhotoPopupDelegate
@@ -396,13 +423,17 @@
     StopPointAnnotation *annotation = view.annotation;
     Stop *stop = annotation.stop;
 
-    //NSLog(@"%@", stop.title);
-
     if ([self.photos[stop.objectId] count] > 0) {
 
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:[self.stops indexOfObject:stop]];
-        //NSLog(@"%@", indexPath);
-        [self.photosCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+
+
+        if (!self.isScrolling) {
+
+            self.userSelectedAnnotation = YES;
+
+            [self.photosCollectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+        }
     }
         // self.stopTitle.text = stop.title;
 }
