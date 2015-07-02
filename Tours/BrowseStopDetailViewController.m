@@ -18,15 +18,13 @@
 
 static NSString *reuseIdentifier = @"PhotoCell";
 
-@interface BrowseStopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate>
+@interface BrowseStopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-@property UIImageView *imageView;
-@property UIView *blackView;
 @property UIButton *setLocationButton;
 @property UIButton *addLocationButton;
 @property NSArray *photos;
@@ -46,6 +44,8 @@ static NSString *reuseIdentifier = @"PhotoCell";
     self.mapView.mapType = MKMapTypeHybrid;
 
     self.summaryTextView.editable = NO;
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Open in Maps" style:UIBarButtonItemStylePlain target:self action:@selector(openStopInMaps)];
     // change to designables:
 //    self.summaryTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
 //    self.summaryTextView.layer.borderWidth = 0.5;
@@ -60,7 +60,6 @@ static NSString *reuseIdentifier = @"PhotoCell";
     [self.view layoutIfNeeded];
 
     [self placeAnnotationViewOnMapForStopLocation];
-
 }
 
 - (void)updateViews {
@@ -89,6 +88,30 @@ static NSString *reuseIdentifier = @"PhotoCell";
 
     [self.mapView addAnnotation:stopAnnotation];
     [self zoomToRegionAroundAnnotation];
+}
+
+- (void)openStopInMaps {
+
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Open Maps Application?" message:@"Viewing stop in Maps application will close Tourpedia app" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Proceed", nil];
+    [alertView show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    if (buttonIndex == 1) {
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.stop.location.latitude, self.stop.location.longitude);
+        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+        MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+
+        CLGeocoder *geocoder = [CLGeocoder new];
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+
+        [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+            MKPlacemark *placemark = placemarks[0];
+            mapItem.name = [NSString stringWithFormat:@"%@%@", placemark.subThoroughfare ? [NSString stringWithFormat:@"%@, ", placemark.subThoroughfare] : @"", placemark.thoroughfare ? : @""];
+            [mapItem openInMapsWithLaunchOptions:nil];
+        }];
+    }
 }
 
 

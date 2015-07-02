@@ -13,15 +13,13 @@
 
 static NSString *reuseIdentifier = @"PhotoCell";
 
-@interface BuildStopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate, PhotoPopupDelegate>
+@interface BuildStopDetailViewController () <MKMapViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UITextViewDelegate, PhotoPopupDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *summaryTextView;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-@property UIImageView *imageView;
-@property UIView *blackView;
 @property UIButton *setLocationButton;
 @property UIButton *addLocationButton;
 @property NSArray *photos;
