@@ -131,34 +131,37 @@ NSString* getTimeStringFromETAInMinutes(float eta) {
         [popup.flagButton.titleLabel setTextAlignment:NSTextAlignmentRight];
     }
     else {
-        popup.flagButtonTitle = @"Flag as inappropriate";
-        PFQuery *flagQuery = [PhotoFlag query];
+        if ([User currentUser]) {
+            popup.flagButtonTitle = @"Flag as inappropriate";
+            PFQuery *flagQuery = [PhotoFlag query];
 
-        [flagQuery whereKey:@"user" equalTo:[User currentUser]];
-        [flagQuery whereKey:@"photo" equalTo:photo];
+            [flagQuery whereKey:@"user" equalTo:[User currentUser]];
+            [flagQuery whereKey:@"photo" equalTo:photo];
 
-        [flagQuery findObjectsInBackgroundWithBlock:^(NSArray *flags, NSError *error) {
+            [flagQuery findObjectsInBackgroundWithBlock:^(NSArray *flags, NSError *error) {
 
-            [popup.flagButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
+                [popup.flagButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
 
-            if (!error && flags.count > 0) {
-                [popup.flagButton setTitle:@"Flagged as inappropriate" forState:UIControlStateNormal];
-                [popup.flagButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-                popup.flagButton.enabled = NO;
-            }
-            else {
-                [popup.flagButton setTitle:@"Flag as inappropriate" forState:UIControlStateNormal];
-                [popup.flagButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-            }
-        }];
-
+                if (!error && flags.count > 0) {
+                    [popup.flagButton setTitle:@"Flagged as inappropriate" forState:UIControlStateNormal];
+                    [popup.flagButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                    popup.flagButton.enabled = NO;
+                }
+                else {
+                    [popup.flagButton setTitle:@"Flag as inappropriate" forState:UIControlStateNormal];
+                    [popup.flagButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+                }
+            }];
+            [popup addSubview:popup.flagButton];
+        }
     }
+    
     [popup addSubview:popup.backgroundView];
     [popup addSubview:popup.imageView];
     [popup addSubview:popup.captionView];
     [popup addSubview:popup.titleLabel];
     [popup addSubview:popup.summaryLabel];
-    [popup addSubview:popup.flagButton];
+
 
     [view addSubview:popup];
 
