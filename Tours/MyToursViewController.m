@@ -58,6 +58,12 @@
     self.locationManager.delegate = self;
     [self.locationManager startUpdatingLocation];
     [self.locationManager requestWhenInUseAuthorization];
+
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapRecognizer];
+    [self.navigationController.view addGestureRecognizer:tapRecognizer];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
