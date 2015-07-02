@@ -239,9 +239,7 @@
     self.ratingsLabel.text = @"Rating: ";
     self.rateView.rating = self.tour.averageRating;
 
-    if (self.tour.averageRating) {
-        [self.tourDetailView addSubview:self.rateView];
-    }
+    [self.tourDetailView addSubview:self.rateView];
 
     self.summaryTextView.text = self.tour.summary ? : @"Write a brief description of the tour here.";
 }

@@ -89,10 +89,12 @@
 
     if (!self.didSetupViews) {
         [self setupViews];
-        [self updateViews];
+        //[self updateViews];
         [self loadStops];
-        [self loadRatings];
     }
+
+    [self loadRatings];
+    [self updateViews];
 }
 
 - (void)loadStops {
@@ -228,13 +230,11 @@
 
     self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.1f miles", self.tour.totalDistance] : @"Total Distance:";
     self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.tour.estimatedTime)] : @"Est. Time:";
-    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@""];
+    //self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@""];
     self.ratingsLabel.text = @"Rating: ";
     self.rateView.rating = self.tour.averageRating;
 
-    if (self.tour.averageRating) {
-        [self.tourDetailView addSubview:self.rateView];
-    }
+    [self.tourDetailView addSubview:self.rateView];
 
     self.summaryTextView.text = self.tour.summary ? : @"";
 }

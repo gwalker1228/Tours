@@ -12,8 +12,10 @@
 #import <Parse/Parse.h>
 #import "Tour.h"
 #import "User.h"
+#import "ReviewFlag.h"
 
-@interface ReviewViewController () <RateViewDelegate, UITableViewDataSource, UITableViewDelegate>
+
+@interface ReviewViewController () <RateViewDelegate, UITableViewDataSource, UITableViewDelegate, RatingTableViewCellDelegate, UIAlertViewDelegate>
 
 @property RateView *rateView;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -22,11 +24,13 @@
 @property (weak, nonatomic) IBOutlet UITextView *reviewTextField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property NSMutableArray *reviews;
+@property NSMutableArray *flaggedReviews;
 @property RatingTableViewCell *cell;
 @property BOOL userLoggedIn;
 @property float rating;
 @property int totalReviews;
 @property BOOL userPreviouslyRated;
+@property Review *flaggedReview;
 
 
 @property NSMutableArray *selectedIdexPaths; // test this when cell is built and apply automatic height (size to fit) if it's selected
@@ -42,6 +46,7 @@
     // assume she has previously rated until going through all the ratings and proving otherwise
     self.userPreviouslyRated = YES;
 
+    self.flaggedReviews = [NSMutableArray new];
     [self fetchReviews];
 
     UIColor *lightGreen = [[UIColor alloc] initWithRed:(float)209/255 green:(float)219/255 blue:(float)189/255 alpha:1];
@@ -71,7 +76,6 @@
     [self checkIfUserLoggedIn];
 //        [self fetchReviews]; // for checking
     [self enableUserInteractionBasedRatingAndLoginStatus];
-
 }
 
 -(void)presentLogInViewController {
@@ -152,14 +156,36 @@
 
         if (error == nil) {
             self.reviews = [self removeInvalidReviewsAndCheckForCurrentUserRating:reviews];
-            [self.tableView reloadData];
-
-        } else {
+            [self fetchFlags];
+        }
+        else {
             NSLog(@"error on query");
         }
-
     }];
+}
 
+- (void) fetchFlags {
+
+    if ([User currentUser]) {
+        PFQuery *query = [ReviewFlag query];
+        [query whereKey:@"tour" equalTo:self.tour];
+        [query whereKey:@"user" equalTo:[User currentUser]];
+
+        [query findObjectsInBackgroundWithBlock:^(NSArray *flags, NSError *error) {
+
+            if (!error) {
+
+                for (ReviewFlag *flag in flags) {
+                    [flag.review fetchIfNeeded];
+                    [self.flaggedReviews addObject:flag.review];
+                }
+            }
+            [self.tableView reloadData];
+        }];
+    }
+    else {
+        [self.tableView reloadData];
+    }
 }
 
 - (NSMutableArray *) removeInvalidReviewsAndCheckForCurrentUserRating:(NSArray *)reviews {
@@ -182,7 +208,6 @@
             if (review.user == [User currentUser]) {
                 self.userPreviouslyRated = YES;
             }
-
         }
     }
 
@@ -248,14 +273,24 @@
 
     RatingTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell"];
 
-    Review *review = [self.reviews objectAtIndex:indexPath.row];
-    cell.reviewSummary.text = [NSString stringWithFormat:@"%@: %@", review.user.username, review.reviewText];
+    [cell clearSubviews];
 
-    CGRect rateViewFrame = CGRectMake(15, 5, 80, 20);
-    RateView *rateView = [[RateView alloc] initWithFrame:rateViewFrame];
-    rateView.rating = review.rating; // set from Parse data
-    rateView.editable = NO; // or no depending on if we're in a comment or just viewing
-    [cell addSubview:rateView];
+    Review *review = [self.reviews objectAtIndex:indexPath.row];
+
+    cell.rateView.rating = review.rating; // set from Parse data
+
+    if (![self.flaggedReviews containsObject:review]) {
+
+        cell.reviewSummary.text = [NSString stringWithFormat:@"%@: %@", review.user.username, review.reviewText];
+
+        cell.delegate = self;
+        cell.review = review;
+
+        [cell showFlagButton];
+    }
+    else {
+        cell.reviewSummary.text = @"You have flagged this review as inappropriate.";
+    }
 
     return cell;
 }
@@ -263,7 +298,6 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return [self.reviews count];
-
 }
 
 - (void)rateView:(RateView *)rateView ratingDidChange:(float)rating {
@@ -279,9 +313,47 @@
 }
 
 
+#pragma mark - RatingTableViewCell Delegate methods
 
+-(void)ratingTableViewCell:(RatingTableViewCell *)tableViewCell didPressFlagButtonForReview:(Review *)review {
 
+    if ([User currentUser]) {
 
+        self.flaggedReview = review;
 
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Flag this review as inappropriate?" message:@"You will not be able to undo this action" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Flag", nil];
+        alertView.tag = 0;
+        [alertView show];
+    }
+    else {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"You must be logged in to report content" message:nil delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:@"Login/Signup", nil];
+        alertView.tag = 1;
+        [alertView show];
+    }
+}
+
+#pragma mark - UIAlertView Delegate methods
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    if (buttonIndex == 1) {
+
+        if (alertView.tag == 0) {
+
+            ReviewFlag *reviewFlag = [ReviewFlag object];
+            reviewFlag.review = self.flaggedReview;
+            reviewFlag.user = [User currentUser];
+            reviewFlag.tour = self.tour;
+
+            [reviewFlag saveInBackground];
+            [self.flaggedReviews addObject:self.flaggedReview];
+            [self.tableView reloadData];
+        }
+        else if (alertView.tag == 1) {
+            [self presentLogInViewController];
+        }
+    }
+    self.flaggedReview = nil;
+}
 
 @end

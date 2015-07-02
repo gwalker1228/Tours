@@ -78,6 +78,7 @@
 		FA82C8C41B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C31B3CA52F00D95042 /* StopDetailMKPinAnnotationView.m */; };
 		FA82C8C71B3CBEFD00D95042 /* TourDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C61B3CBEFD00D95042 /* TourDetailView.m */; };
 		FA82C8CA1B3D13D100D95042 /* BrowseStopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA82C8C91B3D13D100D95042 /* BrowseStopDetailViewController.m */; };
+		FA84757C1B45214E007CFE97 /* ReviewFlag.m in Sources */ = {isa = PBXBuildFile; fileRef = FA84757B1B45214E007CFE97 /* ReviewFlag.m */; };
 		FAAC090E1B3911E10064D07B /* BuildTourDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC090D1B3911E10064D07B /* BuildTourDetailViewController.m */; };
 		FAAC09111B39D6FD0064D07B /* TourPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC09101B39D6FD0064D07B /* TourPhotoCollectionViewCell.m */; };
 		FAAC09141B3A0A6B0064D07B /* SummaryTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = FAAC09131B3A0A6B0064D07B /* SummaryTextView.m */; };
@@ -224,6 +225,8 @@
 		FA82C8C61B3CBEFD00D95042 /* TourDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TourDetailView.m; sourceTree = "<group>"; };
 		FA82C8C81B3D13D100D95042 /* BrowseStopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowseStopDetailViewController.h; sourceTree = "<group>"; };
 		FA82C8C91B3D13D100D95042 /* BrowseStopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowseStopDetailViewController.m; sourceTree = "<group>"; };
+		FA84757A1B45214E007CFE97 /* ReviewFlag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewFlag.h; sourceTree = "<group>"; };
+		FA84757B1B45214E007CFE97 /* ReviewFlag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewFlag.m; sourceTree = "<group>"; };
 		FAAC090C1B3911E10064D07B /* BuildTourDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuildTourDetailViewController.h; sourceTree = "<group>"; };
 		FAAC090D1B3911E10064D07B /* BuildTourDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuildTourDetailViewController.m; sourceTree = "<group>"; };
 		FAAC090F1B39D6FD0064D07B /* TourPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TourPhotoCollectionViewCell.h; sourceTree = "<group>"; };
@@ -463,6 +466,7 @@
 				BC0E9C8F1B2F46D7000A8E2C /* Photo.m */,
 				FAE01D881B2F7A7700826536 /* StopPointAnnotation.m */,
 				FA1DF3B01B41EE49003C4225 /* PhotoFlag.m */,
+				FA84757B1B45214E007CFE97 /* ReviewFlag.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -477,6 +481,7 @@
 				BC0E9C8E1B2F46D7000A8E2C /* Photo.h */,
 				FAE01D871B2F7A7700826536 /* StopPointAnnotation.h */,
 				FA1DF3AF1B41EE49003C4225 /* PhotoFlag.h */,
+				FA84757A1B45214E007CFE97 /* ReviewFlag.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -782,6 +787,7 @@
 				BC1E99461B39DFE70079EC99 /* RateView.m in Sources */,
 				BC0E9C481B2E312D000A8E2C /* BuildTourStopsViewController.m in Sources */,
 				0076CF381B3C7B0B00365B2F /* DesignableGreenButton.m in Sources */,
+				FA84757C1B45214E007CFE97 /* ReviewFlag.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
