@@ -191,7 +191,8 @@
     cell.estimatedTime = tour.estimatedTime;
 
     if (!tour.published) {
-         [cell showPublishButton];
+        [cell showPublishButton];
+        [cell showDeleteButton];
     } else {
          cell.rating = tour.averageRating;
     }
