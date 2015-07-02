@@ -420,13 +420,13 @@
 
     NSString *validationMessage = @"";
     if ([self.validationErrors[@"objectMinimum"] isEqualToString:@"YES" ]) {
-        validationMessage = [validationMessage stringByAppendingString:@"Please have at least two stops in your tour in order to publish\n"];
+        validationMessage = [validationMessage stringByAppendingString:@"Please have at least two stops in your tour in order to publish\n\n"];
     }
     if ([self.validationErrors[@"noTourTitle"] isEqualToString:@"YES" ]) {
-        validationMessage = [validationMessage stringByAppendingString:@"Please add a tour title (select \"New Tour\" in title bar of build tour section\n"];
+        validationMessage = [validationMessage stringByAppendingString:@"Please add a tour title (select \"New Tour\" in title bar of build tour section\n\n"];
     }
     if ([self.validationErrors[@"noTourSummary"] isEqualToString:@"YES" ]) {
-        validationMessage = [validationMessage stringByAppendingString:@"Please add a tour summary by editing the text just above the map in the build tour seciton\n"];
+        validationMessage = [validationMessage stringByAppendingString:@"Please add a tour summary by editing the text just above the map in the build tour seciton\n\n"];
     }
 
     NSArray *stopsWithNoPhoto = self.validationErrors[@"stopsWithNoPhotos"];
@@ -449,7 +449,7 @@
     if (stopswithNoTitle.count > 0) {
 
         int numberOfStopsWithNoTitle = (int)[stopswithNoTitle count];
-        validationMessage = [validationMessage stringByAppendingString:[NSString stringWithFormat:@"Please add a title to: %d of your stops. \n", numberOfStopsWithNoTitle]];
+        validationMessage = [validationMessage stringByAppendingString:[NSString stringWithFormat:@"Please add a title to: %d of your stops. \n\n", numberOfStopsWithNoTitle]];
     }
 
     NSArray *stopswithNoLocation = self.validationErrors[@"stopsWithNoLocation"];
@@ -464,7 +464,7 @@
             }
             validationMessage = [validationMessage stringByAppendingString:[NSString stringWithFormat:@" %@,", title]];
         }
-        validationMessage = [validationMessage stringByAppendingString:@"\n"];
+        validationMessage = [validationMessage stringByAppendingString:@"\n\n"];
     }
 
     NSArray *stopswithNoSummary = self.validationErrors[@"stopsWithNoSummary"];
@@ -479,29 +479,20 @@
             }
             validationMessage = [validationMessage stringByAppendingString:[NSString stringWithFormat:@" %@,", title]];
         }
-        validationMessage = [validationMessage stringByAppendingString:@"\n"];
+        validationMessage = [validationMessage stringByAppendingString:@"\n\n"];
     }
         // no problems with the tour
     if ([validationMessage isEqualToString:@""]) {
 
-            // publish it and give a success message and move it to the publishedTours Array
-        tour.published = YES;
-        [tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error == nil) {
-                // requery the data
-                UIAlertController *successController = [UIAlertController alertControllerWithTitle:@"Published Successfully!" message:@"Other people can now view your tour.  Thank you for contributing :-)" preferredStyle:UIAlertControllerStyleAlert];
-                UIAlertAction *backToMyTours = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
-                [successController addAction:backToMyTours];
-                [self presentViewController:successController animated:YES completion:nil];
-                    // move the array to the published array
-                [self.notPublishedTours removeObject:tour];
-                [self.publishedTours addObject:tour];
-                self.tours = self.searchBar.selectedScopeButtonIndex ? self.notPublishedTours : self.publishedTours;
-                self.filteredTours = self.tours;
-                self.searchBar.text = @"";
-                [self.tableView reloadData];
-            }
+            // show an alert controller informing them that the tour can no longer be published and save it if they're happy with the tour
+        UIAlertController *publishTourController = [UIAlertController alertControllerWithTitle:@"After publishing you will not be able to edit" message:@"Your tour passes all of the validation guidelines, and you can continue to publish it, but we wanted to give you a last chance to edit.  Thanks again for contributing!" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+        UIAlertAction *saveTour = [UIAlertAction actionWithTitle:@"Publish Tour" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+            [self saveTheTour:tour];
         }];
+        [publishTourController addAction:saveTour];
+        [publishTourController addAction:cancel];
+        [self presentViewController:publishTourController animated:YES completion:nil];
 
     } else {
 
@@ -511,6 +502,27 @@
         [self presentViewController:validationProblemController animated:YES completion:nil];
     }
 
+}
+
+- (void)saveTheTour:(Tour *)tour {
+     // publish it and give a success message and move it to the publishedTours Array
+    tour.published = YES;
+    [tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error == nil) {
+            // requery the data
+            UIAlertController *successController = [UIAlertController alertControllerWithTitle:@"Published Successfully!" message:@"Other people can now view your tour.  Thank you for contributing :-)" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *backToMyTours = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:nil];
+            [successController addAction:backToMyTours];
+            [self presentViewController:successController animated:YES completion:nil];
+            // move the array to the published array
+            [self.notPublishedTours removeObject:tour];
+            [self.publishedTours addObject:tour];
+            self.tours = self.searchBar.selectedScopeButtonIndex ? self.notPublishedTours : self.publishedTours;
+            self.filteredTours = self.tours;
+            self.searchBar.text = @"";
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 #pragma mark - TourTableViewCell Delegate Methods
