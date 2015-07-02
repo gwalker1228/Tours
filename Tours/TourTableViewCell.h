@@ -19,7 +19,9 @@ static NSString *TourTableViewCellIdentifier = @"TourTableViewCell";
 
 @protocol TourTableViewCellDelegate <NSObject>
 
+@optional
 -(void)tourTableViewCell:(TourTableViewCell *)tourTableViewCell publishTourButtonPressedForTour:(Tour *)tour;
+-(void)tourTableViewCell:(TourTableViewCell *)tourTableViewCell deleteTourButtonPressedForTour:(Tour *)tour;
 
 @end
 
@@ -43,6 +45,7 @@ static NSString *TourTableViewCellIdentifier = @"TourTableViewCell";
 //- (void)setTitle:(NSString *)title summary:(NSString *)summary;
 
 - (void)setCollectionViewDataSourceDelegate:(id<UICollectionViewDataSource, UICollectionViewDelegate>)dataSourceDelegate indexPath:(NSIndexPath *)indexPath;
+- (void)showDeleteButton;
 - (void)showPublishButton;
 - (void)clearVariableViews;
 

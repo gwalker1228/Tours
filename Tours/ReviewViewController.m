@@ -136,7 +136,6 @@
 - (void) updateReviewRating {
 
     self.tour.averageRating = (self.tour.averageRating * self.totalReviews + self.rating) / (++self.totalReviews);
-    NSLog(@"rating: %f", self.tour.averageRating);
     [self.tour saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
 
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

@@ -67,6 +67,7 @@
         [self loadUserTours];
     }
 
+//    [self.tableView setEditing:YES];
     self.searchBar.text = @"";
     self.tours = [NSArray new];
 //    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [User currentUser]);
@@ -142,8 +143,6 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-
-
     if ([segue.identifier isEqualToString:@"editTour"]) {
         BuildTourDetailViewController *destinationVC = (BuildTourDetailViewController *)[segue.destinationViewController topViewController];
 
@@ -191,8 +190,11 @@
     cell.estimatedTime = tour.estimatedTime;
 
     if (!tour.published) {
-         [cell showPublishButton];
-    } else {
+        [cell showPublishButton];
+        [cell showDeleteButton];
+        [cell setEditing:YES];
+    }
+    else {
          cell.rating = tour.averageRating;
     }
     return cell;
@@ -212,6 +214,15 @@
     Tour *tour = self.filteredTours[indexPath.row];
 
     [self performSegueWithIdentifier:(tour.published ? @"browseTour" : @"editTour") sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return !self.searchBar.selectedScopeButtonIndex;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
 
 }
 
@@ -526,6 +537,12 @@
 }
 
 #pragma mark - TourTableViewCell Delegate Methods
+
+-(void)tourTableViewCell:(TourTableViewCell *)tourTableViewCell deleteTourButtonPressedForTour:(Tour *)tour {
+    NSLog(@"delete button pressed");
+    [tourTableViewCell willTransitionToState:UITableViewCellStateShowingDeleteConfirmationMask];
+    [tourTableViewCell setEditing:YES];
+}
 
 -(void)tourTableViewCell:(TourTableViewCell *)tourTableViewCell publishTourButtonPressedForTour:(Tour *)tour {
 

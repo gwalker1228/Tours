@@ -106,8 +106,6 @@ static NSString *reuseIdentifier = @"PhotoCell";
 - (void)setupSetLocationButton {
 
     CGFloat setLocationButtonWidth = self.view.layer.bounds.size.width / 5;
-    NSLog(@"%f, %f", self.mapView.viewForBaselineLayout.bounds.size.width, self.mapView.viewForBaselineLayout.bounds.size.height);
-
     CGFloat setLocationButtonHeight = CGRectGetMaxY(self.mapView.frame) - CGRectGetMinY(self.mapView.frame);
 
     self.setLocationButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - setLocationButtonWidth, self.mapView.bounds.origin.y, setLocationButtonWidth, setLocationButtonHeight)];
@@ -143,7 +141,6 @@ static NSString *reuseIdentifier = @"PhotoCell";
 - (IBAction)onCancelButtonPressed {
 
     if (!self.stop.location) {
-        NSLog(@"deleting stop");
         [self.stop delete];
     }
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

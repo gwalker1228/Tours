@@ -110,7 +110,6 @@
 //        for (int i = 0; i < (tours.count < 20 ? tours.count : 20); i++) {
 //            [self.tours addObject:tours[i]];
 //        }
-        //NSLog(@"%@", self.tours);
         [self loadPhotos];
     }];
 }
@@ -130,7 +129,6 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *photos, NSError *error){
 
         // For each photo related to tour, add to appropriate array in photoStops dictionary, based on the photo's associated stop
-        //NSLog(@"%@", photos);
         for (Photo *photo in photos) {
 
             Tour *photoTour = photo.tour;// get photo's tour
@@ -140,7 +138,6 @@
                 [self.tourPhotos[photoTour.objectId] addObject:photo]; // add photo to that tour's photo array in tourPhotos dictionary
             }
         }
-//        NSLog(@"%@", self.tourPhotos);
         self.toursLoaded = YES;
 
         if (!self.distancesCalculated && self.currentLocationFound) {
@@ -171,12 +168,10 @@
             Photo *firstPhoto = [self.tourPhotos[tour.objectId] firstObject];
             Stop *firstStop = firstPhoto.stop;
             [firstStop fetchIfNeeded];
-            NSLog(@"%@", firstStop);
-            if (firstStop.location) {
-                NSLog(@"%@", firstStop.location);
-                double distance = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
-                NSLog(@"%f", distance);
 
+            if (firstStop.location) {
+
+                double distance = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
                 self.distancesFromCurrentLocation[tour.objectId] = [NSNumber numberWithFloat:distance];
             }
         }
@@ -204,7 +199,7 @@
 
     NSNumber *distance = self.distancesFromCurrentLocation[tour.objectId];
 
-    cell.distanceFromCurrentLocation = [NSString stringWithFormat:@"%.2f mi", [distance floatValue]];
+    cell.distanceFromCurrentLocation = [NSString stringWithFormat:@"%.1f mi", [distance floatValue]];
     cell.rating = tour.averageRating;
 
     return cell;
@@ -212,7 +207,6 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-//    NSLog(@"%lu", self.tours.count);
     return self.filteredTours.count;
 }
 
@@ -327,7 +321,6 @@
 #pragma mark - CLLocationManager
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"gjlfgs");
     NSLog(@"%@", error);
 }
 
@@ -336,7 +329,7 @@
     for (CLLocation *location in locations) {
         if (location.verticalAccuracy < 1000 && location.horizontalAccuracy < 1000) {
             [self.locationManager stopUpdatingLocation];
-            NSLog(@"location found");
+
             self.currentLocationFound = YES;
             if (!self.distancesCalculated && self.toursLoaded) {
                 self.distancesCalculated = YES;

@@ -68,7 +68,7 @@ static CGFloat leftMarginIndent = 8.0;
     CGFloat ratingViewY = ratingLabelY;
     CGFloat ratingViewWidth = detailLabelWidth - ratingLabelWidth;
 
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, labelWidth, labelHeight)];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, labelWidth - labelHeight, labelHeight)];
     self.summaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(summaryLabelX, summaryLabelY, labelWidth, labelHeight)];
     self.totalDistanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(totalDistanceLabelX, totalDistanceLabelY, detailLabelWidth, detailLabelHeight)];
     self.estimatedTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(estimatedTimeLabelX, estimatedTimeLabelY, detailLabelWidth, detailLabelHeight)];

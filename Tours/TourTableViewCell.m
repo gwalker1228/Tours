@@ -16,6 +16,7 @@
 
 @property (nonatomic) TourDetailView *mainView;
 @property (nonatomic) UIButton *publishButton;
+@property (nonatomic) UIButton *deleteButton;
 
 @end
 
@@ -57,7 +58,7 @@
 
 - (void)setTotalDistance:(float)totalDistance {
     _totalDistance = totalDistance;
-    self.mainView.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2f mi", totalDistance];
+    self.mainView.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.1f mi", totalDistance];
 }
 
 - (void)setEstimatedTime:(float)estimatedTime {
@@ -84,6 +85,25 @@
     self.mainView.titleLabel.text = title;
     self.mainView.summaryLabel.text = summary;
     [self.mainView reloadInputViews];
+}
+
+- (void)showDeleteButton {
+
+    CGFloat deleteButtonX = self.mainView.titleLabel.frame.origin.x + self.mainView.titleLabel.frame.size.width;
+    CGFloat deleteButtonY = 0;
+    CGFloat deleteButtonWidth = self.mainView.frame.size.width - deleteButtonX - 8;
+    CGFloat deleteButtonHeight = self.mainView.titleLabel.frame.size.height;
+
+    self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(deleteButtonX, deleteButtonY, deleteButtonWidth, deleteButtonHeight)];
+
+    [self.deleteButton setTitle:@"X" forState:UIControlStateNormal];
+    [self.deleteButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+
+    self.deleteButton.titleLabel.font = [UIFont systemFontOfSize:20];
+
+    [self.deleteButton addTarget:self action:@selector(onDeleteButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.mainView addSubview:self.deleteButton];
 }
 
 - (void)showPublishButton {
@@ -113,11 +133,16 @@
 
 - (void) clearVariableViews {
 
+    [self.deleteButton removeFromSuperview];
     [self.publishButton removeFromSuperview];
     [self.mainView.ratingView removeFromSuperview];
 //    [self.mainView sendSubviewToBack:self.mainView.ratingView];
     self.mainView.ratingLabel.text = @"";
 
+}
+
+- (void)onDeleteButtonPressed {
+    [self.delegate tourTableViewCell:self deleteTourButtonPressedForTour:self.tour];
 }
 
 - (void)onPublishTourButtonPressed {

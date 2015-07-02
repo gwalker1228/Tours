@@ -11,10 +11,12 @@
 #import "ReviewViewController.h"
 #import "BrowseTourPreviewViewController.h"
 #import "StopPointAnnotation.h"
+#import "DesignableTransparentButton.h"
 #import "SummaryTextView.h"
 #import "Tour.h"
 #import "Stop.h"
 #import "Photo.h"
+#import "Review.h"
 #import "PhotoPopup.h"
 #import "RateView.h"
 #import <MapKit/MapKit.h>
@@ -28,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *photosCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *tourDetailView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tourDetailViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet DesignableTransparentButton *reviewsButton;
 
 @property UILabel *totalDistanceLabel;
 @property UILabel *estimatedTimeLabel;
@@ -84,6 +87,7 @@
         [self setupViews];
         [self updateViews];
         [self loadStops];
+        [self loadRatings];
     }
 }
 
@@ -95,7 +99,6 @@
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *stops, NSError *error) {
         self.stops = stops;
-        NSLog(@"%@ -> %@", NSStringFromSelector(_cmd), stops);
         self.didLoadStops = YES;
 
         if (self.didFindCurrentLocation && !self.didCalculateDistanceFromCurrentLocation) {
@@ -129,8 +132,20 @@
         for (Photo *photo in photos) {
             [self.photos[photo.stop.objectId] addObject:photo];
         }
-        // NSLog(@"self.stops has %lu items. self.photos has %lu items. reloading collectionview data.", self.stops.count, self.photos.count);
         [self.photosCollectionView reloadData];
+    }];
+}
+
+- (void)loadRatings {
+
+    PFQuery *query = [Review query];
+    [query whereKey:@"tour" equalTo:self.tour];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *reviews, NSError *error) {
+
+        if (!error) {
+            [self.reviewsButton setTitle:[NSString stringWithFormat:@"Reviews (%lu)", reviews.count] forState:UIControlStateNormal];
+        }
     }];
 }
 
@@ -189,7 +204,6 @@
 -(void)setupExpandButton {
 
     CGFloat expandButtonWidth = self.view.layer.bounds.size.width / 6;
-    //NSLog(@"%f, %f", CGRectGetMinY(self.mapView.frame), CGRectGetMaxY(self.mapView.frame));
     self.expandButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.layer.bounds.size.width - expandButtonWidth, self.mapView.bounds.origin.y, expandButtonWidth, self.mapView.layer.bounds.size.height)];
     [self.expandButton setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:.5]];
     self.expandButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -201,13 +215,14 @@
     [self.mapView addSubview:self.expandButton];
 
 }
+
 - (IBAction)onReviewsButtonPressed:(UIButton *)sender {
-    NSLog(@"Review button pressed");
+
 }
 
 -(void)updateViews {
 
-    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.2g miles", self.tour.totalDistance] : @"Total Distance:";
+    self.totalDistanceLabel.text = self.tour.totalDistance ? [NSString stringWithFormat:@"Total Distance: %.1f miles", self.tour.totalDistance] : @"Total Distance:";
     self.estimatedTimeLabel.text = self.tour.estimatedTime ? [NSString stringWithFormat:@"Est. Time: %@", getTimeStringFromETAInMinutes(self.tour.estimatedTime)] : @"Est. Time:";
     self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@""];
     self.ratingsLabel.text = @"Rating: ";
@@ -228,7 +243,6 @@
 
     CGFloat cellWidth = self.photosCollectionView.layer.bounds.size.height;
     flowLayout.itemSize = CGSizeMake(cellWidth, cellWidth);
-    //NSLog(@"Cell width is %f", cellWidth);
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 30.0);
     flowLayout.minimumLineSpacing = 1.0f;
@@ -239,6 +253,7 @@
     self.photosCollectionView.layer.borderColor = [UIColor blackColor].CGColor;
     self.photosCollectionView.layer.borderWidth = 2.0f;
 }
+
 
 - (void)performExpandSegue:(UIButton *)sender {
 
@@ -284,7 +299,6 @@
     if (!decelerate) {
         self.userSelectedAnnotation = NO;
         self.isScrolling = NO;
-        NSLog(@"ended scrolling");
     }
 }
 
@@ -292,8 +306,6 @@
 
     self.userSelectedAnnotation = NO;
     self.isScrolling = NO;
-    NSLog(@"ended scrolling");
-
 }
 
 
@@ -307,7 +319,6 @@
 
     UIColor *sectionColor1 = [UIColor colorWithRed:19/255.0 green:157/255.0 blue:172/255.0 alpha:1.0];
     UIColor *sectionColor2 = [UIColor colorWithRed:177/255.0 green:243/255.0 blue:250/255.0 alpha:1.0];
-    //NSLog(@"adding photo for stop %@", stop.title);
     cell.backgroundColor = indexPath.section % 2 ? sectionColor1 : sectionColor2;
 
     cell.imageView.file = photo.image;
@@ -415,7 +426,6 @@
 //
 //    request.source = [MKMapItem mapItemForCurrentLocation];
 //    request.destination = mapItem;
-//    //NSLog(@"%@", request.destination.description);
 //
 //    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 //
@@ -462,7 +472,7 @@
             [self generatePolylineForDirectionsFromIndex:destinationIndex toIndex:destinationIndex + 1];
         }
         else {
-            self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.2g miles", self.totalDistance/1609.34];
+            self.totalDistanceLabel.text = [NSString stringWithFormat:@"Total Distance: %.1f miles", self.totalDistance/1609.34];
         }
 
     }];
@@ -491,7 +501,6 @@
         }
         else {
             self.eta = floor(self.eta/60);
-            //NSLog(@"%f", self.eta);
             self.estimatedTimeLabel.text = [NSString stringWithFormat:@"Estimated Time: %g min", self.eta];
         }
     }];
@@ -504,7 +513,6 @@
 //
 //    request.source = [MKMapItem mapItemForCurrentLocation];
 //    request.destination = mapItem;
-//    //NSLog(@"%@", request.destination.description);
 //
 //    MKDirections *directions = [[MKDirections alloc] initWithRequest:request];
 //
@@ -513,7 +521,6 @@
 //        MKRoute *route = routes.firstObject;
 //
 //        MKPolyline *polyline = [route polyline];
-//        // NSLog(@"%lu", polyline.pointCount);
 //        [self.mapView addOverlay:polyline];
 //        //[self.mapView setVisibleMapRect:polyline.boundingMapRect];
 //
@@ -540,7 +547,6 @@
 #pragma mark - CLLocationManager
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"gjlfgs");
     NSLog(@"%@", error);
 }
 
@@ -570,7 +576,7 @@
 
     self.distanceFromCurrentLocation = [firstStop.location distanceInMilesTo:[PFGeoPoint geoPointWithLocation:[self.locationManager location]]];
 
-    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"%.2f miles away", self.distanceFromCurrentLocation];
+    self.distanceFromCurrentLocationLabel.text = [NSString stringWithFormat:@"%.1f miles away", self.distanceFromCurrentLocation];
 }
 
 
